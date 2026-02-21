@@ -111,7 +111,7 @@ export default function Campaigns() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -119,7 +119,7 @@ export default function Campaigns() {
             <Link href="/" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Home</Link>
             <Link href="/restaurants" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Explore</Link>
             <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Leaderboards</Link>
-            <span style={{ color: '#a855f7', fontWeight: '600' }}>Campaigns</span>
+            <span style={{ color: '#ff1493', fontWeight: '600' }}>Campaigns</span>
           </div>
         </div>
       </header>
@@ -127,7 +127,7 @@ export default function Campaigns() {
       {/* Hero */}
       <section style={{
         padding: '8rem 2rem 3rem',
-        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%)',
+        background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.15) 0%, rgba(255, 20, 147, 0.1) 100%)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', textAlign: 'center' }}>
@@ -156,18 +156,18 @@ export default function Campaigns() {
                 display: 'flex',
                 gap: '3rem',
                 alignItems: 'center',
-                boxShadow: '0 20px 60px rgba(236, 72, 153, 0.3)',
+                boxShadow: '0 20px 60px rgba(0, 217, 255, 0.3)',
                 overflow: 'hidden',
                 transition: 'all 0.4s ease',
                 position: 'relative',
               }}
               onMouseEnter={(e: any) => {
                 e.currentTarget.style.transform = 'translateY(-8px)'
-                e.currentTarget.style.boxShadow = '0 32px 80px rgba(236, 72, 153, 0.4)'
+                e.currentTarget.style.boxShadow = '0 32px 80px rgba(0, 217, 255, 0.4)'
               }}
               onMouseLeave={(e: any) => {
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = '0 20px 60px rgba(236, 72, 153, 0.3)'
+                e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 217, 255, 0.3)'
               }}>
                 <div style={{
                   minWidth: '200px',
@@ -267,7 +267,7 @@ export default function Campaigns() {
                   key={f.id}
                   onClick={() => setFilter(f.id)}
                   style={{
-                    background: filter === f.id ? '#a855f7' : 'rgba(255, 255, 255, 0.05)',
+                    background: filter === f.id ? '#ff1493' : 'rgba(255, 255, 255, 0.05)',
                     color: '#fff',
                     padding: '0.5rem 1.25rem',
                     borderRadius: '9999px',
@@ -332,9 +332,9 @@ export default function Campaigns() {
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.borderColor = '#ec4899'
+                    e.currentTarget.style.borderColor = '#00d9ff'
                     e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(236, 72, 153, 0.25)'
+                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(0, 217, 255, 0.25)'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
@@ -408,21 +408,21 @@ export default function Campaigns() {
                     <div style={{ marginBottom: '1rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.875rem' }}>
                         <span>
-                          <span style={{ color: '#ec4899', fontWeight: '700' }}>{campaign.backers.toLocaleString()}</span>
+                          <span style={{ color: '#00d9ff', fontWeight: '700' }}>{campaign.backers.toLocaleString()}</span>
                           {' '}
                           <span style={{ color: '#999' }}>backers</span>
                         </span>
                         <span style={{ color: '#999' }}>{Math.round(progressPercent)}%</span>
                       </div>
                       <div style={{
-                        background: 'rgba(236, 72, 153, 0.1)',
+                        background: 'rgba(0, 217, 255, 0.1)',
                         height: '6px',
                         borderRadius: '3px',
                         overflow: 'hidden',
                       }}>
                         <div
                           style={{
-                            background: 'linear-gradient(90deg, #ec4899, #f59e0b)',
+                            background: 'linear-gradient(90deg, #00d9ff, #39ff14)',
                             height: '100%',
                             width: `${Math.min(100, progressPercent)}%`,
                             transition: 'width 0.3s ease',
@@ -436,7 +436,7 @@ export default function Campaigns() {
 
                     {/* CTA */}
                     <button style={{
-                      background: '#ec4899',
+                      background: '#00d9ff',
                       color: '#000',
                       padding: '0.75rem 1rem',
                       borderRadius: '0.5rem',
@@ -471,19 +471,19 @@ export default function Campaigns() {
             textAlign: 'center',
           }}>
             <div>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ec4899', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#00d9ff', marginBottom: '0.5rem' }}>
                 {mockCampaigns.length}
               </div>
               <div style={{ color: '#999' }}>Active Campaigns</div>
             </div>
             <div>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#a855f7', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ff1493', marginBottom: '0.5rem' }}>
                 {mockCampaigns.reduce((acc, c) => acc + c.backers, 0).toLocaleString()}
               </div>
               <div style={{ color: '#999' }}>Total Backers</div>
             </div>
             <div>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#f59e0b', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#39ff14', marginBottom: '0.5rem' }}>
                 ${(mockCampaigns.reduce((acc, c) => acc + c.backers, 0) * 0.99).toFixed(2)}
               </div>
               <div style={{ color: '#999' }}>Total Backed</div>
@@ -496,7 +496,7 @@ export default function Campaigns() {
       <section style={{
         padding: '4rem 2rem',
         textAlign: 'center',
-        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.1) 0%, rgba(10, 10, 10, 0) 100%)',
+        background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.1) 0%, rgba(10, 10, 10, 0) 100%)',
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: '900', marginBottom: '1rem' }}>
@@ -506,7 +506,7 @@ export default function Campaigns() {
             Start your own campaign and rally the community.
           </p>
           <button style={{
-            background: '#9333ea',
+            background: '#ff1493',
             color: 'white',
             padding: '1rem 2rem',
             borderRadius: '0.5rem',
@@ -514,7 +514,7 @@ export default function Campaigns() {
             fontWeight: '700',
             cursor: 'pointer',
             fontSize: '1rem',
-            boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+            boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
           }}>
             Launch a Campaign
           </button>

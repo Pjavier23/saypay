@@ -101,7 +101,7 @@ export default function RestaurantDetail() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -113,7 +113,7 @@ export default function RestaurantDetail() {
       </header>
 
       {/* Restaurant Header */}
-      <section style={{ padding: '8rem 2rem 4rem', background: 'linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
+      <section style={{ padding: '8rem 2rem 4rem', background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '3rem' }}>
             <div>
@@ -127,7 +127,7 @@ export default function RestaurantDetail() {
             <button
               onClick={handleReview}
               style={{
-                background: '#9333ea',
+                background: '#ff1493',
                 color: 'white',
                 padding: '1rem 2rem',
                 borderRadius: '0.5rem',
@@ -135,7 +135,7 @@ export default function RestaurantDetail() {
                 fontWeight: '700',
                 cursor: 'pointer',
                 fontSize: '1rem',
-                boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
               }}
             >
               💬 Write a Review ($0.99)
@@ -190,7 +190,7 @@ export default function RestaurantDetail() {
                   <div>
                     {review.userId ? (
                       <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none' }}>
-                        <h3 style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#a855f7', cursor: 'pointer' }}>{review.author}</h3>
+                        <h3 style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#ff1493', cursor: 'pointer' }}>{review.author}</h3>
                       </Link>
                     ) : (
                       <h3 style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{review.author}</h3>
@@ -199,7 +199,7 @@ export default function RestaurantDetail() {
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                     <span>{'⭐'.repeat(review.rating)}</span>
-                    {review.paid && <span style={{ background: '#10b981', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.75rem', fontWeight: '600' }}>Verified</span>}
+                    {review.paid && <span style={{ background: '#39ff14', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.75rem', fontWeight: '600' }}>Verified</span>}
                   </div>
                 </div>
                 <p style={{ color: '#d1d5db' }}>{review.text}</p>
@@ -222,7 +222,7 @@ export default function RestaurantDetail() {
             <button
               onClick={handleReview}
               style={{
-                background: '#9333ea',
+                background: '#ff1493',
                 color: 'white',
                 padding: '1rem 2rem',
                 borderRadius: '0.5rem',
@@ -230,7 +230,7 @@ export default function RestaurantDetail() {
                 fontWeight: '700',
                 cursor: 'pointer',
                 fontSize: '1rem',
-                boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
               }}
             >
               Write a Review for $0.99

@@ -142,7 +142,7 @@ export default function Restaurants() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -156,7 +156,7 @@ export default function Restaurants() {
       </header>
 
       {/* Search Section */}
-      <section style={{ padding: '8rem 2rem 2rem', background: 'linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
+      <section style={{ padding: '8rem 2rem 2rem', background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '1rem', textAlign: 'center' }}>Discover & Review</h1>
           <p style={{ textAlign: 'center', color: '#999', marginBottom: '2rem' }}>Restaurants, Products, Services</p>
@@ -204,7 +204,7 @@ export default function Restaurants() {
                   border: 'none',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  background: category === cat ? '#a855f7' : 'rgba(255, 255, 255, 0.1)',
+                  background: category === cat ? '#ff1493' : 'rgba(255, 255, 255, 0.1)',
                   color: 'white',
                 }}
               >
@@ -240,9 +240,9 @@ export default function Restaurants() {
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.borderColor = '#a855f7'
+                    e.currentTarget.style.borderColor = '#ff1493'
                     e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(168, 85, 247, 0.25)'
+                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(255, 20, 147, 0.25)'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
@@ -256,7 +256,7 @@ export default function Restaurants() {
                       position: 'absolute',
                       top: '0.75rem',
                       right: '0.75rem',
-                      background: item.campaign ? '#ec4899' : '#f59e0b',
+                      background: item.campaign ? '#00d9ff' : '#39ff14',
                       color: 'white',
                       padding: '0.25rem 0.75rem',
                       borderRadius: '9999px',
@@ -295,7 +295,7 @@ export default function Restaurants() {
                   <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{item.location}</p>
                   
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ background: '#a855f7', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
+                    <span style={{ background: '#ff1493', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
                       ⭐ {item.rating}
                     </span>
                     <span style={{ color: '#737373', fontSize: '0.875rem' }}>{item.reviews} reviews</span>
@@ -303,11 +303,11 @@ export default function Restaurants() {
 
                   {item.campaign && (item as any).backers && (
                     <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <div style={{ fontSize: '0.75rem', color: '#ec4899', fontWeight: '700', marginBottom: '0.5rem' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#00d9ff', fontWeight: '700', marginBottom: '0.5rem' }}>
                         {(item as any).backers} backers 🚀
                       </div>
-                      <div style={{ background: 'rgba(236, 72, 153, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
-                        <div style={{ background: '#ec4899', height: '100%', width: `${Math.min(100, ((item as any).backers / 3000) * 100)}%` }} />
+                      <div style={{ background: 'rgba(0, 217, 255, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ background: '#00d9ff', height: '100%', width: `${Math.min(100, ((item as any).backers / 3000) * 100)}%` }} />
                       </div>
                     </div>
                   )}

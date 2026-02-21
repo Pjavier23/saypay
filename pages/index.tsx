@@ -34,7 +34,7 @@ export default function Home() {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           SayPay
         </span>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', fontSize: '0.875rem', color: '#999' }}>
@@ -42,7 +42,7 @@ export default function Home() {
           <a href="#pricing" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Pricing</a>
           <Link href="/leaderboards" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Leaderboards</Link>
           <button style={{
-            background: '#9333ea',
+            background: '#ff1493',
             color: 'white',
             padding: '0.5rem 1rem',
             borderRadius: '9999px',
@@ -66,7 +66,7 @@ export default function Home() {
         padding: '6rem 1.5rem 2rem',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, #0a0a0a 100%)',
+        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(0, 217, 255, 0.05) 50%, #0a0a0a 100%)',
       }}>
         {/* Animated background elements */}
         <div style={{
@@ -81,7 +81,7 @@ export default function Home() {
             left: '10%',
             width: '300px',
             height: '300px',
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(255, 20, 147, 0.15) 0%, transparent 70%)',
             filter: 'blur(80px)',
             animation: 'float 20s ease-in-out infinite',
           }} />
@@ -91,7 +91,7 @@ export default function Home() {
             right: '15%',
             width: '400px',
             height: '400px',
-            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(0, 217, 255, 0.12) 0%, transparent 70%)',
             filter: 'blur(100px)',
             animation: 'float 25s ease-in-out infinite 2s',
           }} />
@@ -101,7 +101,7 @@ export default function Home() {
             left: '50%',
             width: '500px',
             height: '500px',
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%)',
             filter: 'blur(120px)',
             animation: 'float 30s ease-in-out infinite 4s',
           }} />
@@ -135,7 +135,7 @@ export default function Home() {
             padding: '0.5rem 1rem',
             borderRadius: '9999px',
             fontSize: '0.875rem',
-            color: '#c084fc',
+            color: '#ff69b4',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             marginBottom: '2rem',
             transition: 'all 0.3s ease',
@@ -143,15 +143,15 @@ export default function Home() {
           }}
           onMouseEnter={(e: any) => {
             e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-            e.currentTarget.style.borderColor = '#c084fc'
-            e.currentTarget.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.2)'
+            e.currentTarget.style.borderColor = '#ff69b4'
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 20, 147, 0.2)'
           }}
           onMouseLeave={(e: any) => {
             e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
             e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
             e.currentTarget.style.boxShadow = 'none'
           }}>
-            <span style={{ width: '0.5rem', height: '0.5rem', background: '#a78bfa', borderRadius: '50%', animation: 'pulse 2s ease-in-out infinite' }} />
+            <span style={{ width: '0.5rem', height: '0.5rem', background: '#ff1493', borderRadius: '50%', animation: 'pulse 2s ease-in-out infinite' }} />
             The end of fake reviews
           </div>
 
@@ -164,7 +164,7 @@ export default function Home() {
           }}>
             Reviews that<br />
             <span style={{
-              background: 'linear-gradient(135deg, #a855f7, #ec4899, #f59e0b)',
+              background: 'linear-gradient(135deg, #ff1493, #00d9ff, #39ff14)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
@@ -195,30 +195,30 @@ export default function Home() {
                     width: '18rem',
                     outline: 'none',
                   }}
-                  onFocus={e => e.currentTarget.style.borderColor = '#a855f7'}
+                  onFocus={e => e.currentTarget.style.borderColor = '#ff1493'}
                   onBlur={e => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
                 />
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <button
                     onClick={() => { if (email) setSubmitted(true) }}
                     style={{
-                      background: 'linear-gradient(135deg, #9333ea, #c084fc)',
+                      background: 'linear-gradient(135deg, #ff1493, #ff69b4)',
                       color: 'white',
                       padding: '0.85rem 2.5rem',
                       borderRadius: '9999px',
                       border: 'none',
                       fontWeight: '700',
                       cursor: 'pointer',
-                      boxShadow: '0 8px 32px rgba(168, 85, 247, 0.4)',
+                      boxShadow: '0 8px 32px rgba(255, 20, 147, 0.4)',
                       transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
                     }}
                     onMouseEnter={(e: any) => {
                       e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 12px 48px rgba(168, 85, 247, 0.6)'
+                      e.currentTarget.style.boxShadow = '0 12px 48px rgba(255, 20, 147, 0.6)'
                     }}
                     onMouseLeave={(e: any) => {
                       e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(168, 85, 247, 0.4)'
+                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 20, 147, 0.4)'
                     }}
                   >
                     Get Early Access
@@ -237,8 +237,8 @@ export default function Home() {
                       }}
                       onMouseEnter={(e: any) => {
                         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                        e.currentTarget.style.borderColor = '#a855f7'
-                        e.currentTarget.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.3)'
+                        e.currentTarget.style.borderColor = '#ff1493'
+                        e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 20, 147, 0.3)'
                         e.currentTarget.style.transform = 'translateY(-2px)'
                       }}
                       onMouseLeave={(e: any) => {
@@ -254,10 +254,10 @@ export default function Home() {
                 </div>
               </>
             ) : (
-              <div style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', padding: '0.75rem 2rem', borderRadius: '9999px', color: '#c084fc', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <div style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', padding: '0.75rem 2rem', borderRadius: '9999px', color: '#ff69b4', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 ✅ You're on the list!
                 <br />
-                <Link href="/restaurants" style={{ textDecoration: 'underline', color: '#c084fc', cursor: 'pointer' }}>Try the app now →</Link>
+                <Link href="/restaurants" style={{ textDecoration: 'underline', color: '#ff69b4', cursor: 'pointer' }}>Try the app now →</Link>
               </div>
             )}
           </div>
@@ -273,7 +273,7 @@ export default function Home() {
                 <div style={{
                   fontSize: '1.875rem',
                   fontWeight: 900,
-                  background: 'linear-gradient(135deg, #a855f7, #ec4899)',
+                  background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}>
@@ -290,7 +290,7 @@ export default function Home() {
       <section style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto', textAlign: 'center' }}>
         <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem' }}>
           Fake reviews are{' '}
-          <span style={{ background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span style={{ background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             destroying trust.
           </span>
         </h2>
@@ -324,7 +324,7 @@ export default function Home() {
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                  e.currentTarget.style.borderColor = '#a855f7'
+                  e.currentTarget.style.borderColor = '#ff1493'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
@@ -336,7 +336,7 @@ export default function Home() {
                     <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{a.icon}</div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{a.label}</h3>
                   </div>
-                  <div style={{ color: '#c084fc', fontWeight: 900, fontSize: '1.5rem' }}>{a.price}</div>
+                  <div style={{ color: '#ff69b4', fontWeight: 900, fontSize: '1.5rem' }}>{a.price}</div>
                 </div>
                 <p style={{ color: '#a3a3a3', fontSize: '0.875rem' }}>{a.desc}</p>
               </div>
@@ -348,7 +348,7 @@ export default function Home() {
       {/* Featured Campaigns */}
       <section style={{
         padding: '6rem 1.5rem',
-        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%)',
+        background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 20, 147, 0.05) 100%)',
         borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
@@ -381,18 +381,18 @@ export default function Home() {
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     overflow: 'hidden',
                     transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    boxShadow: '0 8px 32px rgba(168, 85, 247, 0.05)',
+                    boxShadow: '0 8px 32px rgba(255, 20, 147, 0.05)',
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
                     e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(168, 85, 247, 0.15)'
-                    e.currentTarget.style.borderColor = '#a855f7'
+                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(255, 20, 147, 0.15)'
+                    e.currentTarget.style.borderColor = '#ff1493'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(168, 85, 247, 0.05)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 20, 147, 0.05)'
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
                   }}
                 >
@@ -416,17 +416,17 @@ export default function Home() {
                   <div style={{ padding: '1.25rem' }}>
                     <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.25rem' }}>{camp.name}</h3>
                     <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{camp.brand}</p>
-                    <div style={{ fontSize: '0.875rem', color: '#ec4899', fontWeight: '600', marginBottom: '0.75rem' }}>
+                    <div style={{ fontSize: '0.875rem', color: '#00d9ff', fontWeight: '600', marginBottom: '0.75rem' }}>
                       {camp.backers.toLocaleString()} backers 🚀
                     </div>
                     <div style={{
-                      background: 'rgba(236, 72, 153, 0.1)',
+                      background: 'rgba(0, 217, 255, 0.1)',
                       height: '4px',
                       borderRadius: '2px',
                       overflow: 'hidden',
                     }}>
                       <div style={{
-                        background: '#ec4899',
+                        background: '#00d9ff',
                         height: '100%',
                         width: `${Math.min(100, percent)}%`,
                         transition: 'width 0.3s ease',
@@ -441,23 +441,23 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <Link href="/campaigns" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: 'linear-gradient(135deg, #ec4899, #f59e0b)',
+                background: 'linear-gradient(135deg, #00d9ff, #39ff14)',
                 color: 'white',
                 padding: '0.85rem 2.5rem',
                 borderRadius: '9999px',
                 border: 'none',
                 fontWeight: '700',
                 cursor: 'pointer',
-                boxShadow: '0 8px 32px rgba(236, 72, 153, 0.4)',
+                boxShadow: '0 8px 32px rgba(0, 217, 255, 0.4)',
                 transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
               }}
               onMouseEnter={(e: any) => {
                 e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
-                e.currentTarget.style.boxShadow = '0 12px 48px rgba(236, 72, 153, 0.6)'
+                e.currentTarget.style.boxShadow = '0 12px 48px rgba(0, 217, 255, 0.6)'
               }}
               onMouseLeave={(e: any) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(236, 72, 153, 0.4)'
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 217, 255, 0.4)'
               }}>
                 See All Campaigns →
               </button>
@@ -484,7 +484,7 @@ export default function Home() {
                 border: '1px solid rgba(255, 255, 255, 0.1)',
               }}
             >
-              <span style={{ color: '#a855f7', fontWeight: 900, fontSize: '2rem', lineHeight: 1 }}>{s.num}</span>
+              <span style={{ color: '#ff1493', fontWeight: 900, fontSize: '2rem', lineHeight: 1 }}>{s.num}</span>
               <div>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{s.title}</h3>
                 <p style={{ color: '#a3a3a3' }}>{s.desc}</p>
@@ -508,7 +508,7 @@ export default function Home() {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom right, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05))', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom right, rgba(255, 20, 147, 0.1), rgba(0, 217, 255, 0.05))', pointerEvents: 'none' }} />
           <div style={{ position: 'relative', zIndex: 10 }}>
             <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '1rem' }}>Are you a business?</h2>
             <p style={{ color: '#a3a3a3', marginBottom: '2rem', maxWidth: '42rem', margin: '0 auto 2rem' }}>
@@ -531,7 +531,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', padding: '2.5rem 1.5rem', textAlign: 'center', color: '#737373', fontSize: '0.875rem' }}>
-        <span style={{ fontSize: '1.125rem', fontWeight: 700, background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <span style={{ fontSize: '1.125rem', fontWeight: 700, background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           SayPay
         </span>
         <p style={{ marginTop: '0.5rem' }}>© 2025 SayPay. Every word means something.</p>
