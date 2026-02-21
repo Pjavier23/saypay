@@ -15,6 +15,7 @@ const mockCampaigns = [
     description: 'The McRib is an iconic sandwich that deserves a permanent place on the menu. Help us show McDonald\'s the demand is real.',
     category: 'Food',
     image: '🥪',
+    gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)',
     updates: [
       { date: '2 days ago', text: '🎉 We hit 25K backers! McDonald\'s is listening.' },
       { date: '1 week ago', text: '📢 Featured on TikTok - views spiked 300%!' },
@@ -22,7 +23,7 @@ const mockCampaigns = [
   },
   {
     id: 2,
-    name: 'Trader Joe\'s Discontinued Snacks Bundle',
+    name: 'Trader Joe\'s Discontinued Snacks',
     emoji: '🍿',
     brand: 'Trader Joe\'s',
     goal: 40000,
@@ -30,9 +31,10 @@ const mockCampaigns = [
     backers: 12030,
     daysLeft: 52,
     trending: true,
-    description: 'Bring back the legendary snack mixes that made Trader Joe\'s special. We miss the Sea Salt & Vinegar Snack Mix and more.',
+    description: 'Bring back the legendary snack mixes. Sea Salt & Vinegar, BBQ, and the legendary trail mix blend. Trader Joe\'s, we\'re calling you home.',
     category: 'Snacks',
     image: '🍿',
+    gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)',
     updates: [
       { date: '3 days ago', text: '📊 Momentum building - 12K backers and counting!' },
       { date: '2 weeks ago', text: '🚀 Campaign launched with major retailer support.' },
@@ -48,9 +50,10 @@ const mockCampaigns = [
     backers: 8234,
     daysLeft: 38,
     trending: false,
-    description: 'Surge defined the 90s energy drink era. It\'s time to bring back the green giant and reclaim our beverage history.',
+    description: 'Surge defined the 90s energy drink era. It\'s time to bring back the green giant and reclaim our beverage history. Taste the rush again.',
     category: 'Beverage',
     image: '🥤',
+    gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)',
     updates: [
       { date: '1 week ago', text: '🟢 Just launched - spreading the word!' },
     ],
@@ -65,9 +68,10 @@ const mockCampaigns = [
     backers: 5892,
     daysLeft: 61,
     trending: false,
-    description: 'Remember the wild flavor and color? Pepsi Blue was ahead of its time. Let\'s prove 2000s nostalgia is real demand.',
+    description: 'The wild, electric blue cola of the early 2000s. Pepsi Blue was ahead of its time. Let\'s show demand still exists.',
     category: 'Beverage',
     image: '🔵',
+    gradient: 'linear-gradient(135deg, #0033FF 0%, #6699FF 100%)',
     updates: [
       { date: '5 days ago', text: '💙 Early supporters coming in strong.' },
     ],
@@ -134,6 +138,93 @@ export default function Campaigns() {
           <p style={{ color: '#666', fontSize: '0.875rem' }}>
             Each backer pays $0.99 to signal real demand. Brands see the data. Products come back.
           </p>
+        </div>
+      </section>
+
+      {/* Featured Campaign */}
+      <section style={{ padding: '3rem 2rem' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          {(() => {
+            const featured = mockCampaigns[0]
+            const progressPercent = (featured.current / featured.goal) * 100
+            return (
+              <div style={{
+                background: featured.gradient,
+                borderRadius: '1.5rem',
+                padding: '3rem',
+                marginBottom: '3rem',
+                display: 'flex',
+                gap: '3rem',
+                alignItems: 'center',
+                boxShadow: '0 20px 60px rgba(236, 72, 153, 0.2)',
+              }}>
+                <div style={{
+                  fontSize: '6rem',
+                  minWidth: '120px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {featured.image}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                    <span style={{
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      color: '#000',
+                      padding: '0.4rem 0.9rem',
+                      borderRadius: '9999px',
+                      fontSize: '0.75rem',
+                      fontWeight: '800',
+                      textTransform: 'uppercase',
+                    }}>
+                      🔥 Featured
+                    </span>
+                  </div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: '900', marginBottom: '0.5rem', color: '#fff' }}>
+                    {featured.name}
+                  </h2>
+                  <p style={{ color: 'rgba(255, 255, 255, 0.9)', marginBottom: '1.5rem', maxWidth: '500px', lineHeight: '1.6' }}>
+                    {featured.description}
+                  </p>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', color: '#fff', fontWeight: '600' }}>
+                      <span>{featured.backers.toLocaleString()} backers</span>
+                      <span>{Math.round(progressPercent)}%</span>
+                    </div>
+                    <div style={{
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      height: '8px',
+                      borderRadius: '4px',
+                      overflow: 'hidden',
+                    }}>
+                      <div
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.95)',
+                          height: '100%',
+                          width: `${Math.min(100, progressPercent)}%`,
+                          transition: 'width 0.3s ease',
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <button style={{
+                    background: '#ffffff',
+                    color: '#000',
+                    padding: '0.85rem 2rem',
+                    borderRadius: '0.5rem',
+                    border: 'none',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    fontSize: '0.95rem',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                  }}>
+                    Back for $0.99 ({featured.daysLeft} days left)
+                  </button>
+                </div>
+              </div>
+            )
+          })()}
         </div>
       </section>
 
@@ -232,13 +323,15 @@ export default function Campaigns() {
                 >
                   {/* Image/Emoji Header */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))',
-                    padding: '2rem',
+                    background: campaign.gradient,
+                    padding: '3rem 2rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '4rem',
+                    fontSize: '5rem',
                     position: 'relative',
+                    minHeight: '200px',
+                    boxShadow: `inset 0 -2px 10px rgba(0,0,0,0.3)`,
                   }}>
                     {campaign.image}
                     {campaign.trending && (
@@ -246,12 +339,14 @@ export default function Campaigns() {
                         position: 'absolute',
                         top: '1rem',
                         right: '1rem',
-                        background: '#f59e0b',
+                        background: '#ffffff',
                         color: '#000',
-                        padding: '0.25rem 0.75rem',
+                        padding: '0.35rem 0.85rem',
                         borderRadius: '9999px',
                         fontSize: '0.75rem',
-                        fontWeight: '700',
+                        fontWeight: '800',
+                        textTransform: 'uppercase',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                       }}>
                         🔥 Trending
                       </div>

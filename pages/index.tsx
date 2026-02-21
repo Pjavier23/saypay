@@ -267,6 +267,107 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Campaigns */}
+      <section style={{
+        padding: '6rem 1.5rem',
+        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 900, marginBottom: '1rem' }}>🚀 Bring It Back</h2>
+            <p style={{ color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
+              Vote with your wallet. Show brands what you really want. Every $0.99 = real demand signal.
+            </p>
+          </div>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '2rem',
+          }}>
+            {[
+              { name: 'McRib', brand: 'McDonald\'s', emoji: '🥪', gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)', backers: 28470, goal: 50000 },
+              { name: 'TJ\'s Snacks', brand: 'Trader Joe\'s', emoji: '🍿', gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)', backers: 12030, goal: 40000 },
+              { name: 'Surge', brand: 'Coca-Cola', emoji: '🥤', gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)', backers: 8234, goal: 60000 },
+            ].map((camp, idx) => {
+              const percent = (camp.backers / camp.goal) * 100
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '1rem',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  <div style={{
+                    background: camp.gradient,
+                    padding: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '4rem',
+                    minHeight: '140px',
+                  }}>
+                    {camp.emoji}
+                  </div>
+                  <div style={{ padding: '1.25rem' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.25rem' }}>{camp.name}</h3>
+                    <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{camp.brand}</p>
+                    <div style={{ fontSize: '0.875rem', color: '#ec4899', fontWeight: '600', marginBottom: '0.75rem' }}>
+                      {camp.backers.toLocaleString()} backers 🚀
+                    </div>
+                    <div style={{
+                      background: 'rgba(236, 72, 153, 0.1)',
+                      height: '4px',
+                      borderRadius: '2px',
+                      overflow: 'hidden',
+                    }}>
+                      <div style={{
+                        background: '#ec4899',
+                        height: '100%',
+                        width: `${Math.min(100, percent)}%`,
+                        transition: 'width 0.3s ease',
+                      }} />
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <Link href="/campaigns" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: '#9333ea',
+                color: 'white',
+                padding: '0.75rem 2rem',
+                borderRadius: '9999px',
+                border: 'none',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+              }}>
+                See All Campaigns →
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works */}
       <section id="how" style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto' }}>
         <h2 style={{ fontSize: '2.25rem', fontWeight: 900, textAlign: 'center', marginBottom: '4rem' }}>How it works</h2>
