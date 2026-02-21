@@ -66,21 +66,65 @@ export default function Home() {
         padding: '6rem 1.5rem 2rem',
         position: 'relative',
         overflow: 'hidden',
+        background: 'linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, #0a0a0a 100%)',
       }}>
-        {/* Glow effect */}
+        {/* Animated background elements */}
         <div style={{
           position: 'absolute',
-          top: '30%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%)',
-          filter: 'blur(120px)',
+          inset: 0,
+          overflow: 'hidden',
           pointerEvents: 'none',
-        }} />
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '10%',
+            left: '10%',
+            width: '300px',
+            height: '300px',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)',
+            filter: 'blur(80px)',
+            animation: 'float 20s ease-in-out infinite',
+          }} />
+          <div style={{
+            position: 'absolute',
+            bottom: '20%',
+            right: '15%',
+            width: '400px',
+            height: '400px',
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%)',
+            filter: 'blur(100px)',
+            animation: 'float 25s ease-in-out infinite 2s',
+          }} />
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '500px',
+            height: '500px',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)',
+            filter: 'blur(120px)',
+            animation: 'float 30s ease-in-out infinite 4s',
+          }} />
+        </div>
+        
+        <style>{`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-30px) translateX(20px); }
+            50% { transform: translateY(-60px) translateX(-20px); }
+            75% { transform: translateY(-30px) translateX(10px); }
+          }
+          @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+          }
+        `}</style>
 
-        <div style={{ maxWidth: '56rem', position: 'relative', zIndex: 10 }}>
+        <div style={{ maxWidth: '56rem', position: 'relative', zIndex: 10, animation: 'slideInUp 0.8s ease-out' }}>
           {/* Badge */}
           <div style={{
             display: 'inline-flex',
@@ -94,6 +138,18 @@ export default function Home() {
             color: '#c084fc',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             marginBottom: '2rem',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={(e: any) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+            e.currentTarget.style.borderColor = '#c084fc'
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.2)'
+          }}
+          onMouseLeave={(e: any) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+            e.currentTarget.style.boxShadow = 'none'
           }}>
             <span style={{ width: '0.5rem', height: '0.5rem', background: '#a78bfa', borderRadius: '50%', animation: 'pulse 2s ease-in-out infinite' }} />
             The end of fake reviews
@@ -146,14 +202,23 @@ export default function Home() {
                   <button
                     onClick={() => { if (email) setSubmitted(true) }}
                     style={{
-                      background: '#9333ea',
+                      background: 'linear-gradient(135deg, #9333ea, #c084fc)',
                       color: 'white',
-                      padding: '0.75rem 2rem',
+                      padding: '0.85rem 2.5rem',
                       borderRadius: '9999px',
                       border: 'none',
-                      fontWeight: '600',
+                      fontWeight: '700',
                       cursor: 'pointer',
-                      boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                      boxShadow: '0 8px 32px rgba(168, 85, 247, 0.4)',
+                      transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    }}
+                    onMouseEnter={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 12px 48px rgba(168, 85, 247, 0.6)'
+                    }}
+                    onMouseLeave={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(168, 85, 247, 0.4)'
                     }}
                   >
                     Get Early Access
@@ -163,11 +228,24 @@ export default function Home() {
                       style={{
                         background: 'rgba(255, 255, 255, 0.1)',
                         color: 'white',
-                        padding: '0.75rem 2rem',
+                        padding: '0.85rem 2.5rem',
                         borderRadius: '9999px',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        fontWeight: '600',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        fontWeight: '700',
                         cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onMouseEnter={(e: any) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
+                        e.currentTarget.style.borderColor = '#a855f7'
+                        e.currentTarget.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.3)'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                      }}
+                      onMouseLeave={(e: any) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+                        e.currentTarget.style.boxShadow = 'none'
+                        e.currentTarget.style.transform = 'translateY(0)'
                       }}
                     >
                       Try It Now →
@@ -299,18 +377,23 @@ export default function Home() {
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(10px)',
-                    borderRadius: '1rem',
+                    borderRadius: '1.25rem',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     overflow: 'hidden',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    boxShadow: '0 8px 32px rgba(168, 85, 247, 0.05)',
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.transform = 'translateY(-4px)'
+                    e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(168, 85, 247, 0.15)'
+                    e.currentTarget.style.borderColor = '#a855f7'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(168, 85, 247, 0.05)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div style={{
@@ -358,14 +441,23 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <Link href="/campaigns" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: '#9333ea',
+                background: 'linear-gradient(135deg, #ec4899, #f59e0b)',
                 color: 'white',
-                padding: '0.75rem 2rem',
+                padding: '0.85rem 2.5rem',
                 borderRadius: '9999px',
                 border: 'none',
                 fontWeight: '700',
                 cursor: 'pointer',
-                boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                boxShadow: '0 8px 32px rgba(236, 72, 153, 0.4)',
+                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
+              onMouseEnter={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
+                e.currentTarget.style.boxShadow = '0 12px 48px rgba(236, 72, 153, 0.6)'
+              }}
+              onMouseLeave={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(236, 72, 153, 0.4)'
               }}>
                 See All Campaigns →
               </button>

@@ -156,8 +156,18 @@ export default function Campaigns() {
                 display: 'flex',
                 gap: '3rem',
                 alignItems: 'center',
-                boxShadow: '0 20px 60px rgba(236, 72, 153, 0.2)',
+                boxShadow: '0 20px 60px rgba(236, 72, 153, 0.3)',
                 overflow: 'hidden',
+                transition: 'all 0.4s ease',
+                position: 'relative',
+              }}
+              onMouseEnter={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(-8px)'
+                e.currentTarget.style.boxShadow = '0 32px 80px rgba(236, 72, 153, 0.4)'
+              }}
+              onMouseLeave={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 20px 60px rgba(236, 72, 153, 0.3)'
               }}>
                 <div style={{
                   minWidth: '200px',
@@ -311,23 +321,26 @@ export default function Campaigns() {
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(10px)',
-                    borderRadius: '1rem',
+                    borderRadius: '1.25rem',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     overflow: 'hidden',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                     cursor: 'pointer',
                     display: 'flex',
                     flexDirection: 'column',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
                     e.currentTarget.style.borderColor = '#ec4899'
-                    e.currentTarget.style.transform = 'translateY(-8px)'
+                    e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(236, 72, 153, 0.25)'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)'
                   }}
                 >
                   {/* Image Header */}
