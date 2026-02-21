@@ -288,9 +288,9 @@ export default function Home() {
             gap: '2rem',
           }}>
             {[
-              { name: 'McRib', brand: 'McDonald\'s', emoji: '🥪', gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)', backers: 28470, goal: 50000 },
-              { name: 'TJ\'s Snacks', brand: 'Trader Joe\'s', emoji: '🍿', gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)', backers: 12030, goal: 40000 },
-              { name: 'Surge', brand: 'Coca-Cola', emoji: '🥤', gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)', backers: 8234, goal: 60000 },
+              { name: 'McRib', brand: 'McDonald\'s', emoji: '🥪', image: 'https://images.unsplash.com/photo-1572802419224-7c93d6da16d7?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)', backers: 28470, goal: 50000 },
+              { name: 'TJ\'s Snacks', brand: 'Trader Joe\'s', emoji: '🍿', image: 'https://images.unsplash.com/photo-1599599810694-200c7e7f3818?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)', backers: 12030, goal: 40000 },
+              { name: 'Surge', brand: 'Coca-Cola', emoji: '🥤', image: 'https://images.unsplash.com/photo-1554866585-c4db4d85d5d0?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)', backers: 8234, goal: 60000 },
             ].map((camp, idx) => {
               const percent = (camp.backers / camp.goal) * 100
               return (
@@ -314,15 +314,21 @@ export default function Home() {
                   }}
                 >
                   <div style={{
-                    background: camp.gradient,
-                    padding: '2rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '4rem',
+                    position: 'relative',
                     minHeight: '140px',
+                    overflow: 'hidden',
+                    background: camp.gradient,
                   }}>
-                    {camp.emoji}
+                    <img 
+                      src={camp.image}
+                      alt={camp.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease',
+                      }}
+                    />
                   </div>
                   <div style={{ padding: '1.25rem' }}>
                     <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.25rem' }}>{camp.name}</h3>
