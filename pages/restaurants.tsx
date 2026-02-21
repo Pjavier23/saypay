@@ -70,6 +70,7 @@ export default function Restaurants() {
           <div style={{ display: 'flex', gap: '1rem' }}>
             <Link href="/" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Home</Link>
             <span style={{ color: '#999' }}>Explore</span>
+            <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Leaderboards</Link>
           </div>
         </div>
       </header>

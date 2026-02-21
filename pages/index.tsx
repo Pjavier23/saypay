@@ -40,6 +40,7 @@ export default function Home() {
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', fontSize: '0.875rem', color: '#999' }}>
           <a href="#how" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>How it works</a>
           <a href="#pricing" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Pricing</a>
+          <Link href="/leaderboards" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Leaderboards</Link>
           <button style={{
             background: '#9333ea',
             color: 'white',
