@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 
 const actions = [
   { icon: '📝', label: 'Verified Review', price: '$0.99', desc: 'Your opinion, backed by skin in the game.' },
@@ -140,25 +141,44 @@ export default function Home() {
                   onFocus={e => e.currentTarget.style.borderColor = '#a855f7'}
                   onBlur={e => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
                 />
-                <button
-                  onClick={() => { if (email) setSubmitted(true) }}
-                  style={{
-                    background: '#9333ea',
-                    color: 'white',
-                    padding: '0.75rem 2rem',
-                    borderRadius: '9999px',
-                    border: 'none',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
-                  }}
-                >
-                  Get Early Access
-                </button>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <button
+                    onClick={() => { if (email) setSubmitted(true) }}
+                    style={{
+                      background: '#9333ea',
+                      color: 'white',
+                      padding: '0.75rem 2rem',
+                      borderRadius: '9999px',
+                      border: 'none',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                    }}
+                  >
+                    Get Early Access
+                  </button>
+                  <Link href="/restaurants" style={{ textDecoration: 'none' }}>
+                    <button
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        color: 'white',
+                        padding: '0.75rem 2rem',
+                        borderRadius: '9999px',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Try It Now →
+                    </button>
+                  </Link>
+                </div>
               </>
             ) : (
               <div style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', padding: '0.75rem 2rem', borderRadius: '9999px', color: '#c084fc', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 ✅ You're on the list!
+                <br />
+                <Link href="/restaurants" style={{ textDecoration: 'underline', color: '#c084fc', cursor: 'pointer' }}>Try the app now →</Link>
               </div>
             )}
           </div>
