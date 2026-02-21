@@ -3,17 +3,17 @@ import Link from 'next/link'
 
 const mockItems = {
   restaurants: [
-    { id: 1, name: 'Chipotle', location: 'Dupont Circle, DC', rating: 4.2, reviews: 12, category: 'Mexican', image: '🌯', trending: false },
-    { id: 2, name: 'Sweetgreen', location: 'Downtown DC', rating: 4.5, reviews: 28, category: 'Salads', image: '🥗', trending: true },
-    { id: 3, name: 'Shake Shack', location: 'Navy Yard, DC', rating: 4.1, reviews: 19, category: 'Burgers', image: '🍔', trending: false },
-    { id: 4, name: 'Chick-fil-A', location: 'Gallery Place, DC', rating: 4.3, reviews: 45, category: 'Chicken', image: '🍗', trending: true },
+    { id: 1, name: 'Chipotle', location: 'Dupont Circle, DC', rating: 4.2, reviews: 12, category: 'Mexican', image: '🌯', trending: false, campaign: false },
+    { id: 2, name: 'Sweetgreen', location: 'Downtown DC', rating: 4.5, reviews: 28, category: 'Salads', image: '🥗', trending: true, campaign: false },
+    { id: 3, name: 'Shake Shack', location: 'Navy Yard, DC', rating: 4.1, reviews: 19, category: 'Burgers', image: '🍔', trending: false, campaign: false },
+    { id: 4, name: 'Chick-fil-A', location: 'Gallery Place, DC', rating: 4.3, reviews: 45, category: 'Chicken', image: '🍗', trending: true, campaign: false },
   ],
   products: [
     { id: 5, name: 'McRib (Bring Back)', location: 'McDonalds', rating: 4.8, reviews: 2847, category: 'Discontinued', image: '🥪', trending: true, campaign: true, backers: 2847 },
     { id: 6, name: 'TJs Discontinued Snacks', location: 'Trader Joes', rating: 4.6, reviews: 1203, category: 'Food', image: '🍿', trending: true, campaign: true, backers: 1203 },
   ],
   services: [
-    { id: 8, name: 'The Barbers Chair', location: 'Arts District', rating: 4.8, reviews: 67, category: 'Barbershop', image: '✂️', trending: false },
+    { id: 8, name: 'The Barbers Chair', location: 'Arts District', rating: 4.8, reviews: 67, category: 'Barbershop', image: '✂️', trending: false, campaign: false },
   ],
 }
 
@@ -202,13 +202,13 @@ export default function Restaurants() {
                     <span style={{ color: '#737373', fontSize: '0.875rem' }}>{item.reviews} reviews</span>
                   </div>
 
-                  {item.campaign && (
+                  {item.campaign && (item as any).backers && (
                     <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
                       <div style={{ fontSize: '0.75rem', color: '#ec4899', fontWeight: '700', marginBottom: '0.5rem' }}>
-                        {item.backers} backers 🚀
+                        {(item as any).backers} backers 🚀
                       </div>
                       <div style={{ background: 'rgba(236, 72, 153, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
-                        <div style={{ background: '#ec4899', height: '100%', width: `${Math.min(100, (item.backers / 3000) * 100)}%` }} />
+                        <div style={{ background: '#ec4899', height: '100%', width: `${Math.min(100, ((item as any).backers / 3000) * 100)}%` }} />
                       </div>
                     </div>
                   )}
