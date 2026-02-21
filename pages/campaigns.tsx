@@ -1,0 +1,400 @@
+import Link from 'next/link'
+import { useState } from 'react'
+
+const mockCampaigns = [
+  {
+    id: 1,
+    name: 'Bring Back the McRib',
+    emoji: '🥪',
+    brand: 'McDonald\'s',
+    goal: 50000,
+    current: 28470,
+    backers: 28470,
+    daysLeft: 45,
+    trending: true,
+    description: 'The McRib is an iconic sandwich that deserves a permanent place on the menu. Help us show McDonald\'s the demand is real.',
+    category: 'Food',
+    image: '🥪',
+    updates: [
+      { date: '2 days ago', text: '🎉 We hit 25K backers! McDonald\'s is listening.' },
+      { date: '1 week ago', text: '📢 Featured on TikTok - views spiked 300%!' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Trader Joe\'s Discontinued Snacks Bundle',
+    emoji: '🍿',
+    brand: 'Trader Joe\'s',
+    goal: 40000,
+    current: 12030,
+    backers: 12030,
+    daysLeft: 52,
+    trending: true,
+    description: 'Bring back the legendary snack mixes that made Trader Joe\'s special. We miss the Sea Salt & Vinegar Snack Mix and more.',
+    category: 'Snacks',
+    image: '🍿',
+    updates: [
+      { date: '3 days ago', text: '📊 Momentum building - 12K backers and counting!' },
+      { date: '2 weeks ago', text: '🚀 Campaign launched with major retailer support.' },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Surge Energy Drink Return',
+    emoji: '🥤',
+    brand: 'The Coca-Cola Company',
+    goal: 60000,
+    current: 8234,
+    backers: 8234,
+    daysLeft: 38,
+    trending: false,
+    description: 'Surge defined the 90s energy drink era. It\'s time to bring back the green giant and reclaim our beverage history.',
+    category: 'Beverage',
+    image: '🥤',
+    updates: [
+      { date: '1 week ago', text: '🟢 Just launched - spreading the word!' },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Classic Pepsi Blue',
+    emoji: '🔵',
+    brand: 'PepsiCo',
+    goal: 45000,
+    current: 5892,
+    backers: 5892,
+    daysLeft: 61,
+    trending: false,
+    description: 'Remember the wild flavor and color? Pepsi Blue was ahead of its time. Let\'s prove 2000s nostalgia is real demand.',
+    category: 'Beverage',
+    image: '🔵',
+    updates: [
+      { date: '5 days ago', text: '💙 Early supporters coming in strong.' },
+    ],
+  },
+]
+
+export default function Campaigns() {
+  const [filter, setFilter] = useState('all')
+  const [sortBy, setSortBy] = useState('trending')
+
+  const filtered = mockCampaigns.filter(c => {
+    if (filter === 'trending') return c.trending
+    if (filter === 'food') return c.category === 'Food'
+    if (filter === 'snacks') return c.category === 'Snacks'
+    if (filter === 'beverage') return c.category === 'Beverage'
+    return true
+  })
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'trending') return b.current - a.current
+    if (sortBy === 'newest') return b.id - a.id
+    return a.daysLeft - b.daysLeft
+  })
+
+  return (
+    <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
+      {/* Header */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 50,
+        background: 'rgba(10, 10, 10, 0.95)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '1rem 2rem',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+              SayPay
+            </span>
+          </Link>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Link href="/" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Home</Link>
+            <Link href="/restaurants" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Explore</Link>
+            <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Leaderboards</Link>
+            <span style={{ color: '#a855f7', fontWeight: '600' }}>Campaigns</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section style={{
+        padding: '8rem 2rem 3rem',
+        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '1rem' }}>🚀 Bring It Back</h1>
+          <p style={{ color: '#999', fontSize: '1.125rem', marginBottom: '2rem' }}>
+            Vote with your wallet. Resurrect discontinued products. Show brands what you really want.
+          </p>
+          <p style={{ color: '#666', fontSize: '0.875rem' }}>
+            Each backer pays $0.99 to signal real demand. Brands see the data. Products come back.
+          </p>
+        </div>
+      </section>
+
+      {/* Filters & Sort */}
+      <section style={{
+        padding: '2rem 2rem 0',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+            {/* Filters */}
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {[
+                { id: 'all', label: 'All' },
+                { id: 'trending', label: '🔥 Trending' },
+                { id: 'food', label: '🍔 Food' },
+                { id: 'snacks', label: '🍿 Snacks' },
+                { id: 'beverage', label: '🥤 Beverages' },
+              ].map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setFilter(f.id)}
+                  style={{
+                    background: filter === f.id ? '#a855f7' : 'rgba(255, 255, 255, 0.05)',
+                    color: '#fff',
+                    padding: '0.5rem 1.25rem',
+                    borderRadius: '9999px',
+                    border: filter === f.id ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Sort */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#fff',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.5rem',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+              }}
+            >
+              <option value="trending">Most Backed</option>
+              <option value="newest">Newest First</option>
+              <option value="ending">Ending Soon</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* Campaigns */}
+      <section style={{ padding: '3rem 2rem' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '2rem',
+          }}>
+            {sorted.map(campaign => {
+              const progressPercent = (campaign.current / campaign.goal) * 100
+              return (
+                <div
+                  key={campaign.id}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '1rem',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                    e.currentTarget.style.borderColor = '#ec4899'
+                    e.currentTarget.style.transform = 'translateY(-8px)'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  {/* Image/Emoji Header */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))',
+                    padding: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '4rem',
+                    position: 'relative',
+                  }}>
+                    {campaign.image}
+                    {campaign.trending && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        right: '1rem',
+                        background: '#f59e0b',
+                        color: '#000',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.75rem',
+                        fontWeight: '700',
+                      }}>
+                        🔥 Trending
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ marginBottom: '0.5rem' }}>
+                      <p style={{ color: '#999', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: '600', marginBottom: '0.25rem' }}>
+                        {campaign.category}
+                      </p>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem' }}>
+                        {campaign.name}
+                      </h3>
+                      <p style={{ color: '#999', fontSize: '0.875rem' }}>by {campaign.brand}</p>
+                    </div>
+
+                    <p style={{ color: '#d1d5db', fontSize: '0.875rem', marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                      {campaign.description}
+                    </p>
+
+                    {/* Progress */}
+                    <div style={{ marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.875rem' }}>
+                        <span>
+                          <span style={{ color: '#ec4899', fontWeight: '700' }}>{campaign.backers.toLocaleString()}</span>
+                          {' '}
+                          <span style={{ color: '#999' }}>backers</span>
+                        </span>
+                        <span style={{ color: '#999' }}>{Math.round(progressPercent)}%</span>
+                      </div>
+                      <div style={{
+                        background: 'rgba(236, 72, 153, 0.1)',
+                        height: '6px',
+                        borderRadius: '3px',
+                        overflow: 'hidden',
+                      }}>
+                        <div
+                          style={{
+                            background: 'linear-gradient(90deg, #ec4899, #f59e0b)',
+                            height: '100%',
+                            width: `${Math.min(100, progressPercent)}%`,
+                            transition: 'width 0.3s ease',
+                          }}
+                        />
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.5rem' }}>
+                        {campaign.daysLeft} days left
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    <button style={{
+                      background: '#ec4899',
+                      color: '#000',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '0.5rem',
+                      border: 'none',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem',
+                      marginTop: 'auto',
+                    }}>
+                      Back for $0.99
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section style={{
+        padding: '4rem 2rem',
+        background: 'rgba(255, 255, 255, 0.02)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '2rem',
+            textAlign: 'center',
+          }}>
+            <div>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ec4899', marginBottom: '0.5rem' }}>
+                {mockCampaigns.length}
+              </div>
+              <div style={{ color: '#999' }}>Active Campaigns</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#a855f7', marginBottom: '0.5rem' }}>
+                {mockCampaigns.reduce((acc, c) => acc + c.backers, 0).toLocaleString()}
+              </div>
+              <div style={{ color: '#999' }}>Total Backers</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#f59e0b', marginBottom: '0.5rem' }}>
+                ${(mockCampaigns.reduce((acc, c) => acc + c.backers, 0) * 0.99).toFixed(2)}
+              </div>
+              <div style={{ color: '#999' }}>Total Backed</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{
+        padding: '4rem 2rem',
+        textAlign: 'center',
+        background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.1) 0%, rgba(10, 10, 10, 0) 100%)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: '900', marginBottom: '1rem' }}>
+            Can't find what you're looking for?
+          </h2>
+          <p style={{ color: '#999', marginBottom: '2rem', fontSize: '1.125rem' }}>
+            Start your own campaign and rally the community.
+          </p>
+          <button style={{
+            background: '#9333ea',
+            color: 'white',
+            padding: '1rem 2rem',
+            borderRadius: '0.5rem',
+            border: 'none',
+            fontWeight: '700',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+          }}>
+            Launch a Campaign
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', padding: '2rem', textAlign: 'center', color: '#737373', fontSize: '0.875rem' }}>
+        <p>© 2025 SayPay. Every word means something.</p>
+      </footer>
+    </div>
+  )
+}

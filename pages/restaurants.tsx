@@ -71,6 +71,7 @@ export default function Restaurants() {
             <Link href="/" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Home</Link>
             <span style={{ color: '#999' }}>Explore</span>
             <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Leaderboards</Link>
+            <Link href="/campaigns" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Campaigns</Link>
           </div>
         </div>
       </header>
