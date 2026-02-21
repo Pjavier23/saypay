@@ -1,53 +1,29 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-const mockItems = {
-  restaurants: [
-    { id: 1, name: 'Chipotle', location: 'Dupont Circle, DC', rating: 4.2, reviews: 12, category: 'Mexican', image: '🌯', trending: false },
-    { id: 2, name: 'Sweetgreen', location: 'Downtown DC', rating: 4.5, reviews: 28, category: 'Salads', image: '🥗', trending: true },
-    { id: 3, name: 'Shake Shack', location: 'Navy Yard, DC', rating: 4.1, reviews: 19, category: 'Burgers', image: '🍔', trending: false },
-    { id: 4, name: 'Chick-fil-A', location: 'Gallery Place, DC', rating: 4.3, reviews: 45, category: 'Chicken', image: '🍗', trending: true },
-  ],
-  products: [
-    { id: 5, name: 'McRib (Bring Back)', location: 'McDonald\'s', rating: 4.8, reviews: 2847, category: 'Discontinued', image: '🥪', trending: true, campaign: true, backers: 2847 },
-    { id: 6, name: 'TJ\'s Discontinued Snacks', location: 'Trader Joe\'s', rating: 4.6, reviews: 1203, category: 'Food', image: '🍿', trending: true, campaign: true, backers: 1203 },
-    { id: 7, name: 'Spicy Chicken McNuggets', location: 'McDonald\'s', rating: 4.7, reviews: 1847, category: 'Food', image: '🍟', trending: true, campaign: false },
-  ],
-  services: [
-    { id: 8, name: 'The Barber\'s Chair', location: 'Arts District', rating: 4.8, reviews: 67, category: 'Barbershop', image: '✂️', trending: false },
-    { id: 9, name: 'DC Fitness Pro', location: 'Multiple Locations', rating: 4.5, reviews: 234, category: 'Gym', image: '💪', trending: false },
-  ],
-}
+const mockRestaurants = [
+  { id: 1, name: 'Chipotle', location: 'Dupont Circle, DC', rating: 4.2, reviews: 12, cuisine: 'Mexican' },
+  { id: 2, name: 'Sweetgreen', location: 'Downtown DC', rating: 4.5, reviews: 28, cuisine: 'Salads' },
+  { id: 3, name: 'Shake Shack', location: 'Navy Yard, DC', rating: 4.1, reviews: 19, cuisine: 'Burgers' },
+  { id: 4, name: 'Chick-fil-A', location: 'Gallery Place, DC', rating: 4.3, reviews: 45, cuisine: 'Chicken' },
+  { id: 5, name: 'Thai Orchid', location: 'Georgetown, DC', rating: 4.4, reviews: 16, cuisine: 'Thai' },
+  { id: 6, name: 'Panda Express', location: 'Bethesda, MD', rating: 3.8, reviews: 22, cuisine: 'Chinese' },
+]
 
 export default function Restaurants() {
   const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('all')
-  const [filtered, setFiltered] = useState([...mockItems.restaurants, ...mockItems.products, ...mockItems.services])
+  const [filteredRestaurants, setFilteredRestaurants] = useState(mockRestaurants)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase()
     setSearch(query)
-    updateFiltered(query, category)
-  }
-
-  const handleCategoryChange = (cat: string) => {
-    setCategory(cat)
-    updateFiltered(search, cat)
-  }
-
-  const updateFiltered = (query: string, cat: string) => {
-    let items = []
-    if (cat === 'all') items = [...mockItems.restaurants, ...mockItems.products, ...mockItems.services]
-    else if (cat === 'restaurants') items = mockItems.restaurants
-    else if (cat === 'products') items = mockItems.products
-    else if (cat === 'services') items = mockItems.services
-
-    const result = items.filter(r =>
-      r.name.toLowerCase().includes(query) ||
-      r.location.toLowerCase().includes(query) ||
-      r.category.toLowerCase().includes(query)
+    setFilteredRestaurants(
+      mockRestaurants.filter(r =>
+        r.name.toLowerCase().includes(query) ||
+        r.location.toLowerCase().includes(query) ||
+        r.cuisine.toLowerCase().includes(query)
+      )
     )
-    setFiltered(result)
   }
 
   return (
@@ -79,8 +55,7 @@ export default function Restaurants() {
       {/* Search Section */}
       <section style={{ padding: '8rem 2rem 2rem', background: 'linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '1rem', textAlign: 'center' }}>Discover & Review</h1>
-          <p style={{ textAlign: 'center', color: '#999', marginBottom: '2rem' }}>Restaurants, Products, Services — Find places worth reviewing</p>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '2rem', textAlign: 'center' }}>Find Restaurants</h1>
           
           <div style={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -88,11 +63,11 @@ export default function Restaurants() {
             padding: '1.5rem',
             borderRadius: '1rem',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            marginBottom: '2rem',
+            marginBottom: '3rem',
           }}>
             <input
               type="text"
-              placeholder="Search restaurants, products, services..."
+              placeholder="Search by name, location, or cuisine..."
               value={search}
               onChange={handleSearch}
               style={{
@@ -110,125 +85,55 @@ export default function Restaurants() {
             />
           </div>
 
-          {/* Category Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {['all', 'restaurants', 'products', 'services'].map(cat => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                style={{
-                  padding: '0.5rem 1.5rem',
-                  borderRadius: '9999px',
-                  border: 'none',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  background: category === cat ? '#a855f7' : 'rgba(255, 255, 255, 0.1)',
-                  color: 'white',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={e => {
-                  if (category !== cat) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                }}
-                onMouseLeave={e => {
-                  if (category !== cat) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                }}
-              >
-                {cat === 'all' && '🔥 All'}
-                {cat === 'restaurants' && '🍽️ Restaurants'}
-                {cat === 'products' && '📦 Products'}
-                {cat === 'services' && '🔧 Services'}
-              </button>
-            ))}
-          </div>
-
           {/* Results count */}
           <p style={{ color: '#737373', marginBottom: '2rem' }}>
-            {filtered.length} results found
+            {filteredRestaurants.length} restaurants found
           </p>
 
-          {/* Items Grid - Viral Card Style */}
+          {/* Restaurant Grid */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: '1.5rem',
           }}>
-            {filtered.map(item => (
-              <Link key={item.id} href={`/restaurant/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            {filteredRestaurants.map(restaurant => (
+              <Link key={restaurant.id} href={`/restaurant/${restaurant.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(10px)',
-                    padding: '1rem',
+                    padding: '1.5rem',
                     borderRadius: '1rem',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     height: '100%',
-                    overflow: 'hidden',
-                    position: 'relative',
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
                     e.currentTarget.style.borderColor = '#a855f7'
-                    e.currentTarget.style.transform = 'translateY(-8px)'
-                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(168, 85, 247, 0.2)'
+                    e.currentTarget.style.transform = 'translateY(-4px)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = 'none'
                   }}
                 >
-                  {/* Trending Badge */}
-                  {(item.trending || item.campaign) && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '0.75rem',
-                      right: '0.75rem',
-                      background: item.campaign ? '#ec4899' : '#f59e0b',
-                      color: 'white',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.75rem',
-                      fontWeight: '700',
-                      zIndex: 10,
-                    }}>
-                      {item.campaign ? '🎯 CAMPAIGN' : '🔥 TRENDING'}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
+                    <div>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{restaurant.name}</h3>
+                      <p style={{ color: '#999', fontSize: '0.875rem' }}>{restaurant.location}</p>
                     </div>
-                  )}
-
-                  {/* Image/Emoji */}
-                  <div style={{
-                    fontSize: '3rem',
-                    marginBottom: '0.75rem',
-                    textAlign: 'center',
-                  }}>
-                    {item.image}
-                  </div>
-
-                  {/* Content */}
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{item.name}</h3>
-                  <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{item.location}</p>
-                  
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                     <span style={{ background: '#a855f7', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
-                      ⭐ {item.rating}
+                      ⭐ {restaurant.rating}
                     </span>
-                    <span style={{ color: '#737373', fontSize: '0.875rem' }}>{item.reviews} reviews</span>
                   </div>
-
-                  {/* Campaign Progress Bar */}
-                  {item.campaign && (
-                    <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <div style={{ fontSize: '0.75rem', color: '#ec4899', fontWeight: '700', marginBottom: '0.5rem' }}>
-                        {item.backers} backers 🚀
-                      </div>
-                      <div style={{ background: 'rgba(236, 72, 153, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
-                        <div style={{ background: '#ec4899', height: '100%', width: `${Math.min(100, (item.backers / 3000) * 100)}%` }} />
-                      </div>
-                    </div>
-                  )}
+                  
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
+                    <span style={{ color: '#737373', fontSize: '0.875rem' }}>{restaurant.cuisine}</span>
+                    <span style={{ color: '#737373', fontSize: '0.875rem' }}>{restaurant.reviews} reviews</span>
+                  </div>
                 </div>
               </Link>
             ))}
