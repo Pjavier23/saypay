@@ -3,17 +3,96 @@ import Link from 'next/link'
 
 const mockItems = {
   restaurants: [
-    { id: 1, name: 'Chipotle', location: 'Dupont Circle, DC', rating: 4.2, reviews: 12, category: 'Mexican', image: '🌯', trending: false, campaign: false },
-    { id: 2, name: 'Sweetgreen', location: 'Downtown DC', rating: 4.5, reviews: 28, category: 'Salads', image: '🥗', trending: true, campaign: false },
-    { id: 3, name: 'Shake Shack', location: 'Navy Yard, DC', rating: 4.1, reviews: 19, category: 'Burgers', image: '🍔', trending: false, campaign: false },
-    { id: 4, name: 'Chick-fil-A', location: 'Gallery Place, DC', rating: 4.3, reviews: 45, category: 'Chicken', image: '🍗', trending: true, campaign: false },
+    { 
+      id: 1, 
+      name: 'Chipotle', 
+      location: 'Dupont Circle, DC', 
+      rating: 4.2, 
+      reviews: 12, 
+      category: 'Mexican', 
+      image: 'https://images.unsplash.com/photo-1585238341710-4abb9fd3f2eb?w=400&h=300&fit=crop',
+      emoji: '🌯',
+      trending: false, 
+      campaign: false 
+    },
+    { 
+      id: 2, 
+      name: 'Sweetgreen', 
+      location: 'Downtown DC', 
+      rating: 4.5, 
+      reviews: 28, 
+      category: 'Salads', 
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop',
+      emoji: '🥗',
+      trending: true, 
+      campaign: false 
+    },
+    { 
+      id: 3, 
+      name: 'Shake Shack', 
+      location: 'Navy Yard, DC', 
+      rating: 4.1, 
+      reviews: 19, 
+      category: 'Burgers', 
+      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
+      emoji: '🍔',
+      trending: false, 
+      campaign: false 
+    },
+    { 
+      id: 4, 
+      name: 'Chick-fil-A', 
+      location: 'Gallery Place, DC', 
+      rating: 4.3, 
+      reviews: 45, 
+      category: 'Chicken', 
+      image: 'https://images.unsplash.com/photo-1562547256-ee0e0e7ff5a6?w=400&h=300&fit=crop',
+      emoji: '🍗',
+      trending: true, 
+      campaign: false 
+    },
   ],
   products: [
-    { id: 5, name: 'McRib (Bring Back)', location: 'McDonalds', rating: 4.8, reviews: 2847, category: 'Discontinued', image: '🥪', trending: true, campaign: true, backers: 2847 },
-    { id: 6, name: 'TJs Discontinued Snacks', location: 'Trader Joes', rating: 4.6, reviews: 1203, category: 'Food', image: '🍿', trending: true, campaign: true, backers: 1203 },
+    { 
+      id: 5, 
+      name: 'McRib (Bring Back)', 
+      location: 'McDonalds', 
+      rating: 4.8, 
+      reviews: 2847, 
+      category: 'Discontinued', 
+      image: 'https://images.unsplash.com/photo-1572802419224-7c93d6da16d7?w=400&h=300&fit=crop',
+      emoji: '🥪',
+      trending: true, 
+      campaign: true, 
+      backers: 2847 
+    },
+    { 
+      id: 6, 
+      name: 'TJs Discontinued Snacks', 
+      location: 'Trader Joes', 
+      rating: 4.6, 
+      reviews: 1203, 
+      category: 'Food', 
+      image: 'https://images.unsplash.com/photo-1599599810694-200c7e7f3818?w=400&h=300&fit=crop',
+      emoji: '🍿',
+      trending: true, 
+      campaign: true, 
+      backers: 1203 
+    },
   ],
   services: [
-    { id: 8, name: 'The Barbers Chair', location: 'Arts District', rating: 4.8, reviews: 67, category: 'Barbershop', image: '✂️', trending: false, campaign: false },
+    { 
+      id: 8, 
+      name: 'The Barbers Chair', 
+      location: 'Arts District', 
+      rating: 4.8, 
+      reviews: 67, 
+      category: 'Barbershop', 
+      image: 'https://images.unsplash.com/photo-1621905167918-48416bd8575a?w=400&h=300&fit=crop',
+      emoji: '✂️',
+      trending: false, 
+      campaign: false 
+    },
   ],
 }
 
@@ -187,11 +266,26 @@ export default function Restaurants() {
                   )}
 
                   <div style={{
-                    fontSize: '3rem',
+                    width: '100%',
+                    height: '160px',
                     marginBottom: '0.75rem',
-                    textAlign: 'center',
+                    borderRadius: '0.5rem',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    position: 'relative',
                   }}>
-                    {item.image}
+                    <img 
+                      src={item.image} 
+                      alt={item.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease',
+                      }}
+                      onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseLeave={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+                    />
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{item.name}</h3>

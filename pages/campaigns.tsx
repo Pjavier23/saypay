@@ -14,7 +14,7 @@ const mockCampaigns = [
     trending: true,
     description: 'The McRib is an iconic sandwich that deserves a permanent place on the menu. Help us show McDonald\'s the demand is real.',
     category: 'Food',
-    image: '🥪',
+    image: 'https://images.unsplash.com/photo-1572802419224-7c93d6da16d7?w=500&h=400&fit=crop',
     gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)',
     updates: [
       { date: '2 days ago', text: '🎉 We hit 25K backers! McDonald\'s is listening.' },
@@ -33,7 +33,7 @@ const mockCampaigns = [
     trending: true,
     description: 'Bring back the legendary snack mixes. Sea Salt & Vinegar, BBQ, and the legendary trail mix blend. Trader Joe\'s, we\'re calling you home.',
     category: 'Snacks',
-    image: '🍿',
+    image: 'https://images.unsplash.com/photo-1599599810694-200c7e7f3818?w=500&h=400&fit=crop',
     gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)',
     updates: [
       { date: '3 days ago', text: '📊 Momentum building - 12K backers and counting!' },
@@ -52,7 +52,7 @@ const mockCampaigns = [
     trending: false,
     description: 'Surge defined the 90s energy drink era. It\'s time to bring back the green giant and reclaim our beverage history. Taste the rush again.',
     category: 'Beverage',
-    image: '🥤',
+    image: 'https://images.unsplash.com/photo-1554866585-c4db4d85d5d0?w=500&h=400&fit=crop',
     gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)',
     updates: [
       { date: '1 week ago', text: '🟢 Just launched - spreading the word!' },
@@ -70,7 +70,7 @@ const mockCampaigns = [
     trending: false,
     description: 'The wild, electric blue cola of the early 2000s. Pepsi Blue was ahead of its time. Let\'s show demand still exists.',
     category: 'Beverage',
-    image: '🔵',
+    image: 'https://images.unsplash.com/photo-1554866585-c4db4d85d5d0?w=500&h=400&fit=crop',
     gradient: 'linear-gradient(135deg, #0033FF 0%, #6699FF 100%)',
     updates: [
       { date: '5 days ago', text: '💙 Early supporters coming in strong.' },
@@ -157,15 +157,24 @@ export default function Campaigns() {
                 gap: '3rem',
                 alignItems: 'center',
                 boxShadow: '0 20px 60px rgba(236, 72, 153, 0.2)',
+                overflow: 'hidden',
               }}>
                 <div style={{
-                  fontSize: '6rem',
-                  minWidth: '120px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  minWidth: '200px',
+                  height: '200px',
+                  borderRadius: '1rem',
+                  overflow: 'hidden',
+                  flexShrink: 0,
                 }}>
-                  {featured.image}
+                  <img 
+                    src={featured.image}
+                    alt={featured.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
@@ -321,19 +330,31 @@ export default function Campaigns() {
                     e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
-                  {/* Image/Emoji Header */}
+                  {/* Image Header */}
                   <div style={{
-                    background: campaign.gradient,
-                    padding: '3rem 2rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '5rem',
                     position: 'relative',
                     minHeight: '200px',
-                    boxShadow: `inset 0 -2px 10px rgba(0,0,0,0.3)`,
+                    overflow: 'hidden',
+                    background: campaign.gradient,
                   }}>
-                    {campaign.image}
+                    <img 
+                      src={campaign.image}
+                      alt={campaign.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease',
+                      }}
+                      onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseLeave={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${campaign.gradient} 100%)`,
+                      opacity: 0.3,
+                    }} />
                     {campaign.trending && (
                       <div style={{
                         position: 'absolute',
@@ -347,6 +368,7 @@ export default function Campaigns() {
                         fontWeight: '800',
                         textTransform: 'uppercase',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                        zIndex: 10,
                       }}>
                         🔥 Trending
                       </div>
