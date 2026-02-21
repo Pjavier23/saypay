@@ -53,7 +53,7 @@ export default function Home() {
 
           <h1 className="text-6xl md:text-8xl font-black leading-none mb-6">
             Reviews that<br />
-            <span className="gradient-text">mean something.</span>
+            <span className="gradient-text">actually mean something.</span>
           </h1>
 
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
