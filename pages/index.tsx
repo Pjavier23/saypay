@@ -1,24 +1,16 @@
-'use client'
-
 import { useState } from 'react'
 
 const actions = [
   { icon: '📝', label: 'Verified Review', price: '$0.99', desc: 'Your opinion, backed by skin in the game.' },
-  { icon: '⬆️', label: 'Upvote', price: '$0.99', desc: 'Bring back a dish, product, or idea you love.' },
-  { icon: '💛', label: 'Tip', price: 'Any amount', desc: 'Show a chef or creator real appreciation.' },
-  { icon: '🎯', label: 'Community Campaign', price: '$3.00', desc: 'Rally the crowd around something worth fighting for.' },
+  { icon: '⬆️', label: 'Upvote', price: '$0.99', desc: 'Bring back a dish or product you love.' },
+  { icon: '💛', label: 'Tip Creator', price: 'Any amount', desc: 'Show real appreciation for great work.' },
+  { icon: '🎯', label: 'Community Campaign', price: '$3.00', desc: 'Rally support for something that matters.' },
 ]
 
 const steps = [
-  { step: '01', title: 'Find a business', desc: 'Search any restaurant, brand, or creator on SayPay.' },
-  { step: '02', title: 'Pay to say', desc: 'A small fee ensures you mean every word you write.' },
-  { step: '03', title: 'Build real trust', desc: 'Your review carries weight because it cost something.' },
-]
-
-const stats = [
-  { value: '0%', label: 'Bot reviews possible' },
-  { value: '$0.99', label: 'Lowest barrier to entry' },
-  { value: '100%', label: 'Verified human opinions' },
+  { num: '01', title: 'Find a Business', desc: 'Search restaurants, brands, creators on SayPay.' },
+  { num: '02', title: 'Pay to Share', desc: 'A small fee ensures every word matters.' },
+  { num: '03', title: 'Build Trust', desc: 'Your review carries real weight.' },
 ]
 
 export default function Home() {
@@ -26,50 +18,109 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false)
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-x-hidden" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-
-      {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur px-6 py-4 flex justify-between items-center border-b border-white/10">
-        <span className="text-xl font-bold" style={{
-          background: 'linear-gradient(135deg, #a855f7, #ec4899, #f59e0b)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>SayPay</span>
-        <div className="flex gap-6 items-center text-sm text-gray-400">
-          <a href="#how" className="hover:text-white transition">How it works</a>
-          <a href="#pricing" className="hover:text-white transition">Pricing</a>
-          <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm font-medium transition">
+    <div style={{ background: '#0a0a0a', color: '#fff' }}>
+      {/* Navigation */}
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 50,
+        background: 'rgba(10, 10, 10, 0.8)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '1rem 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          SayPay
+        </span>
+        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', fontSize: '0.875rem', color: '#999' }}>
+          <a href="#how" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>How it works</a>
+          <a href="#pricing" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Pricing</a>
+          <button style={{
+            background: '#9333ea',
+            color: 'white',
+            padding: '0.5rem 1rem',
+            borderRadius: '9999px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: '500',
+          }}>
             Get Early Access
           </button>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
-        {/* Background glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] pointer-events-none" />
+      {/* Hero Section */}
+      <section style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '6rem 1.5rem 2rem',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        {/* Glow effect */}
+        <div style={{
+          position: 'absolute',
+          top: '30%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%)',
+          filter: 'blur(120px)',
+          pointerEvents: 'none',
+        }} />
 
-        <div className="relative z-10 max-w-4xl">
-          <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur px-4 py-2 rounded-full text-sm text-purple-300 mb-8 border border-white/10">
-            <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+        <div style={{ maxWidth: '56rem', position: 'relative', zIndex: 10 }}>
+          {/* Badge */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            padding: '0.5rem 1rem',
+            borderRadius: '9999px',
+            fontSize: '0.875rem',
+            color: '#c084fc',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            marginBottom: '2rem',
+          }}>
+            <span style={{ width: '0.5rem', height: '0.5rem', background: '#a78bfa', borderRadius: '50%', animation: 'pulse 2s ease-in-out infinite' }} />
             The end of fake reviews
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black leading-none mb-6">
+          {/* Hero Headline */}
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            marginBottom: '1.5rem',
+          }}>
             Reviews that<br />
             <span style={{
               background: 'linear-gradient(135deg, #a855f7, #ec4899, #f59e0b)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-            }}>mean something.</span>
+            }}>
+              mean something.
+            </span>
           </h1>
 
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            SayPay charges a small fee to leave a review — making spam economically worthless
-            and every real opinion genuinely valuable.
+          {/* Subheading */}
+          <p style={{ fontSize: '1.25rem', color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto 2.5rem' }}>
+            SayPay charges a small fee to leave a review — making spam economically worthless and every real opinion genuinely valuable.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {/* CTA */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
             {!submitted ? (
               <>
                 <input
@@ -77,106 +128,181 @@ export default function Home() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="bg-white/10 border border-white/20 rounded-full px-6 py-3 text-white placeholder-gray-500 outline-none focus:border-purple-500 w-72"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '9999px',
+                    padding: '0.75rem 1.5rem',
+                    color: 'white',
+                    width: '18rem',
+                    outline: 'none',
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = '#a855f7'}
+                  onBlur={e => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
                 />
                 <button
                   onClick={() => { if (email) setSubmitted(true) }}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold transition"
-                  style={{ boxShadow: '0 0 40px rgba(168,85,247,0.3)' }}
+                  style={{
+                    background: '#9333ea',
+                    color: 'white',
+                    padding: '0.75rem 2rem',
+                    borderRadius: '9999px',
+                    border: 'none',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)',
+                  }}
                 >
                   Get Early Access
                 </button>
               </>
             ) : (
-              <div className="bg-white/5 backdrop-blur px-8 py-3 rounded-full text-purple-300 font-medium border border-white/10">
-                ✅ You're on the list! We'll be in touch.
+              <div style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', padding: '0.75rem 2rem', borderRadius: '9999px', color: '#c084fc', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                ✅ You're on the list!
               </div>
             )}
           </div>
 
           {/* Stats */}
-          <div className="flex gap-12 justify-center mt-16">
-            {stats.map(s => (
-              <div key={s.label} className="text-center">
-                <div className="text-3xl font-black" style={{
+          <div style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '4rem', flexWrap: 'wrap' }}>
+            {[
+              { value: '0%', label: 'Bot reviews' },
+              { value: '$0.99', label: 'Entry fee' },
+              { value: '100%', label: 'Human verified' },
+            ].map((s, i) => (
+              <div key={i} style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontSize: '1.875rem',
+                  fontWeight: 900,
                   background: 'linear-gradient(135deg, #a855f7, #ec4899)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                }}>{s.value}</div>
-                <div className="text-sm text-gray-500 mt-1">{s.label}</div>
+                }}>
+                  {s.value}
+                </div>
+                <div style={{ fontSize: '0.875rem', color: '#737373', marginTop: '0.25rem' }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Problem */}
-      <section className="py-24 px-6 max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-black mb-6">
+      {/* Problem Section */}
+      <section style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem' }}>
           Fake reviews are{' '}
-          <span style={{
-            background: 'linear-gradient(135deg, #a855f7, #ec4899)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>destroying trust.</span>
+          <span style={{ background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            destroying trust.
+          </span>
         </h2>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          Google, Yelp, and Amazon are flooded with bots, paid shills, and competitor sabotage.
-          Nobody knows what to believe. SayPay fixes this with one simple idea:
-          <strong className="text-white"> if it costs something, it means something.</strong>
+        <p style={{ fontSize: '1.125rem', color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
+          Google, Yelp, and Amazon are flooded with bots, paid shills, and competitor sabotage. SayPay fixes this with one idea: <strong>if it costs something, it means something.</strong>
         </p>
       </section>
 
-      {/* Actions / Pricing */}
-      <section id="pricing" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-black text-center mb-4">Every action costs a little.</h2>
-          <p className="text-gray-400 text-center mb-16">That's the point.</p>
+      {/* Pricing Section */}
+      <section id="pricing" style={{ padding: '6rem 1.5rem', background: 'rgba(255, 255, 255, 0.02)' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2.25rem', fontWeight: 900, textAlign: 'center', marginBottom: '1rem' }}>Every action costs a little.</h2>
+          <p style={{ textAlign: 'center', color: '#737373', marginBottom: '4rem' }}>That's the point.</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {actions.map(a => (
-              <div key={a.label} className="bg-white/5 backdrop-blur rounded-2xl p-6 hover:border-purple-500/50 hover:bg-white/10 transition border border-white/10 group">
-                <div className="flex items-start justify-between mb-3">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1.5rem',
+          }}>
+            {actions.map((a, i) => (
+              <div
+                key={i}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '1.5rem',
+                  borderRadius: '1rem',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                  e.currentTarget.style.borderColor = '#a855f7'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                   <div>
-                    <span className="text-3xl">{a.icon}</span>
-                    <h3 className="text-xl font-bold mt-2">{a.label}</h3>
+                    <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{a.icon}</div>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{a.label}</h3>
                   </div>
-                  <span className="text-purple-400 font-black text-2xl">{a.price}</span>
+                  <div style={{ color: '#c084fc', fontWeight: 900, fontSize: '1.5rem' }}>{a.price}</div>
                 </div>
-                <p className="text-gray-400 text-sm">{a.desc}</p>
+                <p style={{ color: '#a3a3a3', fontSize: '0.875rem' }}>{a.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="py-24 px-6 max-w-4xl mx-auto">
-        <h2 className="text-4xl font-black text-center mb-16">How it works</h2>
-        <div className="space-y-8">
-          {steps.map(s => (
-            <div key={s.step} className="flex gap-6 items-start bg-white/5 backdrop-blur rounded-2xl p-6 border border-white/10">
-              <span className="text-purple-500 font-black text-4xl leading-none">{s.step}</span>
+      {/* How It Works */}
+      <section id="how" style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto' }}>
+        <h2 style={{ fontSize: '2.25rem', fontWeight: 900, textAlign: 'center', marginBottom: '4rem' }}>How it works</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {steps.map((s, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                gap: '1.5rem',
+                alignItems: 'flex-start',
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                padding: '1.5rem',
+                borderRadius: '1rem',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+            >
+              <span style={{ color: '#a855f7', fontWeight: 900, fontSize: '2rem', lineHeight: 1 }}>{s.num}</span>
               <div>
-                <h3 className="text-xl font-bold mb-1">{s.title}</h3>
-                <p className="text-gray-400">{s.desc}</p>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{s.title}</h3>
+                <p style={{ color: '#a3a3a3' }}>{s.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Business CTA */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur rounded-3xl p-12 text-center relative overflow-hidden border border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-pink-900/20 pointer-events-none" />
-          <div className="relative z-10">
-            <h2 className="text-4xl font-black mb-4">Are you a business?</h2>
-            <p className="text-gray-400 mb-8 max-w-xl mx-auto">
-              Get real consumer demand data — not vanity metrics. Know exactly what your customers
-              actually want, backed by what they paid to say.
+      {/* B2B CTA */}
+      <section style={{ padding: '6rem 1.5rem' }}>
+        <div style={{
+          maxWidth: '56rem',
+          margin: '0 auto',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '1.5rem',
+          padding: '3rem',
+          textAlign: 'center',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom right, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05))', pointerEvents: 'none' }} />
+          <div style={{ position: 'relative', zIndex: 10 }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '1rem' }}>Are you a business?</h2>
+            <p style={{ color: '#a3a3a3', marginBottom: '2rem', maxWidth: '42rem', margin: '0 auto 2rem' }}>
+              Get real consumer demand data. Know what customers actually want, backed by what they paid to say.
             </p>
-            <button className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+            <button style={{
+              background: 'white',
+              color: 'black',
+              padding: '0.75rem 2rem',
+              borderRadius: '9999px',
+              border: 'none',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}>
               Talk to us about B2B →
             </button>
           </div>
@@ -184,15 +310,12 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-10 px-6 text-center text-gray-600 text-sm">
-        <span className="font-bold text-lg" style={{
-          background: 'linear-gradient(135deg, #a855f7, #ec4899)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>SayPay</span>
-        <p className="mt-2">© 2025 SayPay. Every word means something.</p>
+      <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', padding: '2.5rem 1.5rem', textAlign: 'center', color: '#737373', fontSize: '0.875rem' }}>
+        <span style={{ fontSize: '1.125rem', fontWeight: 700, background: 'linear-gradient(135deg, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          SayPay
+        </span>
+        <p style={{ marginTop: '0.5rem' }}>© 2025 SayPay. Every word means something.</p>
       </footer>
-
-    </main>
+    </div>
   )
 }
