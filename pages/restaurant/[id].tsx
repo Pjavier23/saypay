@@ -65,10 +65,10 @@ const mockRestaurants: { [key: number]: any } = {
 }
 
 const mockReviews = [
-  { id: 1, author: 'Sarah M.', rating: 5, text: 'Amazing fresh ingredients! Best burrito bowl I\'ve had.', date: '2 days ago', paid: true },
-  { id: 2, author: 'James K.', rating: 4, text: 'Good quality, bit pricey. The guac costs extra though.', date: '1 week ago', paid: true },
-  { id: 3, author: 'Maria T.', rating: 5, text: 'Staff is super friendly and efficient. Highly recommend!', date: '2 weeks ago', paid: true },
-  { id: 4, author: 'David L.', rating: 3, text: 'Decent food but the line is always crazy long.', date: '1 month ago', paid: true },
+  { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Amazing fresh ingredients! Best burrito bowl I\'ve had.', date: '2 days ago', paid: true },
+  { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Good quality, but the flavors could be bolder. Still solid though.', date: '1 week ago', paid: true },
+  { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Staff is super friendly and efficient. Highly recommend!', date: '2 weeks ago', paid: true },
+  { id: 4, author: 'David L.', userId: null, rating: 3, text: 'Decent food but the line is always crazy long.', date: '1 month ago', paid: true },
 ]
 
 export default function RestaurantDetail() {
@@ -188,7 +188,13 @@ export default function RestaurantDetail() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
                   <div>
-                    <h3 style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{review.author}</h3>
+                    {review.userId ? (
+                      <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none' }}>
+                        <h3 style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#a855f7', cursor: 'pointer' }}>{review.author}</h3>
+                      </Link>
+                    ) : (
+                      <h3 style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{review.author}</h3>
+                    )}
                     <p style={{ color: '#737373', fontSize: '0.875rem' }}>{review.date}</p>
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
