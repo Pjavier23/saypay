@@ -66,7 +66,10 @@ export default function Home() {
         padding: '6rem 1.5rem 2rem',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(0, 217, 255, 0.05) 50%, #0a0a0a 100%)',
+        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(0, 217, 255, 0.05) 50%, #0a0a0a 100%), url("https://images.unsplash.com/photo-1606787620884-c0cea2c75f6e?w=1600&h=900&fit=crop")',
+        backgroundSize: 'auto, cover',
+        backgroundPosition: 'center, center',
+        backgroundAttachment: 'scroll, fixed',
       }}>
         {/* Animated background elements */}
         <div style={{

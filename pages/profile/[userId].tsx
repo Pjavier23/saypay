@@ -158,7 +158,10 @@ export default function Profile({ userId }: { userId: string }) {
       {/* Profile Hero */}
       <section style={{
         padding: '8rem 2rem 3rem',
-        background: `linear-gradient(180deg, rgba(255, 20, 147, 0.15) 0%, rgba(10, 10, 10, 0) 100%)`,
+        background: `linear-gradient(180deg, rgba(255, 20, 147, 0.2) 0%, rgba(0, 217, 255, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=1600&h=800&fit=crop")`,
+        backgroundSize: 'auto, cover',
+        backgroundPosition: 'center, center',
+        backgroundAttachment: 'scroll, fixed',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>

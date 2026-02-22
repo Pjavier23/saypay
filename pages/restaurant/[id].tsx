@@ -178,7 +178,13 @@ export default function RestaurantDetail() {
       </header>
 
       {/* Restaurant Header */}
-      <section style={{ padding: '8rem 2rem 4rem', background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
+      <section style={{
+        padding: '8rem 2rem 4rem',
+        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.2) 0%, rgba(0, 217, 255, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1504674900769-7c6416e047c6?w=1600&h=800&fit=crop")',
+        backgroundSize: 'auto, cover',
+        backgroundPosition: 'center, center',
+        backgroundAttachment: 'scroll, fixed',
+      }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '3rem' }}>
             <div>
