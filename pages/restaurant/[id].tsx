@@ -235,39 +235,187 @@ export default function RestaurantDetail() {
       </section>
 
       {/* Reviews Section */}
-      <section style={{ padding: '4rem 2rem' }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '3rem' }}>Reviews ({reviews.length})</h2>
+      <section style={{ padding: '4rem 2rem', background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.05) 0%, #0a0a0a 100%)' }}>
+        <div style={{ maxWidth: '70rem', margin: '0 auto' }}>
+          <div style={{ marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '0.5rem' }}>Reviews</h2>
+            <p style={{ color: '#999', fontSize: '1.125rem' }}>
+              <span style={{ color: '#00d9ff', fontWeight: '700' }}>{reviews.length}</span> verified reviews from real customers
+            </p>
+          </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {reviews.map(review => (
               <div
                 key={review.id}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'rgba(255, 255, 255, 0.03)',
                   backdropFilter: 'blur(10px)',
-                  padding: '1.5rem',
-                  borderRadius: '1rem',
+                  padding: '2rem',
+                  borderRadius: '1.5rem',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 8px 32px rgba(0, 217, 255, 0.05)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e: any) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  e.currentTarget.style.borderColor = '#00d9ff'
+                  e.currentTarget.style.boxShadow = '0 12px 48px rgba(0, 217, 255, 0.15)'
+                }}
+                onMouseLeave={(e: any) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 217, 255, 0.05)'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
-                  <div>
-                    {review.userId ? (
-                      <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none' }}>
-                        <h3 style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#ff1493', cursor: 'pointer' }}>{review.author}</h3>
-                      </Link>
-                    ) : (
-                      <h3 style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{review.author}</h3>
-                    )}
-                    <p style={{ color: '#737373', fontSize: '0.875rem' }}>{review.date}</p>
+                {/* Header: Author + Rating */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', flex: 1 }}>
+                    {/* Avatar */}
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.5rem',
+                      flexShrink: 0,
+                    }}>
+                      {review.author.charAt(0)}
+                    </div>
+                    
+                    {/* Author Info */}
+                    <div>
+                      {review.userId ? (
+                        <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none' }}>
+                          <h3 style={{ fontWeight: 800, marginBottom: '0.25rem', color: '#ff1493', cursor: 'pointer', fontSize: '1.125rem' }}>
+                            {review.author}
+                          </h3>
+                        </Link>
+                      ) : (
+                        <h3 style={{ fontWeight: 800, marginBottom: '0.25rem', fontSize: '1.125rem' }}>
+                          {review.author}
+                        </h3>
+                      )}
+                      <p style={{ color: '#999', fontSize: '0.875rem' }}>{review.date}</p>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <span>{'⭐'.repeat(review.rating)}</span>
-                    {review.paid && <span style={{ background: '#39ff14', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.75rem', fontWeight: '600' }}>Verified</span>}
+
+                  {/* Rating Badge */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem' }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                      padding: '0.75rem 1.25rem',
+                      borderRadius: '9999px',
+                      fontWeight: '800',
+                      fontSize: '1.25rem',
+                      color: '#fff',
+                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                    }}>
+                      {'⭐ ' + review.rating.toFixed(1)}
+                    </div>
+                    {review.paid && (
+                      <span style={{
+                        background: '#39ff14',
+                        color: '#000',
+                        padding: '0.35rem 0.85rem',
+                        borderRadius: '0.5rem',
+                        fontSize: '0.75rem',
+                        fontWeight: '800',
+                        textTransform: 'uppercase',
+                      }}>
+                        ✓ Verified
+                      </span>
+                    )}
                   </div>
                 </div>
-                <p style={{ color: '#d1d5db' }}>{review.text}</p>
+
+                {/* Review Text */}
+                <p style={{
+                  color: '#e5e5e5',
+                  fontSize: '1rem',
+                  lineHeight: '1.7',
+                  marginBottom: '1.5rem',
+                  fontWeight: '500',
+                }}>
+                  {review.text}
+                </p>
+
+                {/* Engagement Footer */}
+                <div style={{
+                  display: 'flex',
+                  gap: '1rem',
+                  paddingTop: '1.5rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  <button style={{
+                    background: 'rgba(255, 20, 147, 0.1)',
+                    color: '#ff1493',
+                    border: '1px solid rgba(255, 20, 147, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.2)'
+                    e.currentTarget.style.borderColor = '#ff1493'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 20, 147, 0.3)'
+                  }}>
+                    👍 Helpful (8)
+                  </button>
+                  <button style={{
+                    background: 'rgba(0, 217, 255, 0.1)',
+                    color: '#00d9ff',
+                    border: '1px solid rgba(0, 217, 255, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'
+                    e.currentTarget.style.borderColor = '#00d9ff'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(0, 217, 255, 0.3)'
+                  }}>
+                    💬 Reply
+                  </button>
+                  <button style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: '#999',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem',
+                    marginLeft: 'auto',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                    e.currentTarget.style.color = '#fff'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.color = '#999'
+                  }}>
+                    ⋯ More
+                  </button>
+                </div>
               </div>
             ))}
           </div>
