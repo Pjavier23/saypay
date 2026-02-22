@@ -86,52 +86,52 @@ const mockRestaurants: { [key: number]: any } = {
 
 const reviewsByRestaurant: { [key: number]: any[] } = {
   1: [ // Chipotle
-    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Amazing fresh ingredients! The carnitas burrito bowl is absolutely fire. Best in DC.', date: '2 days ago', paid: true },
-    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Great customization options. My steak bowl was perfectly seasoned. Wish they had more proteins.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'The sofritas are so good. Super fresh veggies and their lime-cilantro rice is perfect.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'David L.', userId: null, rating: 3, text: 'Food is decent but the line is always crazy long during lunch. Maybe come off-peak.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Amazing fresh ingredients! The carnitas burrito bowl is absolutely fire. Best in DC.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Great customization options. My steak bowl was perfectly seasoned. Wish they had more proteins.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'The sofritas are so good. Super fresh veggies and their lime-cilantro rice is perfect.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'David L.', userId: null, rating: 3, text: 'Food is decent but the line is always crazy long during lunch. Maybe come off-peak.', date: '1 month ago', paidTier: 'standard' },
   ],
   2: [ // Sweetgreen
-    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Honestly the best salad bowl in DC. Their dressing is *chef\'s kiss*. Worth every penny.', date: '2 days ago', paid: true },
-    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Super fresh greens and great toppings. The warm grain bowls are solid too. A bit pricey though.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Love how they source local ingredients. The roasted beet salad is incredible.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'Sarah K.', userId: null, rating: 4, text: 'Healthy and tasty. Great for lunch. They move the lines pretty fast.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Honestly the best salad bowl in DC. Their dressing is *chef\'s kiss*. Worth every penny.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Super fresh greens and great toppings. The warm grain bowls are solid too. A bit pricey though.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Love how they source local ingredients. The roasted beet salad is incredible.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'Sarah K.', userId: null, rating: 4, text: 'Healthy and tasty. Great for lunch. They move the lines pretty fast.', date: '1 month ago', paidTier: 'standard' },
   ],
   3: [ // Shake Shack
-    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their ShackBurger is buttery perfection. The brioche bun is perfectly toasted.', date: '2 days ago', paid: true },
-    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Quality beef, crispy fries. A little pricey for a burger but worth it.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Great shakes too! The black and white milkshake is nostalgic and delicious.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'James K.', userId: null, rating: 4, text: 'Consistently good burgers. Friendly staff. Navy Yard location is convenient.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their ShackBurger is buttery perfection. The brioche bun is perfectly toasted.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Quality beef, crispy fries. A little pricey for a burger but worth it.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Great shakes too! The black and white milkshake is nostalgic and delicious.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'James K.', userId: null, rating: 4, text: 'Consistently good burgers. Friendly staff. Navy Yard location is convenient.', date: '1 month ago', paidTier: 'standard' },
   ],
   4: [ // Chick-fil-A
-    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their chicken sandwich is iconic. Perfectly crispy and never dried out. Lemonade is unbeatable.', date: '2 days ago', paid: true },
-    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Fast service, amazing chicken. Spicy chicken sandwich > regular. Both are elite.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Classic fast food done right. Waffle fries are addictive. Consistent quality always.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'Maria T.', userId: null, rating: 5, text: 'Best fast food chicken hands down. Staff is actually nice. Worth the wait.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their chicken sandwich is iconic. Perfectly crispy and never dried out. Lemonade is unbeatable.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Fast service, amazing chicken. Spicy chicken sandwich > regular. Both are elite.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Classic fast food done right. Waffle fries are addictive. Consistent quality always.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'Maria T.', userId: null, rating: 5, text: 'Best fast food chicken hands down. Staff is actually nice. Worth the wait.', date: '1 month ago', paidTier: 'standard' },
   ],
   5: [ // Thai Orchid
-    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paid: true },
-    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paidTier: 'standard' },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paidTier: 'standard' },
   ],
   6: [ // Panda Express
-    { id: 1, author: 'Sarah M.', userId: null, rating: 4, text: 'Great orange chicken. Perfect balance of sweet and spicy. Fast service.', date: '2 days ago', paid: true },
-    { id: 2, author: 'James K.', userId: null, rating: 4, text: 'Solid for what it is. Fried rice is fluffy and flavorful. Good value.', date: '1 week ago', paid: true },
-    { id: 3, author: 'David L.', userId: null, rating: 3, text: 'Decent Asian fusion. Not authentic Thai but hits the spot. Bethesda location is convenient.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'Maria T.', userId: null, rating: 4, text: 'Black pepper angus steak is tasty. Consistent quality across locations.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Sarah M.', userId: null, rating: 4, text: 'Great orange chicken. Perfect balance of sweet and spicy. Fast service.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'James K.', userId: null, rating: 4, text: 'Solid for what it is. Fried rice is fluffy and flavorful. Good value.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'David L.', userId: null, rating: 3, text: 'Decent Asian fusion. Not authentic Thai but hits the spot. Bethesda location is convenient.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'Maria T.', userId: null, rating: 4, text: 'Black pepper angus steak is tasty. Consistent quality across locations.', date: '1 month ago', paidTier: 'standard' },
   ],
   7: [ // Thai Orchid
-    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paid: true },
-    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paidTier: 'standard' },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paidTier: 'standard' },
   ],
   8: [ // Pupatella
-    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Neapolitan pizza perfection. The crust is crispy and charred just right. Margherita is a masterpiece.', date: '2 days ago', paid: true },
-    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Best pizza in DC hands down. Mozzarella di bufala is creamy, sauce is tangy. Worth the wait.', date: '1 week ago', paid: true },
-    { id: 3, author: 'Sarah K.', userId: null, rating: 5, text: 'Authentic Neapolitan style. Each pizza is a work of art. Prices are fair for the quality.', date: '2 weeks ago', paid: true },
-    { id: 4, author: 'James L.', userId: null, rating: 4, text: 'Incredible pizza with beautiful wood-fired char. High quality ingredients shine through.', date: '1 month ago', paid: true },
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Neapolitan pizza perfection. The crust is crispy and charred just right. Margherita is a masterpiece.', date: '2 days ago', paidTier: 'standard' },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Best pizza in DC hands down. Mozzarella di bufala is creamy, sauce is tangy. Worth the wait.', date: '1 week ago', paidTier: 'standard' },
+    { id: 3, author: 'Sarah K.', userId: null, rating: 5, text: 'Authentic Neapolitan style. Each pizza is a work of art. Prices are fair for the quality.', date: '2 weeks ago', paidTier: 'standard' },
+    { id: 4, author: 'James L.', userId: null, rating: 4, text: 'Incredible pizza with beautiful wood-fired char. High quality ingredients shine through.', date: '1 month ago', paidTier: 'standard' },
   ],
 }
 
@@ -240,33 +240,45 @@ export default function RestaurantDetail() {
           <div style={{ marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '0.5rem' }}>Reviews</h2>
             <p style={{ color: '#999', fontSize: '1.125rem' }}>
-              <span style={{ color: '#00d9ff', fontWeight: '700' }}>{reviews.length}</span> verified reviews from real customers
+              <span style={{ color: '#00d9ff', fontWeight: '700' }}>{reviews.length}</span> verified reviews. <span style={{ color: '#ff1493', fontWeight: '700' }}>Paid reviews</span> ranked first — people put their money where their mouth is.
             </p>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {reviews.map(review => (
+            {reviews.sort((a: any, b: any) => {
+              const tierOrder = { premium: 0, standard: 1, free: 2 }
+              return (tierOrder[a.paidTier as keyof typeof tierOrder] || 1) - (tierOrder[b.paidTier as keyof typeof tierOrder] || 1)
+            }).map(review => {
+              const isPremium = review.paidTier === 'premium'
+              const isStandard = review.paidTier === 'standard'
+              const isFree = review.paidTier === 'free'
+              
+              return (
               <div
                 key={review.id}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
+                  background: isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 217, 255, 0.1))' : 'rgba(255, 255, 255, 0.03)',
                   backdropFilter: 'blur(10px)',
                   padding: '2rem',
                   borderRadius: '1.5rem',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: '0 8px 32px rgba(0, 217, 255, 0.05)',
+                  border: isPremium ? '2px solid #ff1493' : '1px solid ' + (isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                  boxShadow: isPremium ? '0 0 30px rgba(255, 20, 147, 0.4), 0 8px 32px rgba(0, 217, 255, 0.1)' : '0 8px 32px rgba(0, 217, 255, ' + (isFree ? '0.02' : '0.05)'),
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
+                  opacity: isFree ? 0.6 : 1,
+                  order: isPremium ? -1 : isStandard ? 0 : 1,
                 }}
                 onMouseEnter={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                  e.currentTarget.style.borderColor = '#00d9ff'
-                  e.currentTarget.style.boxShadow = '0 12px 48px rgba(0, 217, 255, 0.15)'
+                  if (!isFree) {
+                    e.currentTarget.style.background = isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.15), rgba(0, 217, 255, 0.15))' : 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.borderColor = isPremium ? '#ff1493' : '#00d9ff'
+                    e.currentTarget.style.boxShadow = isPremium ? '0 0 40px rgba(255, 20, 147, 0.6), 0 12px 48px rgba(0, 217, 255, 0.2)' : '0 12px 48px rgba(0, 217, 255, 0.15)'
+                  }
                 }}
                 onMouseLeave={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 217, 255, 0.05)'
+                  e.currentTarget.style.background = isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 217, 255, 0.1))' : 'rgba(255, 255, 255, 0.03)'
+                  e.currentTarget.style.borderColor = isPremium ? '#ff1493' : isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                  e.currentTarget.style.boxShadow = isPremium ? '0 0 30px rgba(255, 20, 147, 0.4), 0 8px 32px rgba(0, 217, 255, 0.1)' : '0 8px 32px rgba(0, 217, 255, ' + (isFree ? '0.02)' : '0.05)')
                 }}
               >
                 {/* Header: Author + Rating */}
@@ -317,17 +329,18 @@ export default function RestaurantDetail() {
                     }}>
                       {'⭐ ' + review.rating.toFixed(1)}
                     </div>
-                    {review.paid && (
+                    {review.paidTier !== 'free' && (
                       <span style={{
-                        background: '#39ff14',
-                        color: '#000',
+                        background: review.paidTier === 'premium' ? 'linear-gradient(135deg, #ff1493, #00d9ff)' : '#39ff14',
+                        color: review.paidTier === 'premium' ? '#fff' : '#000',
                         padding: '0.35rem 0.85rem',
                         borderRadius: '0.5rem',
                         fontSize: '0.75rem',
                         fontWeight: '800',
                         textTransform: 'uppercase',
+                        boxShadow: review.paidTier === 'premium' ? '0 0 12px rgba(255, 20, 147, 0.5)' : 'none',
                       }}>
-                        ✓ Verified
+                        {review.paidTier === 'premium' ? '★ Premium' : '✓ Verified'}
                       </span>
                     )}
                   </div>
@@ -417,7 +430,8 @@ export default function RestaurantDetail() {
                   </button>
                 </div>
               </div>
-            ))}
+            )
+            })}
           </div>
 
           {/* CTA */}
