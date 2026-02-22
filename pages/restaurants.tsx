@@ -229,7 +229,7 @@ export default function Restaurants() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -243,7 +243,7 @@ export default function Restaurants() {
       </header>
 
       {/* Search Section */}
-      <section style={{ padding: '8rem 2rem 2rem', background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
+      <section style={{ padding: '8rem 2rem 2rem', background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, rgba(10, 10, 10, 0) 100%)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '1rem', textAlign: 'center' }}>Discover & Review</h1>
           <p style={{ textAlign: 'center', color: '#999', marginBottom: '2rem' }}>Restaurants, Products, Services</p>
@@ -291,7 +291,7 @@ export default function Restaurants() {
                   border: 'none',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  background: category === cat ? '#ff1493' : 'rgba(255, 255, 255, 0.1)',
+                  background: category === cat ? '#ff6b35' : 'rgba(255, 255, 255, 0.1)',
                   color: 'white',
                 }}
               >
@@ -303,16 +303,16 @@ export default function Restaurants() {
               style={{
                 padding: '0.5rem 1.5rem',
                 borderRadius: '9999px',
-                border: '2px solid #00d9ff',
+                border: '2px solid #1dd1dd',
                 fontWeight: '700',
                 cursor: 'pointer',
-                background: userLocation ? '#00d9ff' : 'transparent',
-                color: userLocation ? '#000' : '#00d9ff',
+                background: userLocation ? '#1dd1dd' : 'transparent',
+                color: userLocation ? '#000' : '#1dd1dd',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e: any) => {
                 if (!userLocation) {
-                  e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'
+                  e.currentTarget.style.background = 'rgba(29, 209, 221, 0.2)'
                 }
               }}
               onMouseLeave={(e: any) => {
@@ -352,9 +352,9 @@ export default function Restaurants() {
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.borderColor = '#ff1493'
+                    e.currentTarget.style.borderColor = '#ff6b35'
                     e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(255, 20, 147, 0.25)'
+                    e.currentTarget.style.boxShadow = '0 20px 48px rgba(255, 107, 53, 0.25)'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
@@ -368,7 +368,7 @@ export default function Restaurants() {
                       position: 'absolute',
                       top: '0.75rem',
                       right: '0.75rem',
-                      background: item.campaign ? '#00d9ff' : '#39ff14',
+                      background: item.campaign ? '#1dd1dd' : '#f7dc6f',
                       color: 'white',
                       padding: '0.25rem 0.75rem',
                       borderRadius: '9999px',
@@ -406,13 +406,13 @@ export default function Restaurants() {
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{item.name}</h3>
                   <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '0.5rem' }}>{item.location}</p>
                   {(item as any).distance !== null && (item as any).distance !== undefined && (
-                    <p style={{ color: '#00d9ff', fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem' }}>
+                    <p style={{ color: '#1dd1dd', fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem' }}>
                       📍 {((item as any).distance).toFixed(1)} miles away
                     </p>
                   )}
                   
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ background: '#ff1493', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
+                    <span style={{ background: '#ff6b35', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
                       ⭐ {item.rating}
                     </span>
                     <span style={{ color: '#737373', fontSize: '0.875rem' }}>{item.reviews} reviews</span>
@@ -420,11 +420,11 @@ export default function Restaurants() {
 
                   {item.campaign && (item as any).backers && (
                     <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <div style={{ fontSize: '0.75rem', color: '#00d9ff', fontWeight: '700', marginBottom: '0.5rem' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#1dd1dd', fontWeight: '700', marginBottom: '0.5rem' }}>
                         {(item as any).backers} backers 🚀
                       </div>
-                      <div style={{ background: 'rgba(0, 217, 255, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
-                        <div style={{ background: '#00d9ff', height: '100%', width: `${Math.min(100, ((item as any).backers / 3000) * 100)}%` }} />
+                      <div style={{ background: 'rgba(29, 209, 221, 0.2)', height: '4px', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ background: '#1dd1dd', height: '100%', width: `${Math.min(100, ((item as any).backers / 3000) * 100)}%` }} />
                       </div>
                     </div>
                   )}

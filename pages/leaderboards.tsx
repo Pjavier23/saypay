@@ -86,14 +86,14 @@ export default function Leaderboards() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
           <div style={{ display: 'flex', gap: '1rem' }}>
             <Link href="/" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Home</Link>
             <Link href="/restaurants" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer' }}>Explore</Link>
-            <span style={{ color: '#ff1493', fontWeight: '600' }}>Leaderboards</span>
+            <span style={{ color: '#ff6b35', fontWeight: '600' }}>Leaderboards</span>
           </div>
         </div>
       </header>
@@ -101,7 +101,7 @@ export default function Leaderboards() {
       {/* Hero */}
       <section style={{
         padding: '8rem 2rem 3rem',
-        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.15) 0%, rgba(0, 217, 255, 0.1) 100%)',
+        background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.15) 0%, rgba(29, 209, 221, 0.1) 100%)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', textAlign: 'center' }}>
@@ -125,9 +125,9 @@ export default function Leaderboards() {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: activeTab === tab.id ? '#ff1493' : '#999',
+                  color: activeTab === tab.id ? '#ff6b35' : '#999',
                   padding: '1rem 0',
-                  borderBottom: activeTab === tab.id ? '2px solid #ff1493' : 'none',
+                  borderBottom: activeTab === tab.id ? '2px solid #ff6b35' : 'none',
                   cursor: 'pointer',
                   fontWeight: activeTab === tab.id ? '700' : '400',
                   fontSize: '1rem',
@@ -153,7 +153,7 @@ export default function Leaderboards() {
                     key={range}
                     onClick={() => setTimeRange(range)}
                     style={{
-                      background: timeRange === range ? '#ff1493' : 'rgba(255, 255, 255, 0.05)',
+                      background: timeRange === range ? '#ff6b35' : 'rgba(255, 255, 255, 0.05)',
                       color: '#fff',
                       padding: '0.5rem 1.5rem',
                       borderRadius: '9999px',
@@ -186,7 +186,7 @@ export default function Leaderboards() {
                     }}
                     onMouseEnter={(e: any) => {
                       e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                      e.currentTarget.style.borderColor = '#ff1493'
+                      e.currentTarget.style.borderColor = '#ff6b35'
                       e.currentTarget.style.transform = 'translateX(8px)'
                     }}
                     onMouseLeave={(e: any) => {
@@ -201,7 +201,7 @@ export default function Leaderboards() {
                       fontWeight: '900',
                       width: '60px',
                       textAlign: 'center',
-                      color: idx === 0 ? '#39ff14' : idx === 1 ? '#ff1493' : '#999',
+                      color: idx === 0 ? '#f7dc6f' : idx === 1 ? '#ff6b35' : '#999',
                     }}>
                       {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${reviewer.rank}`}
                     </div>
@@ -212,7 +212,7 @@ export default function Leaderboards() {
                       {reviewer.userId ? (
                         <Link href={`/profile/${reviewer.userId}`} style={{ textDecoration: 'none', color: '#fff' }}>
                           <div style={{ cursor: 'pointer' }}>
-                            <h3 style={{ fontWeight: '700', fontSize: '1.125rem', marginBottom: '0.25rem', color: '#ff1493' }}>
+                            <h3 style={{ fontWeight: '700', fontSize: '1.125rem', marginBottom: '0.25rem', color: '#ff6b35' }}>
                               {reviewer.name}
                             </h3>
                             <p style={{ color: '#999', fontSize: '0.875rem' }}>Trust {reviewer.trustScore}% • {reviewer.reviews} reviews</p>
@@ -231,7 +231,7 @@ export default function Leaderboards() {
                     {/* Stats */}
                     <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', textAlign: 'right' }}>
                       <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#00d9ff' }}>{reviewer.upvotes}</div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#1dd1dd' }}>{reviewer.upvotes}</div>
                         <div style={{ color: '#999', fontSize: '0.75rem' }}>Upvotes</div>
                       </div>
                       <div style={{
@@ -268,7 +268,7 @@ export default function Leaderboards() {
                   }}
                   onMouseEnter={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.borderColor = '#39ff14'
+                    e.currentTarget.style.borderColor = '#f7dc6f'
                   }}
                   onMouseLeave={(e: any) => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
@@ -281,7 +281,7 @@ export default function Leaderboards() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
                         {review.userId ? (
                           <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none', color: '#fff' }}>
-                            <h3 style={{ fontWeight: '700', fontSize: '1.125rem', color: '#ff1493', cursor: 'pointer' }}>
+                            <h3 style={{ fontWeight: '700', fontSize: '1.125rem', color: '#ff6b35', cursor: 'pointer' }}>
                               {review.author}
                             </h3>
                           </Link>
@@ -290,12 +290,12 @@ export default function Leaderboards() {
                             {review.author}
                           </h3>
                         )}
-                        <span style={{ background: '#ff1493', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: '600' }}>
+                        <span style={{ background: '#ff6b35', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: '600' }}>
                           Trust {review.trustScore}%
                         </span>
                       </div>
                       <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                        Reviewed <span style={{ color: '#00d9ff', fontWeight: '600' }}>{review.place}</span> {review.date}
+                        Reviewed <span style={{ color: '#1dd1dd', fontWeight: '600' }}>{review.place}</span> {review.date}
                       </p>
                       <p style={{ color: '#e5e5e5', marginBottom: '1rem', lineHeight: '1.6' }}>{review.text}</p>
                       <div style={{ display: 'flex', gap: '2rem', color: '#999', fontSize: '0.875rem' }}>
@@ -305,7 +305,7 @@ export default function Leaderboards() {
                       </div>
                     </div>
                     <div style={{ textAlign: 'right', minWidth: '80px' }}>
-                      <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#39ff14', marginBottom: '0.5rem' }}>
+                      <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#f7dc6f', marginBottom: '0.5rem' }}>
                         🔥 #{idx + 1}
                       </div>
                       <div style={{ color: '#999', fontSize: '0.75rem' }}>Trending</div>
@@ -347,7 +347,7 @@ export default function Leaderboards() {
                   <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{badge.icon}</div>
                   <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>{badge.name}</h3>
                   <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{badge.description}</p>
-                  <div style={{ padding: '0.75rem', background: 'rgba(255, 20, 147, 0.1)', borderRadius: '0.5rem', color: '#ff1493', fontWeight: '600', fontSize: '0.875rem' }}>
+                  <div style={{ padding: '0.75rem', background: 'rgba(255, 107, 53, 0.1)', borderRadius: '0.5rem', color: '#ff6b35', fontWeight: '600', fontSize: '0.875rem' }}>
                     {badge.members} Members
                   </div>
                 </div>
@@ -360,7 +360,7 @@ export default function Leaderboards() {
       {/* CTA */}
       <section style={{
         padding: '4rem 2rem',
-        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(10, 10, 10, 0) 100%)',
+        background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, rgba(10, 10, 10, 0) 100%)',
         borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         textAlign: 'center',
       }}>
@@ -369,7 +369,7 @@ export default function Leaderboards() {
           <p style={{ color: '#999', marginBottom: '2rem', fontSize: '1.125rem' }}>Start writing reviews and join the top reviewers on SayPay.</p>
           <Link href="/restaurants" style={{ textDecoration: 'none' }}>
             <button style={{
-              background: '#ff1493',
+              background: '#ff6b35',
               color: 'white',
               padding: '1rem 2rem',
               borderRadius: '0.5rem',
@@ -377,7 +377,7 @@ export default function Leaderboards() {
               fontWeight: '700',
               cursor: 'pointer',
               fontSize: '1rem',
-              boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
+              boxShadow: '0 0 40px rgba(255, 107, 53, 0.3)',
             }}>
               Explore & Review
             </button>

@@ -166,7 +166,7 @@ export default function RestaurantDetail() {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -180,7 +180,7 @@ export default function RestaurantDetail() {
       {/* Restaurant Header */}
       <section style={{
         padding: '8rem 2rem 4rem',
-        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.2) 0%, rgba(0, 217, 255, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1504674900769-7c6416e047c6?w=1600&h=800&fit=crop")',
+        background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.2) 0%, rgba(29, 209, 221, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1504674900769-7c6416e047c6?w=1600&h=800&fit=crop")',
         backgroundSize: 'auto, cover',
         backgroundPosition: 'center, center',
         backgroundAttachment: 'scroll, fixed',
@@ -198,7 +198,7 @@ export default function RestaurantDetail() {
             <button
               onClick={handleReview}
               style={{
-                background: '#ff1493',
+                background: '#ff6b35',
                 color: 'white',
                 padding: '1rem 2rem',
                 borderRadius: '0.5rem',
@@ -206,7 +206,7 @@ export default function RestaurantDetail() {
                 fontWeight: '700',
                 cursor: 'pointer',
                 fontSize: '1rem',
-                boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
+                boxShadow: '0 0 40px rgba(255, 107, 53, 0.3)',
               }}
             >
               💬 Write a Review ($0.99)
@@ -241,12 +241,12 @@ export default function RestaurantDetail() {
       </section>
 
       {/* Reviews Section */}
-      <section style={{ padding: '4rem 2rem', background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.05) 0%, #0a0a0a 100%)' }}>
+      <section style={{ padding: '4rem 2rem', background: 'linear-gradient(180deg, rgba(29, 209, 221, 0.05) 0%, #0a0a0a 100%)' }}>
         <div style={{ maxWidth: '70rem', margin: '0 auto' }}>
           <div style={{ marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '0.5rem' }}>Reviews</h2>
             <p style={{ color: '#999', fontSize: '1.125rem' }}>
-              <span style={{ color: '#00d9ff', fontWeight: '700' }}>{reviews.length}</span> verified reviews. <span style={{ color: '#ff1493', fontWeight: '700' }}>Paid reviews</span> ranked first — people put their money where their mouth is.
+              <span style={{ color: '#1dd1dd', fontWeight: '700' }}>{reviews.length}</span> verified reviews. <span style={{ color: '#ff6b35', fontWeight: '700' }}>Paid reviews</span> ranked first — people put their money where their mouth is.
             </p>
           </div>
 
@@ -263,12 +263,12 @@ export default function RestaurantDetail() {
               <div
                 key={review.id}
                 style={{
-                  background: isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 217, 255, 0.1))' : 'rgba(255, 255, 255, 0.03)',
+                  background: isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(29, 209, 221, 0.1))' : 'rgba(255, 255, 255, 0.03)',
                   backdropFilter: 'blur(10px)',
                   padding: '2rem',
                   borderRadius: '1.5rem',
-                  border: isPremium ? '2px solid #ff1493' : '1px solid ' + (isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
-                  boxShadow: isPremium ? '0 0 30px rgba(255, 20, 147, 0.4), 0 8px 32px rgba(0, 217, 255, 0.1)' : '0 8px 32px rgba(0, 217, 255, ' + (isFree ? '0.02' : '0.05)'),
+                  border: isPremium ? '2px solid #ff6b35' : '1px solid ' + (isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                  boxShadow: isPremium ? '0 0 30px rgba(255, 107, 53, 0.4), 0 8px 32px rgba(29, 209, 221, 0.1)' : '0 8px 32px rgba(29, 209, 221, ' + (isFree ? '0.02' : '0.05)'),
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   opacity: isFree ? 0.6 : 1,
@@ -276,15 +276,15 @@ export default function RestaurantDetail() {
                 }}
                 onMouseEnter={(e: any) => {
                   if (!isFree) {
-                    e.currentTarget.style.background = isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.15), rgba(0, 217, 255, 0.15))' : 'rgba(255, 255, 255, 0.05)'
-                    e.currentTarget.style.borderColor = isPremium ? '#ff1493' : '#00d9ff'
-                    e.currentTarget.style.boxShadow = isPremium ? '0 0 40px rgba(255, 20, 147, 0.6), 0 12px 48px rgba(0, 217, 255, 0.2)' : '0 12px 48px rgba(0, 217, 255, 0.15)'
+                    e.currentTarget.style.background = isPremium ? 'linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(29, 209, 221, 0.15))' : 'rgba(255, 255, 255, 0.05)'
+                    e.currentTarget.style.borderColor = isPremium ? '#ff6b35' : '#1dd1dd'
+                    e.currentTarget.style.boxShadow = isPremium ? '0 0 40px rgba(255, 107, 53, 0.6), 0 12px 48px rgba(29, 209, 221, 0.2)' : '0 12px 48px rgba(29, 209, 221, 0.15)'
                   }
                 }}
                 onMouseLeave={(e: any) => {
-                  e.currentTarget.style.background = isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 217, 255, 0.1))' : 'rgba(255, 255, 255, 0.03)'
-                  e.currentTarget.style.borderColor = isPremium ? '#ff1493' : isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'
-                  e.currentTarget.style.boxShadow = isPremium ? '0 0 30px rgba(255, 20, 147, 0.4), 0 8px 32px rgba(0, 217, 255, 0.1)' : '0 8px 32px rgba(0, 217, 255, ' + (isFree ? '0.02)' : '0.05)')
+                  e.currentTarget.style.background = isFree ? 'rgba(255, 255, 255, 0.01)' : isPremium ? 'linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(29, 209, 221, 0.1))' : 'rgba(255, 255, 255, 0.03)'
+                  e.currentTarget.style.borderColor = isPremium ? '#ff6b35' : isFree ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                  e.currentTarget.style.boxShadow = isPremium ? '0 0 30px rgba(255, 107, 53, 0.4), 0 8px 32px rgba(29, 209, 221, 0.1)' : '0 8px 32px rgba(29, 209, 221, ' + (isFree ? '0.02)' : '0.05)')
                 }}
               >
                 {/* Header: Author + Rating */}
@@ -295,7 +295,7 @@ export default function RestaurantDetail() {
                       width: '48px',
                       height: '48px',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                      background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -309,7 +309,7 @@ export default function RestaurantDetail() {
                     <div>
                       {review.userId ? (
                         <Link href={`/profile/${review.userId}`} style={{ textDecoration: 'none' }}>
-                          <h3 style={{ fontWeight: 800, marginBottom: '0.25rem', color: '#ff1493', cursor: 'pointer', fontSize: '1.125rem' }}>
+                          <h3 style={{ fontWeight: 800, marginBottom: '0.25rem', color: '#ff6b35', cursor: 'pointer', fontSize: '1.125rem' }}>
                             {review.author}
                           </h3>
                         </Link>
@@ -325,7 +325,7 @@ export default function RestaurantDetail() {
                   {/* Rating Badge */}
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem' }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                      background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)',
                       padding: '0.75rem 1.25rem',
                       borderRadius: '9999px',
                       fontWeight: '800',
@@ -337,14 +337,14 @@ export default function RestaurantDetail() {
                     </div>
                     {review.paidTier !== 'free' && (
                       <span style={{
-                        background: review.paidTier === 'premium' ? 'linear-gradient(135deg, #ff1493, #00d9ff)' : '#39ff14',
+                        background: review.paidTier === 'premium' ? 'linear-gradient(135deg, #ff6b35, #1dd1dd)' : '#f7dc6f',
                         color: review.paidTier === 'premium' ? '#fff' : '#000',
                         padding: '0.35rem 0.85rem',
                         borderRadius: '0.5rem',
                         fontSize: '0.75rem',
                         fontWeight: '800',
                         textTransform: 'uppercase',
-                        boxShadow: review.paidTier === 'premium' ? '0 0 12px rgba(255, 20, 147, 0.5)' : 'none',
+                        boxShadow: review.paidTier === 'premium' ? '0 0 12px rgba(255, 107, 53, 0.5)' : 'none',
                       }}>
                         {review.paidTier === 'premium' ? '★ Premium' : '✓ Verified'}
                       </span>
@@ -371,9 +371,9 @@ export default function RestaurantDetail() {
                   borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                 }}>
                   <button style={{
-                    background: 'rgba(255, 20, 147, 0.1)',
-                    color: '#ff1493',
-                    border: '1px solid rgba(255, 20, 147, 0.3)',
+                    background: 'rgba(255, 107, 53, 0.1)',
+                    color: '#ff6b35',
+                    border: '1px solid rgba(255, 107, 53, 0.3)',
                     padding: '0.5rem 1rem',
                     borderRadius: '0.5rem',
                     fontWeight: '600',
@@ -382,19 +382,19 @@ export default function RestaurantDetail() {
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.2)'
-                    e.currentTarget.style.borderColor = '#ff1493'
+                    e.currentTarget.style.background = 'rgba(255, 107, 53, 0.2)'
+                    e.currentTarget.style.borderColor = '#ff6b35'
                   }}
                   onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(255, 20, 147, 0.3)'
+                    e.currentTarget.style.background = 'rgba(255, 107, 53, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 107, 53, 0.3)'
                   }}>
                     👍 Helpful (8)
                   </button>
                   <button style={{
-                    background: 'rgba(0, 217, 255, 0.1)',
-                    color: '#00d9ff',
-                    border: '1px solid rgba(0, 217, 255, 0.3)',
+                    background: 'rgba(29, 209, 221, 0.1)',
+                    color: '#1dd1dd',
+                    border: '1px solid rgba(29, 209, 221, 0.3)',
                     padding: '0.5rem 1rem',
                     borderRadius: '0.5rem',
                     fontWeight: '600',
@@ -403,12 +403,12 @@ export default function RestaurantDetail() {
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'
-                    e.currentTarget.style.borderColor = '#00d9ff'
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.2)'
+                    e.currentTarget.style.borderColor = '#1dd1dd'
                   }}
                   onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 217, 255, 0.3)'
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(29, 209, 221, 0.3)'
                   }}>
                     💬 Reply
                   </button>
@@ -455,7 +455,7 @@ export default function RestaurantDetail() {
             <button
               onClick={handleReview}
               style={{
-                background: '#ff1493',
+                background: '#ff6b35',
                 color: 'white',
                 padding: '1rem 2rem',
                 borderRadius: '0.5rem',
@@ -463,7 +463,7 @@ export default function RestaurantDetail() {
                 fontWeight: '700',
                 cursor: 'pointer',
                 fontSize: '1rem',
-                boxShadow: '0 0 40px rgba(255, 20, 147, 0.3)',
+                boxShadow: '0 0 40px rgba(255, 107, 53, 0.3)',
               }}
             >
               Write a Review for $0.99

@@ -122,7 +122,7 @@ export default function Profile({ userId }: { userId: string }) {
     return (
       <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
         <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>User Not Found</h1>
-        <Link href="/restaurants" style={{ color: '#ff1493', textDecoration: 'none' }}>
+        <Link href="/restaurants" style={{ color: '#ff6b35', textDecoration: 'none' }}>
           ← Back to Explore
         </Link>
       </div>
@@ -144,7 +144,7 @@ export default function Profile({ userId }: { userId: string }) {
       }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff1493, #00d9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
               SayPay
             </span>
           </Link>
@@ -158,7 +158,7 @@ export default function Profile({ userId }: { userId: string }) {
       {/* Profile Hero */}
       <section style={{
         padding: '8rem 2rem 3rem',
-        background: `linear-gradient(180deg, rgba(255, 20, 147, 0.2) 0%, rgba(0, 217, 255, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=1600&h=800&fit=crop")`,
+        background: `linear-gradient(180deg, rgba(255, 107, 53, 0.2) 0%, rgba(29, 209, 221, 0.1) 50%, rgba(10, 10, 10, 0) 100%), url("https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=1600&h=800&fit=crop")`,
         backgroundSize: 'auto, cover',
         backgroundPosition: 'center, center',
         backgroundAttachment: 'scroll, fixed',
@@ -173,9 +173,9 @@ export default function Profile({ userId }: { userId: string }) {
             justifyContent: 'center',
             width: '120px',
             height: '120px',
-            background: 'rgba(255, 20, 147, 0.2)',
+            background: 'rgba(255, 107, 53, 0.2)',
             borderRadius: '50%',
-            border: '2px solid #ff1493',
+            border: '2px solid #ff6b35',
             flexShrink: 0,
           }}>
             {user.avatar}
@@ -186,7 +186,7 @@ export default function Profile({ userId }: { userId: string }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
               <h1 style={{ fontSize: '2rem', fontWeight: 900, margin: 0 }}>{user.name}</h1>
               <span style={{
-                background: user.level === 'Gold' ? '#39ff14' : '#6b7280',
+                background: user.level === 'Gold' ? '#f7dc6f' : '#6b7280',
                 color: '#000',
                 padding: '0.25rem 0.75rem',
                 borderRadius: '9999px',
@@ -211,7 +211,7 @@ export default function Profile({ userId }: { userId: string }) {
               width: 'fit-content',
             }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.75rem', fontWeight: '900', color: '#ff1493' }}>{user.trustScore}%</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: '900', color: '#ff6b35' }}>{user.trustScore}%</div>
                 <div style={{ fontSize: '0.75rem', color: '#999' }}>Trust Score</div>
               </div>
               <div style={{ width: '1px', height: '40px', background: 'rgba(255, 255, 255, 0.1)' }} />
@@ -233,26 +233,26 @@ export default function Profile({ userId }: { userId: string }) {
             gap: '1.5rem',
           }}>
             <div style={{
-              background: 'rgba(255, 20, 147, 0.1)',
+              background: 'rgba(255, 107, 53, 0.1)',
               padding: '1.5rem',
               borderRadius: '1rem',
-              border: '1px solid rgba(255, 20, 147, 0.3)',
+              border: '1px solid rgba(255, 107, 53, 0.3)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#ff1493', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#ff6b35', marginBottom: '0.5rem' }}>
                 {user.stats.reviewsWritten}
               </div>
               <div style={{ fontSize: '0.875rem', color: '#999' }}>Reviews Written</div>
             </div>
 
             <div style={{
-              background: 'rgba(0, 217, 255, 0.1)',
+              background: 'rgba(29, 209, 221, 0.1)',
               padding: '1.5rem',
               borderRadius: '1rem',
-              border: '1px solid rgba(0, 217, 255, 0.3)',
+              border: '1px solid rgba(29, 209, 221, 0.3)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#00d9ff', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#1dd1dd', marginBottom: '0.5rem' }}>
                 {user.stats.upvotesReceived}
               </div>
               <div style={{ fontSize: '0.875rem', color: '#999' }}>Upvotes Received</div>
@@ -265,7 +265,7 @@ export default function Profile({ userId }: { userId: string }) {
               border: '1px solid rgba(245, 158, 11, 0.3)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#39ff14', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '2rem', fontWeight: '900', color: '#f7dc6f', marginBottom: '0.5rem' }}>
                 ${user.stats.moneySpent}
               </div>
               <div style={{ fontSize: '0.875rem', color: '#999' }}>Total Spent</div>
@@ -311,7 +311,7 @@ export default function Profile({ userId }: { userId: string }) {
                 }}
                 onMouseEnter={(e: any) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                  e.currentTarget.style.borderColor = '#ff1493'
+                  e.currentTarget.style.borderColor = '#ff6b35'
                   e.currentTarget.style.transform = 'translateY(-4px)'
                 }}
                 onMouseLeave={(e: any) => {
@@ -330,7 +330,7 @@ export default function Profile({ userId }: { userId: string }) {
       </section>
 
       {/* Recent Reviews */}
-      <section style={{ padding: '3rem 2rem', background: 'linear-gradient(180deg, rgba(0, 217, 255, 0.05) 0%, #0a0a0a 100%)' }}>
+      <section style={{ padding: '3rem 2rem', background: 'linear-gradient(180deg, rgba(29, 209, 221, 0.05) 0%, #0a0a0a 100%)' }}>
         <div style={{ maxWidth: '70rem', margin: '0 auto' }}>
           <h2 style={{ fontSize: '2rem', fontWeight: '900', marginBottom: '2rem' }}>Verified Reviews</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -343,19 +343,19 @@ export default function Profile({ userId }: { userId: string }) {
                   padding: '1.75rem',
                   borderRadius: '1.25rem',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: '0 8px 32px rgba(0, 217, 255, 0.05)',
+                  boxShadow: '0 8px 32px rgba(29, 209, 221, 0.05)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={(e: any) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                  e.currentTarget.style.borderColor = '#00d9ff'
-                  e.currentTarget.style.boxShadow = '0 12px 48px rgba(0, 217, 255, 0.15)'
+                  e.currentTarget.style.borderColor = '#1dd1dd'
+                  e.currentTarget.style.boxShadow = '0 12px 48px rgba(29, 209, 221, 0.15)'
                 }}
                 onMouseLeave={(e: any) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 217, 255, 0.05)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(29, 209, 221, 0.05)'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
@@ -366,7 +366,7 @@ export default function Profile({ userId }: { userId: string }) {
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                     {review.trending && (
                       <span style={{
-                        background: 'linear-gradient(135deg, #39ff14, #00d9ff)',
+                        background: 'linear-gradient(135deg, #f7dc6f, #1dd1dd)',
                         color: '#000',
                         padding: '0.4rem 0.9rem',
                         borderRadius: '9999px',
@@ -378,7 +378,7 @@ export default function Profile({ userId }: { userId: string }) {
                       </span>
                     )}
                     <div style={{
-                      background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                      background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)',
                       padding: '0.6rem 1rem',
                       borderRadius: '0.5rem',
                       fontSize: '1rem',
@@ -397,9 +397,9 @@ export default function Profile({ userId }: { userId: string }) {
                   borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                 }}>
                   <button style={{
-                    background: 'rgba(255, 20, 147, 0.1)',
-                    color: '#ff1493',
-                    border: '1px solid rgba(255, 20, 147, 0.3)',
+                    background: 'rgba(255, 107, 53, 0.1)',
+                    color: '#ff6b35',
+                    border: '1px solid rgba(255, 107, 53, 0.3)',
                     padding: '0.5rem 1rem',
                     borderRadius: '0.5rem',
                     fontWeight: '600',
@@ -408,19 +408,19 @@ export default function Profile({ userId }: { userId: string }) {
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.2)'
-                    e.currentTarget.style.borderColor = '#ff1493'
+                    e.currentTarget.style.background = 'rgba(255, 107, 53, 0.2)'
+                    e.currentTarget.style.borderColor = '#ff6b35'
                   }}
                   onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 20, 147, 0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(255, 20, 147, 0.3)'
+                    e.currentTarget.style.background = 'rgba(255, 107, 53, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 107, 53, 0.3)'
                   }}>
                     👍 {review.upvotes} Helpful
                   </button>
                   <button style={{
-                    background: 'rgba(0, 217, 255, 0.1)',
-                    color: '#00d9ff',
-                    border: '1px solid rgba(0, 217, 255, 0.3)',
+                    background: 'rgba(29, 209, 221, 0.1)',
+                    color: '#1dd1dd',
+                    border: '1px solid rgba(29, 209, 221, 0.3)',
                     padding: '0.5rem 1rem',
                     borderRadius: '0.5rem',
                     fontWeight: '600',
@@ -429,12 +429,12 @@ export default function Profile({ userId }: { userId: string }) {
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'
-                    e.currentTarget.style.borderColor = '#00d9ff'
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.2)'
+                    e.currentTarget.style.borderColor = '#1dd1dd'
                   }}
                   onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(0, 217, 255, 0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 217, 255, 0.3)'
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(29, 209, 221, 0.3)'
                   }}>
                     💬 Reply
                   </button>
