@@ -345,6 +345,114 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Trending Restaurants */}
+      <section style={{
+        padding: '6rem 1.5rem',
+        background: 'linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(57, 255, 20, 0.05) 100%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 900, marginBottom: '1rem' }}>🔥 Trending Now</h2>
+            <p style={{ color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
+              The most-reviewed restaurants in DC right now. What's everyone talking about?
+            </p>
+          </div>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1.5rem',
+          }}>
+            {[
+              { name: 'Pupatella', rating: 4.6, reviews: 52, image: 'https://images.unsplash.com/photo-1606787620884-c0cea2c75f6e?w=300&h=200&fit=crop', emoji: '🍕' },
+              { name: 'Thai Orchid', rating: 4.4, reviews: 34, image: 'https://images.unsplash.com/photo-1562126f-d41efdfb9d1d?w=300&h=200&fit=crop', emoji: '🍜' },
+              { name: 'Sweetgreen', rating: 4.5, reviews: 28, image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop', emoji: '🥗' },
+              { name: 'Chick-fil-A', rating: 4.3, reviews: 45, image: 'https://images.unsplash.com/photo-1562547256-ee0e0e7ff5a6?w=300&h=200&fit=crop', emoji: '🍗' },
+            ].map((rest, idx) => (
+              <div
+                key={idx}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '1.25rem',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  overflow: 'hidden',
+                  transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                }}
+                onMouseEnter={(e: any) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                  e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = '0 20px 48px rgba(255, 20, 147, 0.25)'
+                  e.currentTarget.style.borderColor = '#ff1493'
+                }}
+                onMouseLeave={(e: any) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div style={{
+                  height: '140px',
+                  overflow: 'hidden',
+                  background: '#1a1a1a',
+                  position: 'relative',
+                }}>
+                  <img 
+                    src={rest.image}
+                    alt={rest.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease',
+                    }}
+                    onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.1)'}
+                    onMouseLeave={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                </div>
+                <div style={{ padding: '1.25rem' }}>
+                  <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>{rest.name}</h3>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#ff1493', fontWeight: '600' }}>⭐ {rest.rating}</span>
+                    <span style={{ color: '#00d9ff', fontWeight: '600' }}>{rest.reviews} reviews</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <Link href="/restaurants" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: 'linear-gradient(135deg, #ff1493, #00d9ff)',
+                color: 'white',
+                padding: '0.85rem 2.5rem',
+                borderRadius: '9999px',
+                border: 'none',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 8px 32px rgba(255, 20, 147, 0.4)',
+                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
+              onMouseEnter={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
+                e.currentTarget.style.boxShadow = '0 12px 48px rgba(255, 20, 147, 0.6)'
+              }}
+              onMouseLeave={(e: any) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 20, 147, 0.4)'
+              }}>
+                Explore All Restaurants →
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Campaigns */}
       <section style={{
         padding: '6rem 1.5rem',

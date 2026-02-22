@@ -13,7 +13,10 @@ const mockItems = {
       image: 'https://images.unsplash.com/photo-1585238341710-4abb9fd3f2eb?w=400&h=300&fit=crop',
       emoji: '🌯',
       trending: false, 
-      campaign: false 
+      campaign: false,
+      lat: 38.9083,
+      lng: -77.0441,
+      distance: null
     },
     { 
       id: 2, 
@@ -25,7 +28,10 @@ const mockItems = {
       image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop',
       emoji: '🥗',
       trending: true, 
-      campaign: false 
+      campaign: false,
+      lat: 38.8951,
+      lng: -77.0369,
+      distance: null
     },
     { 
       id: 3, 
@@ -37,7 +43,10 @@ const mockItems = {
       image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
       emoji: '🍔',
       trending: false, 
-      campaign: false 
+      campaign: false,
+      lat: 38.8799,
+      lng: -77.0269,
+      distance: null
     },
     { 
       id: 4, 
@@ -49,7 +58,40 @@ const mockItems = {
       image: 'https://images.unsplash.com/photo-1562547256-ee0e0e7ff5a6?w=400&h=300&fit=crop',
       emoji: '🍗',
       trending: true, 
-      campaign: false 
+      campaign: false,
+      lat: 38.8979,
+      lng: -77.0209,
+      distance: null
+    },
+    {
+      id: 7,
+      name: 'Thai Orchid',
+      location: 'Georgetown, DC',
+      rating: 4.4,
+      reviews: 34,
+      category: 'Thai',
+      image: 'https://images.unsplash.com/photo-1562126f-d41efdfb9d1d?w=400&h=300&fit=crop',
+      emoji: '🍜',
+      trending: true,
+      campaign: false,
+      lat: 38.9072,
+      lng: -77.0737,
+      distance: null
+    },
+    {
+      id: 8,
+      name: 'Pupatella',
+      location: 'Navy Yard, DC',
+      rating: 4.6,
+      reviews: 52,
+      category: 'Pizza',
+      image: 'https://images.unsplash.com/photo-1606787620884-c0cea2c75f6e?w=400&h=300&fit=crop',
+      emoji: '🍕',
+      trending: true,
+      campaign: false,
+      lat: 38.8780,
+      lng: -77.0260,
+      distance: null
     },
   ],
   products: [
@@ -100,6 +142,8 @@ export default function Restaurants() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
   const [filtered, setFiltered] = useState([...mockItems.restaurants, ...mockItems.products, ...mockItems.services])
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
+  const [sortByDistance, setSortByDistance] = useState(false)
 
   const handleSearch = (e: any) => {
     const query = e.target.value.toLowerCase()
@@ -112,6 +156,39 @@ export default function Restaurants() {
     updateFiltered(search, cat)
   }
 
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    const R = 3959 // Earth's radius in miles
+    const dLat = (lat2 - lat1) * Math.PI / 180
+    const dLon = (lon2 - lon1) * Math.PI / 180
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+  }
+
+  const getNearbyRestaurants = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation not supported')
+      return
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const loc = { lat: position.coords.latitude, lng: position.coords.longitude }
+        setUserLocation(loc)
+        setSortByDistance(true)
+        
+        // Calculate distances for all restaurants
+        mockItems.restaurants.forEach(r => {
+          if (r.lat && r.lng) {
+            r.distance = calculateDistance(loc.lat, loc.lng, r.lat, r.lng)
+          }
+        })
+      },
+      () => alert('Could not get your location')
+    )
+  }
+
   const updateFiltered = (query: string, cat: string) => {
     let items: any[] = []
     if (cat === 'all') items = [...mockItems.restaurants, ...mockItems.products, ...mockItems.services]
@@ -119,11 +196,21 @@ export default function Restaurants() {
     else if (cat === 'products') items = mockItems.products
     else if (cat === 'services') items = mockItems.services
 
-    const result = items.filter(r =>
+    let result = items.filter(r =>
       r.name.toLowerCase().includes(query) ||
       r.location.toLowerCase().includes(query) ||
       r.category.toLowerCase().includes(query)
     )
+
+    // Sort by distance if enabled
+    if (sortByDistance && userLocation) {
+      result = result.sort((a: any, b: any) => {
+        const distA = a.distance ?? 999
+        const distB = b.distance ?? 999
+        return distA - distB
+      })
+    }
+
     setFiltered(result)
   }
 
@@ -187,8 +274,8 @@ export default function Restaurants() {
             />
           </div>
 
-          {/* Category Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {/* Category Buttons + Near Me */}
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
             {[
               { cat: 'all', label: '🔥 All' },
               { cat: 'restaurants', label: '🍽️ Restaurants' },
@@ -211,6 +298,31 @@ export default function Restaurants() {
                 {label}
               </button>
             ))}
+            <button
+              onClick={getNearbyRestaurants}
+              style={{
+                padding: '0.5rem 1.5rem',
+                borderRadius: '9999px',
+                border: '2px solid #00d9ff',
+                fontWeight: '700',
+                cursor: 'pointer',
+                background: userLocation ? '#00d9ff' : 'transparent',
+                color: userLocation ? '#000' : '#00d9ff',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e: any) => {
+                if (!userLocation) {
+                  e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'
+                }
+              }}
+              onMouseLeave={(e: any) => {
+                if (!userLocation) {
+                  e.currentTarget.style.background = 'transparent'
+                }
+              }}
+            >
+              📍 Near Me {userLocation && '✓'}
+            </button>
           </div>
 
           <p style={{ color: '#737373', marginBottom: '2rem' }}>
@@ -292,7 +404,12 @@ export default function Restaurants() {
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{item.name}</h3>
-                  <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{item.location}</p>
+                  <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '0.5rem' }}>{item.location}</p>
+                  {(item as any).distance !== null && (item as any).distance !== undefined && (
+                    <p style={{ color: '#00d9ff', fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem' }}>
+                      📍 {((item as any).distance).toFixed(1)} miles away
+                    </p>
+                  )}
                   
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ background: '#ff1493', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>
