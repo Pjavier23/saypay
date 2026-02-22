@@ -62,19 +62,84 @@ const mockRestaurants: { [key: number]: any } = {
     hours: 'Mon-Sun 10:30 AM - 9:00 PM',
     phone: '(301) 555-0128',
   },
+  7: {
+    id: 7,
+    name: 'Thai Orchid',
+    location: 'Georgetown, DC',
+    rating: 4.4,
+    cuisine: 'Thai',
+    address: '3241 M St NW, Washington, DC 20007',
+    hours: 'Mon-Sun 11:30 AM - 10:30 PM',
+    phone: '(202) 555-0129',
+  },
+  8: {
+    id: 8,
+    name: 'Pupatella',
+    location: 'Navy Yard, DC',
+    rating: 4.6,
+    cuisine: 'Pizza',
+    address: '1250 Van St SE, Washington, DC 20003',
+    hours: 'Mon-Sun 12:00 PM - 11:00 PM',
+    phone: '(202) 555-0130',
+  },
 }
 
-const mockReviews = [
-  { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Amazing fresh ingredients! Best burrito bowl I\'ve had.', date: '2 days ago', paid: true },
-  { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Good quality, but the flavors could be bolder. Still solid though.', date: '1 week ago', paid: true },
-  { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Staff is super friendly and efficient. Highly recommend!', date: '2 weeks ago', paid: true },
-  { id: 4, author: 'David L.', userId: null, rating: 3, text: 'Decent food but the line is always crazy long.', date: '1 month ago', paid: true },
-]
+const reviewsByRestaurant: { [key: number]: any[] } = {
+  1: [ // Chipotle
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Amazing fresh ingredients! The carnitas burrito bowl is absolutely fire. Best in DC.', date: '2 days ago', paid: true },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Great customization options. My steak bowl was perfectly seasoned. Wish they had more proteins.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'The sofritas are so good. Super fresh veggies and their lime-cilantro rice is perfect.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'David L.', userId: null, rating: 3, text: 'Food is decent but the line is always crazy long during lunch. Maybe come off-peak.', date: '1 month ago', paid: true },
+  ],
+  2: [ // Sweetgreen
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Honestly the best salad bowl in DC. Their dressing is *chef\'s kiss*. Worth every penny.', date: '2 days ago', paid: true },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Super fresh greens and great toppings. The warm grain bowls are solid too. A bit pricey though.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Love how they source local ingredients. The roasted beet salad is incredible.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'Sarah K.', userId: null, rating: 4, text: 'Healthy and tasty. Great for lunch. They move the lines pretty fast.', date: '1 month ago', paid: true },
+  ],
+  3: [ // Shake Shack
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their ShackBurger is buttery perfection. The brioche bun is perfectly toasted.', date: '2 days ago', paid: true },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 4, text: 'Quality beef, crispy fries. A little pricey for a burger but worth it.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Great shakes too! The black and white milkshake is nostalgic and delicious.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'James K.', userId: null, rating: 4, text: 'Consistently good burgers. Friendly staff. Navy Yard location is convenient.', date: '1 month ago', paid: true },
+  ],
+  4: [ // Chick-fil-A
+    { id: 1, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Their chicken sandwich is iconic. Perfectly crispy and never dried out. Lemonade is unbeatable.', date: '2 days ago', paid: true },
+    { id: 2, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Fast service, amazing chicken. Spicy chicken sandwich > regular. Both are elite.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 4, text: 'Classic fast food done right. Waffle fries are addictive. Consistent quality always.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'Maria T.', userId: null, rating: 5, text: 'Best fast food chicken hands down. Staff is actually nice. Worth the wait.', date: '1 month ago', paid: true },
+  ],
+  5: [ // Thai Orchid
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paid: true },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paid: true },
+  ],
+  6: [ // Panda Express
+    { id: 1, author: 'Sarah M.', userId: null, rating: 4, text: 'Great orange chicken. Perfect balance of sweet and spicy. Fast service.', date: '2 days ago', paid: true },
+    { id: 2, author: 'James K.', userId: null, rating: 4, text: 'Solid for what it is. Fried rice is fluffy and flavorful. Good value.', date: '1 week ago', paid: true },
+    { id: 3, author: 'David L.', userId: null, rating: 3, text: 'Decent Asian fusion. Not authentic Thai but hits the spot. Bethesda location is convenient.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'Maria T.', userId: null, rating: 4, text: 'Black pepper angus steak is tasty. Consistent quality across locations.', date: '1 month ago', paid: true },
+  ],
+  7: [ // Thai Orchid
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.', date: '1 day ago', paid: true },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 4, text: 'Great red curry and pad thai. Portion sizes are generous. Georgetown location is beautiful.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Alice Chen', userId: 'alice', rating: 5, text: 'Green curry was amazing. Fresh basil and coconut milk balanced perfectly.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'Tom L.', userId: null, rating: 4, text: 'Delicious authentic Thai. Can get crowded on weekends but worth it.', date: '1 month ago', paid: true },
+  ],
+  8: [ // Pupatella
+    { id: 1, author: 'Marcus Williams', userId: 'marcus', rating: 5, text: 'Neapolitan pizza perfection. The crust is crispy and charred just right. Margherita is a masterpiece.', date: '2 days ago', paid: true },
+    { id: 2, author: 'Pedro Guerrero', userId: 'pedro', rating: 5, text: 'Best pizza in DC hands down. Mozzarella di bufala is creamy, sauce is tangy. Worth the wait.', date: '1 week ago', paid: true },
+    { id: 3, author: 'Sarah K.', userId: null, rating: 5, text: 'Authentic Neapolitan style. Each pizza is a work of art. Prices are fair for the quality.', date: '2 weeks ago', paid: true },
+    { id: 4, author: 'James L.', userId: null, rating: 4, text: 'Incredible pizza with beautiful wood-fired char. High quality ingredients shine through.', date: '1 month ago', paid: true },
+  ],
+}
 
 export default function RestaurantDetail() {
   const router = useRouter()
   const { id } = router.query
   const restaurant = id ? mockRestaurants[parseInt(id as string)] : null
+  const reviews = id ? reviewsByRestaurant[parseInt(id as string)] || [] : []
 
   if (!restaurant) {
     return <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>
@@ -172,10 +237,10 @@ export default function RestaurantDetail() {
       {/* Reviews Section */}
       <section style={{ padding: '4rem 2rem' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '3rem' }}>Reviews ({mockReviews.length})</h2>
+          <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '3rem' }}>Reviews ({reviews.length})</h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            {mockReviews.map(review => (
+            {reviews.map(review => (
               <div
                 key={review.id}
                 style={{
