@@ -1,428 +1,344 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-const actions = [
-  { icon: '📝', label: 'Verified Review', price: '$0.99', desc: 'Your opinion, backed by skin in the game.' },
-  { icon: '⬆️', label: 'Upvote', price: '$0.99', desc: 'Bring back a dish or product you love.' },
-  { icon: '💛', label: 'Tip Creator', price: 'Any amount', desc: 'Show real appreciation for great work.' },
-  { icon: '🎯', label: 'Community Campaign', price: '$3.00', desc: 'Rally support for something that matters.' },
-]
+export default function NewHome() {
+  const [userStats] = useState({
+    reviewsWritten: 14,
+    peopleReached: 4203,
+    moneySpent: 27.86,
+    followers: 47,
+    mostHelpfulReview: 'Sweetgreen has the best dressing in DC',
+    totalInfluence: 1203,
+  })
 
-const steps = [
-  { num: '01', title: 'Find a Business', desc: 'Search restaurants, brands, creators on SayPay.' },
-  { num: '02', title: 'Pay to Share', desc: 'A small fee ensures every word matters.' },
-  { num: '03', title: 'Build Trust', desc: 'Your review carries real weight.' },
-]
-
-export default function Home() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const trendingReviews = [
+    {
+      id: 1,
+      author: 'You',
+      avatar: '👨‍💼',
+      place: 'Sweetgreen',
+      rating: 5,
+      quote: 'Honestly the best salad bowl in DC. Their dressing is *chef\'s kiss*. Worth every penny.',
+      reactions: { helpful: 89, comments: 12, hearts: 45 },
+      reached: 2104,
+      trending: true,
+    },
+    {
+      id: 2,
+      author: 'Marcus Williams',
+      avatar: '👨‍🍳',
+      place: 'Thai Orchid',
+      rating: 5,
+      quote: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.',
+      reactions: { helpful: 67, comments: 8, hearts: 34 },
+      reached: 1456,
+      trending: true,
+    },
+    {
+      id: 3,
+      author: 'Alice Chen',
+      avatar: '👩‍💻',
+      place: 'Chick-fil-A',
+      rating: 4,
+      quote: 'Classic fast food done right. Waffle fries are addictive. Consistent quality always.',
+      reactions: { helpful: 45, comments: 5, hearts: 23 },
+      reached: 892,
+      trending: false,
+    },
+  ]
 
   return (
-    <div style={{ background: '#0a0a0a', color: '#fff' }}>
+    <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
       {/* Navigation */}
-      <nav style={{
+      <header style={{
         position: 'fixed',
         top: 0,
         width: '100%',
         zIndex: 50,
-        background: 'rgba(10, 10, 10, 0.8)',
+        background: 'rgba(10, 10, 10, 0.95)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
       }}>
-        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          SayPay
-        </span>
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', fontSize: '0.875rem', color: '#999' }}>
-          <a href="#how" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>How it works</a>
-          <a href="#pricing" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Pricing</a>
-          <Link href="/leaderboards" style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}>Leaderboards</Link>
-          <button style={{
-            background: '#ff6b35',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '9999px',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '0.875rem',
-            fontWeight: '500',
-          }}>
-            Get Early Access
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '6rem 1.5rem 2rem',
-        position: 'relative',
-        overflow: 'hidden',
-        background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, rgba(29, 209, 221, 0.05) 50%, #0a0a0a 100%), url("https://images.unsplash.com/photo-1606787620884-c0cea2c75f6e?w=1600&h=900&fit=crop")',
-        backgroundSize: 'auto, cover',
-        backgroundPosition: 'center, center',
-        backgroundAttachment: 'scroll, fixed',
-      }}>
-        {/* Animated background elements */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          overflow: 'hidden',
-          pointerEvents: 'none',
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '10%',
-            left: '10%',
-            width: '300px',
-            height: '300px',
-            background: 'radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-            animation: 'float 20s ease-in-out infinite',
-          }} />
-          <div style={{
-            position: 'absolute',
-            bottom: '20%',
-            right: '15%',
-            width: '400px',
-            height: '400px',
-            background: 'radial-gradient(circle, rgba(29, 209, 221, 0.12) 0%, transparent 70%)',
-            filter: 'blur(100px)',
-            animation: 'float 25s ease-in-out infinite 2s',
-          }} />
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '500px',
-            height: '500px',
-            background: 'radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%)',
-            filter: 'blur(120px)',
-            animation: 'float 30s ease-in-out infinite 4s',
-          }} />
-        </div>
-        
-        <style>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            25% { transform: translateY(-30px) translateX(20px); }
-            50% { transform: translateY(-60px) translateX(-20px); }
-            75% { transform: translateY(-30px) translateX(10px); }
-          }
-          @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-          }
-        `}</style>
-
-        <div style={{ maxWidth: '56rem', position: 'relative', zIndex: 10, animation: 'slideInUp 0.8s ease-out' }}>
-          {/* Badge */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(10px)',
-            padding: '0.5rem 1rem',
-            borderRadius: '9999px',
-            fontSize: '0.875rem',
-            color: '#ff69b4',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            marginBottom: '2rem',
-            transition: 'all 0.3s ease',
-            cursor: 'pointer',
-          }}
-          onMouseEnter={(e: any) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-            e.currentTarget.style.borderColor = '#ff69b4'
-            e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 107, 53, 0.2)'
-          }}
-          onMouseLeave={(e: any) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-            e.currentTarget.style.boxShadow = 'none'
-          }}>
-            <span style={{ width: '0.5rem', height: '0.5rem', background: '#ff6b35', borderRadius: '50%', animation: 'pulse 2s ease-in-out infinite' }} />
-            The end of fake reviews
-          </div>
-
-          {/* Hero Headline */}
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-            fontWeight: 900,
-            lineHeight: 1.1,
-            marginBottom: '1.5rem',
-          }}>
-            Reviews that<br />
-            <span style={{
-              background: 'linear-gradient(135deg, #ff6b35, #1dd1dd, #f7dc6f)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              mean something.
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff006e, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+              SayPay
             </span>
-          </h1>
-
-          {/* Subheading */}
-          <p style={{ fontSize: '1.25rem', color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto 2.5rem' }}>
-            SayPay charges a small fee to leave a review — making spam economically worthless and every real opinion genuinely valuable.
-          </p>
-
-          {/* CTA */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-            {!submitted ? (
-              <>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '9999px',
-                    padding: '0.75rem 1.5rem',
-                    color: 'white',
-                    width: '18rem',
-                    outline: 'none',
-                  }}
-                  onFocus={e => e.currentTarget.style.borderColor = '#ff6b35'}
-                  onBlur={e => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
-                />
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <button
-                    onClick={() => { if (email) setSubmitted(true) }}
-                    style={{
-                      background: 'linear-gradient(135deg, #ff6b35, #ff69b4)',
-                      color: 'white',
-                      padding: '0.85rem 2.5rem',
-                      borderRadius: '9999px',
-                      border: 'none',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      boxShadow: '0 8px 32px rgba(255, 107, 53, 0.4)',
-                      transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    }}
-                    onMouseEnter={(e: any) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 12px 48px rgba(255, 107, 53, 0.6)'
-                    }}
-                    onMouseLeave={(e: any) => {
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 107, 53, 0.4)'
-                    }}
-                  >
-                    Get Early Access
-                  </button>
-                  <Link href="/restaurants" style={{ textDecoration: 'none' }}>
-                    <button
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        color: 'white',
-                        padding: '0.85rem 2.5rem',
-                        borderRadius: '9999px',
-                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                      }}
-                      onMouseEnter={(e: any) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                        e.currentTarget.style.borderColor = '#ff6b35'
-                        e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 107, 53, 0.3)'
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                      }}
-                      onMouseLeave={(e: any) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
-                        e.currentTarget.style.boxShadow = 'none'
-                        e.currentTarget.style.transform = 'translateY(0)'
-                      }}
-                    >
-                      Try It Now →
-                    </button>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <div style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', padding: '0.75rem 2rem', borderRadius: '9999px', color: '#ff69b4', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                ✅ You're on the list!
-                <br />
-                <Link href="/restaurants" style={{ textDecoration: 'underline', color: '#ff69b4', cursor: 'pointer' }}>Try the app now →</Link>
-              </div>
-            )}
-          </div>
-
-          {/* Stats */}
-          <div style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '4rem', flexWrap: 'wrap' }}>
-            {[
-              { value: '0%', label: 'Bot reviews' },
-              { value: '$0.99', label: 'Entry fee' },
-              { value: '100%', label: 'Human verified' },
-            ].map((s, i) => (
-              <div key={i} style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontSize: '1.875rem',
-                  fontWeight: 900,
-                  background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}>
-                  {s.value}
-                </div>
-                <div style={{ fontSize: '0.875rem', color: '#737373', marginTop: '0.25rem' }}>{s.label}</div>
-              </div>
-            ))}
+          </Link>
+          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+            <Link href="/restaurants" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '500' }}>Explore</Link>
+            <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '500' }}>Leaderboards</Link>
+            <button style={{
+              background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
+              color: '#000',
+              padding: '0.75rem 1.75rem',
+              borderRadius: '9999px',
+              border: 'none',
+              fontWeight: '700',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+            }}>
+              Share Your Truth
+            </button>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* Problem Section */}
-      <section style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem' }}>
-          Fake reviews are{' '}
-          <span style={{ background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            destroying trust.
-          </span>
-        </h2>
-        <p style={{ fontSize: '1.125rem', color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
-          Google, Yelp, and Amazon are flooded with bots, paid shills, and competitor sabotage. SayPay fixes this with one idea: <strong>if it costs something, it means something.</strong>
-        </p>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" style={{ padding: '6rem 1.5rem', background: 'rgba(255, 255, 255, 0.02)' }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.25rem', fontWeight: 900, textAlign: 'center', marginBottom: '1rem' }}>Every action costs a little.</h2>
-          <p style={{ textAlign: 'center', color: '#737373', marginBottom: '4rem' }}>That's the point.</p>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '1.5rem',
-          }}>
-            {actions.map((a, i) => (
-              <div
-                key={i}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  padding: '1.5rem',
-                  borderRadius: '1rem',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                  e.currentTarget.style.borderColor = '#ff6b35'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                  <div>
-                    <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{a.icon}</div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{a.label}</h3>
-                  </div>
-                  <div style={{ color: '#ff69b4', fontWeight: 900, fontSize: '1.5rem' }}>{a.price}</div>
-                </div>
-                <p style={{ color: '#a3a3a3', fontSize: '0.875rem' }}>{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Trending Restaurants */}
+      {/* Hero: Your Impact */}
       <section style={{
-        padding: '6rem 1.5rem',
-        background: 'linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, rgba(57, 255, 20, 0.05) 100%)',
+        padding: '8rem 2rem 4rem',
+        background: 'linear-gradient(180deg, rgba(255, 0, 110, 0.15) 0%, rgba(29, 209, 221, 0.08) 100%)',
+        marginTop: '4rem',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 900, marginBottom: '1rem' }}>🔥 Trending Now</h2>
-            <p style={{ color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
-              The most-reviewed restaurants in DC right now. What's everyone talking about?
+        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>👨‍💼</div>
+            <h1 style={{ fontSize: '3.5rem', fontWeight: '900', marginBottom: '1rem' }}>
+              Your Voice Matters
+            </h1>
+            <p style={{ color: '#bbb', fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto' }}>
+              You paid for your opinion. Now watch how it impacts real people making real decisions.
             </p>
           </div>
-          
+
+          {/* Stats Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
             gap: '1.5rem',
+            marginTop: '3rem',
+            maxWidth: '800px',
+            margin: '3rem auto 0',
           }}>
-            {[
-              { name: 'Pupatella', rating: 4.6, reviews: 52, image: 'https://images.unsplash.com/photo-1606787620884-c0cea2c75f6e?w=300&h=200&fit=crop', emoji: '🍕' },
-              { name: 'Thai Orchid', rating: 4.4, reviews: 34, image: 'https://images.unsplash.com/photo-1562126f-d41efdfb9d1d?w=300&h=200&fit=crop', emoji: '🍜' },
-              { name: 'Sweetgreen', rating: 4.5, reviews: 28, image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop', emoji: '🥗' },
-              { name: 'Chick-fil-A', rating: 4.3, reviews: 45, image: 'https://images.unsplash.com/photo-1562547256-ee0e0e7ff5a6?w=300&h=200&fit=crop', emoji: '🍗' },
-            ].map((rest, idx) => (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(255, 0, 110, 0.05))',
+              padding: '1.5rem',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255, 0, 110, 0.3)',
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ff006e', marginBottom: '0.5rem' }}>
+                {userStats.reviewsWritten}
+              </div>
+              <div style={{ fontSize: '0.875rem', color: '#999' }}>Reviews Written</div>
+            </div>
+
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(29, 209, 221, 0.2), rgba(29, 209, 221, 0.05))',
+              padding: '1.5rem',
+              borderRadius: '1rem',
+              border: '1px solid rgba(29, 209, 221, 0.3)',
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#1dd1dd', marginBottom: '0.5rem' }}>
+                {(userStats.peopleReached / 1000).toFixed(1)}k
+              </div>
+              <div style={{ fontSize: '0.875rem', color: '#999' }}>People Reached</div>
+            </div>
+
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 221, 0, 0.2), rgba(255, 221, 0, 0.05))',
+              padding: '1.5rem',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255, 221, 0, 0.3)',
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ffdd00', marginBottom: '0.5rem' }}>
+                {userStats.followers}
+              </div>
+              <div style={{ fontSize: '0.875rem', color: '#999' }}>Followers</div>
+            </div>
+
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(29, 209, 221, 0.2))',
+              padding: '1.5rem',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255, 221, 0, 0.3)',
+            }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: '900', background: 'linear-gradient(135deg, #ff006e, #ffdd00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '0.5rem' }}>
+                ${userStats.moneySpent}
+              </div>
+              <div style={{ fontSize: '0.875rem', color: '#999' }}>Invested in Truth</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Reviews Feed */}
+      <section style={{ padding: '4rem 2rem', background: '#0a0a0a' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '0.5rem', textAlign: 'center' }}>
+            What's Moving People
+          </h2>
+          <p style={{ color: '#999', textAlign: 'center', marginBottom: '3rem', fontSize: '1.1rem' }}>
+            Verified reviews that actually matter
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {trendingReviews.map((review, idx) => (
               <div
                 key={idx}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'rgba(255, 255, 255, 0.03)',
                   backdropFilter: 'blur(10px)',
-                  borderRadius: '1.25rem',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  overflow: 'hidden',
-                  transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                  padding: '2rem',
+                  borderRadius: '1.5rem',
+                  border: review.trending ? '2px solid #ff006e' : '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: review.trending ? '0 0 30px rgba(255, 0, 110, 0.3)' : '0 8px 32px rgba(0, 0, 0, 0.3)',
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
                 }}
                 onMouseEnter={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                  e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = '0 20px 48px rgba(255, 107, 53, 0.25)'
-                  e.currentTarget.style.borderColor = '#ff6b35'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  e.currentTarget.style.transform = 'translateY(-8px)'
                 }}
                 onMouseLeave={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
-                <div style={{
-                  height: '140px',
-                  overflow: 'hidden',
-                  background: '#1a1a1a',
-                  position: 'relative',
-                }}>
-                  <img 
-                    src={rest.image}
-                    alt={rest.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.3s ease',
-                    }}
-                    onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
-                  />
-                </div>
-                <div style={{ padding: '1.25rem' }}>
-                  <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>{rest.name}</h3>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
-                    <span style={{ color: '#ff6b35', fontWeight: '600' }}>⭐ {rest.rating}</span>
-                    <span style={{ color: '#1dd1dd', fontWeight: '600' }}>{rest.reviews} reviews</span>
+                {review.trending && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '-1rem',
+                    right: '2rem',
+                    background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
+                    color: '#000',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
+                    textTransform: 'uppercase',
+                  }}>
+                    🔥 Trending
                   </div>
+                )}
+
+                {/* Header */}
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                  <div style={{
+                    fontSize: '3rem',
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    {review.avatar}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '0.25rem' }}>
+                      {review.author}
+                    </h3>
+                    <p style={{ color: '#999', fontSize: '0.95rem' }}>
+                      Reviewed <span style={{ color: '#1dd1dd', fontWeight: '700' }}>{review.place}</span>
+                    </p>
+                  </div>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '9999px',
+                    fontWeight: '800',
+                    fontSize: '1.1rem',
+                    color: '#fff',
+                  }}>
+                    ⭐ {review.rating}
+                  </div>
+                </div>
+
+                {/* Quote */}
+                <blockquote style={{
+                  fontSize: '1.25rem',
+                  fontWeight: '500',
+                  color: '#e5e5e5',
+                  marginBottom: '1.5rem',
+                  lineHeight: '1.7',
+                  borderLeft: '4px solid #ff006e',
+                  paddingLeft: '1.5rem',
+                  margin: '0 0 1.5rem 0',
+                }}>
+                  "{review.quote}"
+                </blockquote>
+
+                {/* Impact */}
+                <div style={{
+                  background: 'rgba(29, 209, 221, 0.1)',
+                  padding: '1rem',
+                  borderRadius: '0.75rem',
+                  marginBottom: '1.5rem',
+                  display: 'flex',
+                  gap: '1rem',
+                  alignItems: 'center',
+                }}>
+                  <span style={{ color: '#1dd1dd', fontWeight: '700', fontSize: '0.95rem' }}>
+                    ✓ Helped {review.reached.toLocaleString()} people make better decisions
+                  </span>
+                </div>
+
+                {/* Reactions */}
+                <div style={{
+                  display: 'flex',
+                  gap: '1.5rem',
+                  paddingTop: '1.5rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                  fontSize: '0.95rem',
+                  color: '#bbb',
+                }}>
+                  <button style={{
+                    background: 'rgba(255, 0, 110, 0.1)',
+                    color: '#ff006e',
+                    border: '1px solid rgba(255, 0, 110, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 0, 110, 0.2)'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 0, 110, 0.1)'
+                  }}>
+                    👍 {review.reactions.helpful} Helpful
+                  </button>
+                  <button style={{
+                    background: 'rgba(29, 209, 221, 0.1)',
+                    color: '#1dd1dd',
+                    border: '1px solid rgba(29, 209, 221, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.2)'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.1)'
+                  }}>
+                    💬 {review.reactions.comments} Comments
+                  </button>
+                  <button style={{
+                    background: 'rgba(255, 221, 0, 0.1)',
+                    color: '#ffdd00',
+                    border: '1px solid rgba(255, 221, 0, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 221, 0, 0.2)'
+                  }}
+                  onMouseLeave={(e: any) => {
+                    e.currentTarget.style.background = 'rgba(255, 221, 0, 0.1)'
+                  }}>
+                    ❤️ {review.reactions.hearts} Love
+                  </button>
                 </div>
               </div>
             ))}
@@ -431,221 +347,62 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
             <Link href="/restaurants" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)',
-                color: 'white',
-                padding: '0.85rem 2.5rem',
+                background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
+                color: '#fff',
+                padding: '1rem 3rem',
                 borderRadius: '9999px',
                 border: 'none',
-                fontWeight: '700',
+                fontWeight: '800',
                 cursor: 'pointer',
-                boxShadow: '0 8px 32px rgba(255, 107, 53, 0.4)',
-                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }}
-              onMouseEnter={(e: any) => {
-                e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
-                e.currentTarget.style.boxShadow = '0 12px 48px rgba(255, 107, 53, 0.6)'
-              }}
-              onMouseLeave={(e: any) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 107, 53, 0.4)'
+                fontSize: '1rem',
+                boxShadow: '0 0 40px rgba(255, 0, 110, 0.4)',
               }}>
-                Explore All Restaurants →
+                Explore & Review
               </button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Campaigns */}
+      {/* CTA */}
       <section style={{
-        padding: '6rem 1.5rem',
-        background: 'linear-gradient(180deg, rgba(29, 209, 221, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%)',
+        padding: '4rem 2rem',
+        textAlign: 'center',
+        background: 'linear-gradient(180deg, rgba(255, 0, 110, 0.1) 0%, rgba(29, 209, 221, 0.05) 100%)',
         borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 900, marginBottom: '1rem' }}>🚀 Bring It Back</h2>
-            <p style={{ color: '#a3a3a3', maxWidth: '42rem', margin: '0 auto' }}>
-              Vote with your wallet. Show brands what you really want. Every $0.99 = real demand signal.
-            </p>
-          </div>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '2rem',
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '1rem' }}>
+            Your Opinion is Worth $0.99
+          </h2>
+          <p style={{ color: '#bbb', fontSize: '1.125rem', marginBottom: '2rem', lineHeight: '1.6' }}>
+            When you pay, you're not just leaving a review. You're signing your name to the truth. And the world listens differently when they know you mean it.
+          </p>
+          <button style={{
+            background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
+            color: '#000',
+            padding: '1rem 3rem',
+            borderRadius: '9999px',
+            border: 'none',
+            fontWeight: '800',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            boxShadow: '0 8px 32px rgba(255, 0, 110, 0.3)',
           }}>
-            {[
-              { name: 'McRib', brand: 'McDonald\'s', emoji: '🥪', image: 'https://images.unsplash.com/photo-1572802419224-7c93d6da16d7?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #D4341F 0%, #FFC72C 100%)', backers: 28470, goal: 50000 },
-              { name: 'TJ\'s Snacks', brand: 'Trader Joe\'s', emoji: '🍿', image: 'https://images.unsplash.com/photo-1599599810694-200c7e7f3818?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 100%)', backers: 12030, goal: 40000 },
-              { name: 'Surge', brand: 'Coca-Cola', emoji: '🥤', image: 'https://images.unsplash.com/photo-1554866585-c4db4d85d5d0?w=400&h=280&fit=crop', gradient: 'linear-gradient(135deg, #00AA44 0%, #00DD77 100%)', backers: 8234, goal: 60000 },
-            ].map((camp, idx) => {
-              const percent = (camp.backers / camp.goal) * 100
-              return (
-                <div
-                  key={idx}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '1.25rem',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    overflow: 'hidden',
-                    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    boxShadow: '0 8px 32px rgba(255, 107, 53, 0.05)',
-                  }}
-                  onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-                    e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(255, 107, 53, 0.15)'
-                    e.currentTarget.style.borderColor = '#ff6b35'
-                  }}
-                  onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(255, 107, 53, 0.05)'
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                  }}
-                >
-                  <div style={{
-                    position: 'relative',
-                    minHeight: '140px',
-                    overflow: 'hidden',
-                    background: camp.gradient,
-                  }}>
-                    <img 
-                      src={camp.image}
-                      alt={camp.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.3s ease',
-                      }}
-                    />
-                  </div>
-                  <div style={{ padding: '1.25rem' }}>
-                    <h3 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.25rem' }}>{camp.name}</h3>
-                    <p style={{ color: '#999', fontSize: '0.875rem', marginBottom: '1rem' }}>{camp.brand}</p>
-                    <div style={{ fontSize: '0.875rem', color: '#1dd1dd', fontWeight: '600', marginBottom: '0.75rem' }}>
-                      {camp.backers.toLocaleString()} backers 🚀
-                    </div>
-                    <div style={{
-                      background: 'rgba(29, 209, 221, 0.1)',
-                      height: '4px',
-                      borderRadius: '2px',
-                      overflow: 'hidden',
-                    }}>
-                      <div style={{
-                        background: '#1dd1dd',
-                        height: '100%',
-                        width: `${Math.min(100, percent)}%`,
-                        transition: 'width 0.3s ease',
-                      }} />
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <Link href="/campaigns" style={{ textDecoration: 'none' }}>
-              <button style={{
-                background: 'linear-gradient(135deg, #1dd1dd, #f7dc6f)',
-                color: 'white',
-                padding: '0.85rem 2.5rem',
-                borderRadius: '9999px',
-                border: 'none',
-                fontWeight: '700',
-                cursor: 'pointer',
-                boxShadow: '0 8px 32px rgba(29, 209, 221, 0.4)',
-                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }}
-              onMouseEnter={(e: any) => {
-                e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
-                e.currentTarget.style.boxShadow = '0 12px 48px rgba(29, 209, 221, 0.6)'
-              }}
-              onMouseLeave={(e: any) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(29, 209, 221, 0.4)'
-              }}>
-                See All Campaigns →
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section id="how" style={{ padding: '6rem 1.5rem', maxWidth: '56rem', margin: '0 auto' }}>
-        <h2 style={{ fontSize: '2.25rem', fontWeight: 900, textAlign: 'center', marginBottom: '4rem' }}>How it works</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {steps.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                gap: '1.5rem',
-                alignItems: 'flex-start',
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                padding: '1.5rem',
-                borderRadius: '1rem',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              <span style={{ color: '#ff6b35', fontWeight: 900, fontSize: '2rem', lineHeight: 1 }}>{s.num}</span>
-              <div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{s.title}</h3>
-                <p style={{ color: '#a3a3a3' }}>{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* B2B CTA */}
-      <section style={{ padding: '6rem 1.5rem' }}>
-        <div style={{
-          maxWidth: '56rem',
-          margin: '0 auto',
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '1.5rem',
-          padding: '3rem',
-          textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom right, rgba(255, 107, 53, 0.1), rgba(29, 209, 221, 0.05))', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', zIndex: 10 }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '1rem' }}>Are you a business?</h2>
-            <p style={{ color: '#a3a3a3', marginBottom: '2rem', maxWidth: '42rem', margin: '0 auto 2rem' }}>
-              Get real consumer demand data. Know what customers actually want, backed by what they paid to say.
-            </p>
-            <button style={{
-              background: 'white',
-              color: 'black',
-              padding: '0.75rem 2rem',
-              borderRadius: '9999px',
-              border: 'none',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}>
-              Talk to us about B2B →
-            </button>
-          </div>
+            Share Your Truth Now
+          </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', padding: '2.5rem 1.5rem', textAlign: 'center', color: '#737373', fontSize: '0.875rem' }}>
-        <span style={{ fontSize: '1.125rem', fontWeight: 700, background: 'linear-gradient(135deg, #ff6b35, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          SayPay
-        </span>
-        <p style={{ marginTop: '0.5rem' }}>© 2025 SayPay. Every word means something.</p>
+      <footer style={{
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '2rem',
+        textAlign: 'center',
+        color: '#737373',
+        fontSize: '0.875rem',
+      }}>
+        <p>© 2025 SayPay. Your opinion. Your voice. Your truth.</p>
       </footer>
     </div>
   )
