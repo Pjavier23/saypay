@@ -1,409 +1,260 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useAuth } from './_app'
+import { supabase } from '../lib/supabase'
 
-export default function NewHome() {
-  const [userStats] = useState({
-    reviewsWritten: 14,
-    peopleReached: 4203,
-    moneySpent: 27.86,
-    followers: 47,
-    mostHelpfulReview: 'Sweetgreen has the best dressing in DC',
-    totalInfluence: 1203,
-  })
+const NAV_STYLE: React.CSSProperties = {
+  position: 'fixed', top: 0, width: '100%', zIndex: 50,
+  background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(10px)',
+  borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '1rem 2rem',
+}
 
-  const trendingReviews = [
-    {
-      id: 1,
-      author: 'You',
-      avatar: '👨‍💼',
-      place: 'Sweetgreen',
-      rating: 5,
-      quote: 'Honestly the best salad bowl in DC. Their dressing is *chef\'s kiss*. Worth every penny.',
-      reactions: { helpful: 89, comments: 12, hearts: 45 },
-      reached: 2104,
-      trending: true,
-    },
-    {
-      id: 2,
-      author: 'Marcus Williams',
-      avatar: '👨‍🍳',
-      place: 'Thai Orchid',
-      rating: 5,
-      quote: 'Authentic Thai flavors. The pad krapow gai is exceptional. Heat level is perfect.',
-      reactions: { helpful: 67, comments: 8, hearts: 34 },
-      reached: 1456,
-      trending: true,
-    },
-    {
-      id: 3,
-      author: 'Alice Chen',
-      avatar: '👩‍💻',
-      place: 'Chick-fil-A',
-      rating: 4,
-      quote: 'Classic fast food done right. Waffle fries are addictive. Consistent quality always.',
-      reactions: { helpful: 45, comments: 5, hearts: 23 },
-      reached: 892,
-      trending: false,
-    },
-  ]
+const STAR_COLORS = ['#ff006e', '#ff006e', '#ff886e', '#ffdd00', '#ffdd00']
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <span>
+      {[1, 2, 3, 4, 5].map(i => (
+        <span key={i} style={{ color: i <= rating ? STAR_COLORS[i - 1] : '#333', fontSize: '1.1rem' }}>★</span>
+      ))}
+    </span>
+  )
+}
+
+export default function Home() {
+  const { user, profile, signOut } = useAuth()
+  const [trending, setTrending] = useState<any[]>([])
+  const [stats, setStats] = useState({ reviews: 0, businesses: 0 })
+
+  useEffect(() => {
+    fetchTrending()
+    fetchStats()
+  }, [])
+
+  async function fetchTrending() {
+    const { data } = await supabase
+      .from('sp_reviews')
+      .select('*, sp_profiles(username, display_name, is_elite), sp_businesses(name, emoji, category)')
+      .eq('status', 'published')
+      .order('helpful_count', { ascending: false })
+      .limit(6)
+    setTrending(data || [])
+  }
+
+  async function fetchStats() {
+    const [r, b] = await Promise.all([
+      supabase.from('sp_reviews').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+      supabase.from('sp_businesses').select('id', { count: 'exact', head: true }),
+    ])
+    setStats({ reviews: r.count || 0, businesses: b.count || 0 })
+  }
 
   return (
     <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
-      {/* Navigation */}
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        width: '100%',
-        zIndex: 50,
-        background: 'rgba(10, 10, 10, 0.95)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '1rem 2rem',
-      }}>
+      {/* Nav */}
+      <header style={NAV_STYLE}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #ff006e, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: '900', background: 'linear-gradient(135deg, #ff006e, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               SayPay
             </span>
           </Link>
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            <Link href="/restaurants" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '500' }}>Explore</Link>
-            <Link href="/leaderboards" style={{ textDecoration: 'none', color: '#999', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '500' }}>Leaderboards</Link>
-            <button style={{
-              background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
-              color: '#000',
-              padding: '0.75rem 1.75rem',
-              borderRadius: '9999px',
-              border: 'none',
-              fontWeight: '700',
-              cursor: 'pointer',
-              fontSize: '0.95rem',
-            }}>
-              Share Your Truth
-            </button>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <Link href="/explore" style={{ color: '#999', textDecoration: 'none', fontWeight: '500' }}>Explore</Link>
+            <Link href="/leaderboards" style={{ color: '#999', textDecoration: 'none', fontWeight: '500' }}>Leaderboard</Link>
+            <Link href="/campaigns" style={{ color: '#999', textDecoration: 'none', fontWeight: '500' }}>For Businesses</Link>
+            {user ? (
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <Link href="/dashboard" style={{ textDecoration: 'none' }}>
+                  <button style={{ background: 'rgba(255,0,110,0.15)', color: '#ff006e', border: '1px solid rgba(255,0,110,0.3)', padding: '0.6rem 1.25rem', borderRadius: '9999px', fontWeight: '700', cursor: 'pointer', fontSize: '0.9rem' }}>
+                    Dashboard
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <Link href="/login" style={{ color: '#aaa', textDecoration: 'none', fontWeight: '600' }}>Log in</Link>
+                <Link href="/signup">
+                  <button style={{ background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: '9999px', border: 'none', fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem' }}>
+                    Get Started
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header>
 
-      {/* Hero: Your Impact */}
-      <section style={{
-        padding: '8rem 2rem 4rem',
-        background: 'linear-gradient(180deg, rgba(255, 0, 110, 0.15) 0%, rgba(29, 209, 221, 0.08) 100%)',
-        marginTop: '4rem',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>👨‍💼</div>
-            <h1 style={{ fontSize: '3.5rem', fontWeight: '900', marginBottom: '1rem' }}>
-              Your Voice Matters
-            </h1>
-            <p style={{ color: '#bbb', fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto' }}>
-              You paid for your opinion. Now watch how it impacts real people making real decisions.
-            </p>
+      {/* Hero */}
+      <section style={{ paddingTop: '7rem', paddingBottom: '5rem', paddingLeft: '2rem', paddingRight: '2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center top, rgba(255,0,110,0.2) 0%, transparent 60%)' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ display: 'inline-block', background: 'rgba(255,0,110,0.15)', border: '1px solid rgba(255,0,110,0.3)', borderRadius: '9999px', padding: '0.5rem 1.25rem', fontSize: '0.85rem', color: '#ff006e', fontWeight: '700', marginBottom: '1.5rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            🔥 Reviews you can actually trust
           </div>
-
-          {/* Stats Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-            gap: '1.5rem',
-            marginTop: '3rem',
-            maxWidth: '800px',
-            margin: '3rem auto 0',
-          }}>
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(255, 0, 110, 0.05))',
-              padding: '1.5rem',
-              borderRadius: '1rem',
-              border: '1px solid rgba(255, 0, 110, 0.3)',
-            }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ff006e', marginBottom: '0.5rem' }}>
-                {userStats.reviewsWritten}
-              </div>
-              <div style={{ fontSize: '0.875rem', color: '#999' }}>Reviews Written</div>
-            </div>
-
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(29, 209, 221, 0.2), rgba(29, 209, 221, 0.05))',
-              padding: '1.5rem',
-              borderRadius: '1rem',
-              border: '1px solid rgba(29, 209, 221, 0.3)',
-            }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#1dd1dd', marginBottom: '0.5rem' }}>
-                {(userStats.peopleReached / 1000).toFixed(1)}k
-              </div>
-              <div style={{ fontSize: '0.875rem', color: '#999' }}>People Reached</div>
-            </div>
-
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 221, 0, 0.2), rgba(255, 221, 0, 0.05))',
-              padding: '1.5rem',
-              borderRadius: '1rem',
-              border: '1px solid rgba(255, 221, 0, 0.3)',
-            }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ffdd00', marginBottom: '0.5rem' }}>
-                {userStats.followers}
-              </div>
-              <div style={{ fontSize: '0.875rem', color: '#999' }}>Followers</div>
-            </div>
-
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(29, 209, 221, 0.2))',
-              padding: '1.5rem',
-              borderRadius: '1rem',
-              border: '1px solid rgba(255, 221, 0, 0.3)',
-            }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '900', background: 'linear-gradient(135deg, #ff006e, #ffdd00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '0.5rem' }}>
-                ${userStats.moneySpent}
-              </div>
-              <div style={{ fontSize: '0.875rem', color: '#999' }}>Invested in Truth</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trending Reviews Feed */}
-      <section style={{ padding: '4rem 2rem', background: '#0a0a0a' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '0.5rem', textAlign: 'center' }}>
-            What's Moving People
-          </h2>
-          <p style={{ color: '#999', textAlign: 'center', marginBottom: '3rem', fontSize: '1.1rem' }}>
-            Verified reviews that actually matter
+          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: '900', lineHeight: '1.1', marginBottom: '1.5rem' }}>
+            Your Opinion Is Worth{' '}
+            <span style={{ background: 'linear-gradient(135deg, #ff006e, #ffdd00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              $0.99
+            </span>
+          </h1>
+          <p style={{ color: '#999', fontSize: '1.25rem', lineHeight: '1.6', marginBottom: '2.5rem', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+            When you pay, the world listens differently. No fake reviews. No bots. Just real people putting money behind what they actually think.
           </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {trendingReviews.map((review, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  backdropFilter: 'blur(10px)',
-                  padding: '2rem',
-                  borderRadius: '1.5rem',
-                  border: review.trending ? '2px solid #ff006e' : '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: review.trending ? '0 0 30px rgba(255, 0, 110, 0.3)' : '0 8px 32px rgba(0, 0, 0, 0.3)',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                }}
-                onMouseEnter={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                }}
-                onMouseLeave={(e: any) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}
-              >
-                {review.trending && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '-1rem',
-                    right: '2rem',
-                    background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
-                    color: '#000',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.85rem',
-                    fontWeight: '800',
-                    textTransform: 'uppercase',
-                  }}>
-                    🔥 Trending
-                  </div>
-                )}
-
-                {/* Header */}
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
-                  <div style={{
-                    fontSize: '3rem',
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    {review.avatar}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '0.25rem' }}>
-                      {review.author}
-                    </h3>
-                    <p style={{ color: '#999', fontSize: '0.95rem' }}>
-                      Reviewed <span style={{ color: '#1dd1dd', fontWeight: '700' }}>{review.place}</span>
-                    </p>
-                  </div>
-                  <div style={{
-                    background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '9999px',
-                    fontWeight: '800',
-                    fontSize: '1.1rem',
-                    color: '#fff',
-                  }}>
-                    ⭐ {review.rating}
-                  </div>
-                </div>
-
-                {/* Quote */}
-                <blockquote style={{
-                  fontSize: '1.25rem',
-                  fontWeight: '500',
-                  color: '#e5e5e5',
-                  marginBottom: '1.5rem',
-                  lineHeight: '1.7',
-                  borderLeft: '4px solid #ff006e',
-                  paddingLeft: '1.5rem',
-                  margin: '0 0 1.5rem 0',
-                }}>
-                  "{review.quote}"
-                </blockquote>
-
-                {/* Impact */}
-                <div style={{
-                  background: 'rgba(29, 209, 221, 0.1)',
-                  padding: '1rem',
-                  borderRadius: '0.75rem',
-                  marginBottom: '1.5rem',
-                  display: 'flex',
-                  gap: '1rem',
-                  alignItems: 'center',
-                }}>
-                  <span style={{ color: '#1dd1dd', fontWeight: '700', fontSize: '0.95rem' }}>
-                    ✓ Helped {review.reached.toLocaleString()} people make better decisions
-                  </span>
-                </div>
-
-                {/* Reactions */}
-                <div style={{
-                  display: 'flex',
-                  gap: '1.5rem',
-                  paddingTop: '1.5rem',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                  fontSize: '0.95rem',
-                  color: '#bbb',
-                }}>
-                  <button style={{
-                    background: 'rgba(255, 0, 110, 0.1)',
-                    color: '#ff006e',
-                    border: '1px solid rgba(255, 0, 110, 0.3)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 0, 110, 0.2)'
-                  }}
-                  onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 0, 110, 0.1)'
-                  }}>
-                    👍 {review.reactions.helpful} Helpful
-                  </button>
-                  <button style={{
-                    background: 'rgba(29, 209, 221, 0.1)',
-                    color: '#1dd1dd',
-                    border: '1px solid rgba(29, 209, 221, 0.3)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.2)'
-                  }}
-                  onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(29, 209, 221, 0.1)'
-                  }}>
-                    💬 {review.reactions.comments} Comments
-                  </button>
-                  <button style={{
-                    background: 'rgba(255, 221, 0, 0.1)',
-                    color: '#ffdd00',
-                    border: '1px solid rgba(255, 221, 0, 0.3)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 221, 0, 0.2)'
-                  }}
-                  onMouseLeave={(e: any) => {
-                    e.currentTarget.style.background = 'rgba(255, 221, 0, 0.1)'
-                  }}>
-                    ❤️ {review.reactions.hearts} Love
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <Link href="/restaurants" style={{ textDecoration: 'none' }}>
-              <button style={{
-                background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
-                color: '#fff',
-                padding: '1rem 3rem',
-                borderRadius: '9999px',
-                border: 'none',
-                fontWeight: '800',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                boxShadow: '0 0 40px rgba(255, 0, 110, 0.4)',
-              }}>
-                Explore & Review
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href={user ? '/explore' : '/signup'}>
+              <button style={{ background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000', padding: '1rem 2.5rem', borderRadius: '9999px', border: 'none', fontWeight: '900', cursor: 'pointer', fontSize: '1.05rem', boxShadow: '0 0 40px rgba(255,0,110,0.4)' }}>
+                {user ? 'Write a Review →' : 'Start for Free →'}
+              </button>
+            </Link>
+            <Link href="/explore">
+              <button style={{ background: 'transparent', color: '#fff', padding: '1rem 2.5rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.2)', fontWeight: '700', cursor: 'pointer', fontSize: '1.05rem' }}>
+                Explore Reviews
               </button>
             </Link>
           </div>
+
+          {/* Live stats */}
+          <div style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '3.5rem' }}>
+            {[
+              { value: stats.reviews > 0 ? `${stats.reviews}+` : '—', label: 'Verified Reviews' },
+              { value: stats.businesses > 0 ? `${stats.businesses}+` : '—', label: 'Businesses' },
+              { value: '$0.99', label: 'Per Review' },
+            ].map(({ value, label }) => (
+              <div key={label} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: '900', background: 'linear-gradient(135deg, #ff006e, #1dd1dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{value}</div>
+                <div style={{ color: '#555', fontSize: '0.85rem', marginTop: '0.25rem' }}>{label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{
-        padding: '4rem 2rem',
-        textAlign: 'center',
-        background: 'linear-gradient(180deg, rgba(255, 0, 110, 0.1) 0%, rgba(29, 209, 221, 0.05) 100%)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-      }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+      {/* How it works */}
+      <section style={{ padding: '4rem 2rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <h2 style={{ textAlign: 'center', fontSize: '2rem', fontWeight: '900', marginBottom: '0.5rem' }}>How It Works</h2>
+          <p style={{ textAlign: 'center', color: '#666', marginBottom: '3rem' }}>Three steps to a review the world trusts</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+            {[
+              { emoji: '🍽️', step: '01', title: 'Find a place', desc: 'Browse restaurants, cafés, and businesses. Read what others actually paid to say.' },
+              { emoji: '✍️', step: '02', title: 'Write your truth', desc: 'Share your genuine experience. No character limit. No sugar-coating required.' },
+              { emoji: '💳', step: '03', title: 'Pay $0.99 to publish', desc: 'That\'s it. One tap. Your verified review goes live and joins the feed. The world listens.' },
+            ].map(({ emoji, step, title, desc }) => (
+              <div key={step} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '1.25rem', padding: '2rem', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: '1rem', right: '1.25rem', fontSize: '3rem', fontWeight: '900', color: 'rgba(255,255,255,0.04)', fontFamily: 'monospace' }}>{step}</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{emoji}</div>
+                <h3 style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '0.5rem' }}>{title}</h3>
+                <p style={{ color: '#666', lineHeight: '1.6', fontSize: '0.95rem' }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Reviews */}
+      <section style={{ padding: '4rem 2rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div>
+              <h2 style={{ fontSize: '2rem', fontWeight: '900', margin: 0 }}>🔥 Trending Reviews</h2>
+              <p style={{ color: '#666', marginTop: '0.25rem' }}>What's moving people right now</p>
+            </div>
+            <Link href="/explore" style={{ color: '#ff006e', textDecoration: 'none', fontWeight: '700', fontSize: '0.9rem' }}>
+              See all →
+            </Link>
+          </div>
+
+          {trending.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '4rem', color: '#555' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✍️</div>
+              <p>No reviews yet. Be the first to pay for your opinion.</p>
+              <Link href={user ? '/explore' : '/signup'}>
+                <button style={{ marginTop: '1rem', background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000', padding: '0.75rem 2rem', borderRadius: '9999px', border: 'none', fontWeight: '800', cursor: 'pointer' }}>
+                  Write the First Review
+                </button>
+              </Link>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {trending.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <section style={{ padding: '5rem 2rem', background: 'linear-gradient(135deg, rgba(255,0,110,0.15) 0%, rgba(29,209,221,0.1) 100%)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '1rem' }}>
-            Your Opinion is Worth $0.99
+            Ready to make your voice count?
           </h2>
-          <p style={{ color: '#bbb', fontSize: '1.125rem', marginBottom: '2rem', lineHeight: '1.6' }}>
-            When you pay, you're not just leaving a review. You're signing your name to the truth. And the world listens differently when they know you mean it.
+          <p style={{ color: '#999', fontSize: '1.1rem', marginBottom: '2rem', lineHeight: '1.6' }}>
+            Join reviewers who put their money where their mouth is. $0.99 turns your opinion into something real.
           </p>
-          <button style={{
-            background: 'linear-gradient(135deg, #ff006e, #ffdd00)',
-            color: '#000',
-            padding: '1rem 3rem',
-            borderRadius: '9999px',
-            border: 'none',
-            fontWeight: '800',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            boxShadow: '0 8px 32px rgba(255, 0, 110, 0.3)',
-          }}>
-            Share Your Truth Now
-          </button>
+          <Link href={user ? '/explore' : '/signup'}>
+            <button style={{ background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000', padding: '1rem 3rem', borderRadius: '9999px', border: 'none', fontWeight: '900', cursor: 'pointer', fontSize: '1.05rem', boxShadow: '0 0 40px rgba(255,0,110,0.3)' }}>
+              {user ? 'Write a Review →' : 'Get Started — Free →'}
+            </button>
+          </Link>
+          <p style={{ color: '#444', fontSize: '0.8rem', marginTop: '1rem' }}>No subscription. Pay only when you publish.</p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '2rem',
-        textAlign: 'center',
-        color: '#737373',
-        fontSize: '0.875rem',
-      }}>
-        <p>© 2025 SayPay. Your opinion. Your voice. Your truth.</p>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '2rem', textAlign: 'center', color: '#444', fontSize: '0.875rem' }}>
+        <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', marginBottom: '1rem', flexWrap: 'wrap' }}>
+          <Link href="/explore" style={{ color: '#555', textDecoration: 'none' }}>Explore</Link>
+          <Link href="/leaderboards" style={{ color: '#555', textDecoration: 'none' }}>Leaderboard</Link>
+          <Link href="/campaigns" style={{ color: '#555', textDecoration: 'none' }}>For Businesses</Link>
+          <Link href="/login" style={{ color: '#555', textDecoration: 'none' }}>Login</Link>
+        </div>
+        <p>© 2025 SayPay. Your opinion. Your truth. Verified.</p>
       </footer>
+    </div>
+  )
+}
+
+function ReviewCard({ review }: { review: any }) {
+  const profile = review.sp_profiles
+  const business = review.sp_businesses
+  const displayName = profile?.display_name || profile?.username || 'Anonymous'
+
+  return (
+    <div style={{
+      background: 'rgba(255,255,255,0.03)',
+      border: review.helpful_count > 5 ? '1px solid rgba(255,0,110,0.3)' : '1px solid rgba(255,255,255,0.08)',
+      borderRadius: '1.25rem',
+      padding: '1.75rem',
+      boxShadow: review.helpful_count > 5 ? '0 0 20px rgba(255,0,110,0.1)' : 'none',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #ff006e, #1dd1dd)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '1rem', color: '#fff', flexShrink: 0 }}>
+            {displayName.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div style={{ fontWeight: '700', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              {displayName}
+              {profile?.is_elite && <span style={{ background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000', fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '9999px', fontWeight: '800' }}>ELITE</span>}
+              <span style={{ background: 'rgba(29,209,221,0.15)', color: '#1dd1dd', fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '9999px', fontWeight: '700' }}>✓ PAID</span>
+            </div>
+            <div style={{ color: '#555', fontSize: '0.8rem' }}>
+              reviewed <span style={{ color: '#aaa', fontWeight: '600' }}>{business?.emoji} {business?.name}</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ background: 'rgba(255,0,110,0.1)', border: '1px solid rgba(255,0,110,0.2)', padding: '0.4rem 0.8rem', borderRadius: '9999px', fontSize: '0.85rem', fontWeight: '800', color: '#ff006e' }}>
+          {'★'.repeat(review.rating)}
+        </div>
+      </div>
+      <p style={{ color: '#ddd', lineHeight: '1.65', fontSize: '0.95rem', margin: '0 0 1rem 0' }}>{review.content}</p>
+      <div style={{ display: 'flex', gap: '1rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1rem', color: '#555', fontSize: '0.85rem' }}>
+        <span>👍 {review.helpful_count} helpful</span>
+        <span>❤️ {review.love_count} love</span>
+        <span style={{ marginLeft: 'auto' }}>{new Date(review.created_at).toLocaleDateString()}</span>
+      </div>
     </div>
   )
 }
