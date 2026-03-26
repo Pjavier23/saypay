@@ -23,10 +23,11 @@ export default function Explore() {
     fetchBusinesses()
   }, [category])
 
-  const fetchBusinesses = useCallback(async () => {
+  const fetchBusinesses = useCallback(async (overrideSearch?: string) => {
     setLoading(true)
     const params = new URLSearchParams()
-    if (search) params.set('search', search)
+    const searchTerm = overrideSearch !== undefined ? overrideSearch : search
+    if (searchTerm) params.set('search', searchTerm)
     if (category !== 'All') params.set('category', category)
     const res = await fetch(`/api/businesses?${params}`)
     const data = await res.json()
@@ -64,7 +65,10 @@ export default function Explore() {
         setShowNearby(true)
         const { latitude, longitude } = pos.coords
         try {
-          const res = await fetch(`/api/places/nearby?lat=${latitude}&lng=${longitude}&radius=3000`)
+          const nearbyUrl = search
+            ? `/api/places/nearby?lat=${latitude}&lng=${longitude}&radius=3000&keyword=${encodeURIComponent(search)}`
+            : `/api/places/nearby?lat=${latitude}&lng=${longitude}&radius=3000`
+          const res = await fetch(nearbyUrl)
           if (res.ok) {
             const data = await res.json()
             setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
@@ -133,7 +137,7 @@ export default function Explore() {
                 handleCitySearch(val)
               } else {
                 setSearch(val)
-                fetchBusinesses()
+                fetchBusinesses(val) // pass val directly — avoids stale state
               }
             }} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
               <input

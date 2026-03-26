@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { lat, lng, address, radius = '3000', type = 'restaurant' } = req.query
+  const { lat, lng, address, radius = '3000', type = 'restaurant', keyword } = req.query
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY
   if (!apiKey) return res.status(200).json([])
@@ -25,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       url.searchParams.set('radius', radius as string)
       url.searchParams.set('type', type as string)
       url.searchParams.set('key', apiKey)
+      if (keyword) url.searchParams.set('keyword', keyword as string)
       searchUrl = url.toString()
     } else {
       return res.status(400).json({ error: 'lat/lng or address is required' })
