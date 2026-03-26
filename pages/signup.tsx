@@ -23,19 +23,6 @@ export default function Signup() {
       return
     }
 
-    // Check username taken
-    const { data: existing } = await supabase
-      .from('sp_profiles')
-      .select('id')
-      .eq('username', username.toLowerCase())
-      .single()
-
-    if (existing) {
-      setError('Username already taken')
-      setLoading(false)
-      return
-    }
-
     const { data, error: signupError } = await supabase.auth.signUp({
       email,
       password,
@@ -45,17 +32,19 @@ export default function Signup() {
     if (signupError) { setError(signupError.message); setLoading(false); return }
 
     if (data.user) {
-      // Create profile
-      const { error: profileError } = await supabase
-        .from('sp_profiles')
-        .insert({
-          id: data.user.id,
+      // Create profile via API route (uses service role to bypass RLS)
+      const profileRes = await fetch('/api/auth/create-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: data.user.id,
           username: username.toLowerCase(),
-          display_name: displayName || username,
-        })
-
-      if (profileError) {
-        setError(profileError.message)
+          displayName: displayName || username,
+        }),
+      })
+      const profileData = await profileRes.json()
+      if (!profileRes.ok) {
+        setError(profileData.error || 'Failed to create profile')
         setLoading(false)
         return
       }
