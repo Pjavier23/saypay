@@ -12,10 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let searchUrl: string
 
     if (address && (!lat || !lng)) {
-      // Use Text Search to find restaurants in a city directly (no geocoding needed)
+      // Use Text Search — supports both "restaurants in Miami" and "chipotle near me" style
       const url = new URL('https://maps.googleapis.com/maps/api/place/textsearch/json')
-      url.searchParams.set('query', `restaurants in ${address}`)
-      url.searchParams.set('type', 'restaurant')
+      const query = keyword ? `${keyword} near ${address}` : `restaurants in ${address}`
+      url.searchParams.set('query', query)
       url.searchParams.set('key', apiKey)
       searchUrl = url.toString()
     } else if (lat && lng) {

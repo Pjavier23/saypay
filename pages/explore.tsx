@@ -131,13 +131,42 @@ export default function Explore() {
               e.preventDefault()
               const val = (e.currentTarget.elements.namedItem('mainSearch') as HTMLInputElement).value.trim()
               if (!val) { fetchBusinesses(); return }
-              // Detect if it looks like a location (has numbers, comma, or common location words)
+
               const looksLikeLocation = /\d{5}|,|\b(fl|tx|ca|ny|dc|ga|nc|nj|az|il|pa|oh|mi|wa|co|tn|md|va|ma|mn|or|mo|wi|ct|nv|in|la|ky|al|sc|ok|ut|ia|ms|ar|ks|ne|id|nm|wv|hi|nh|me|ri|mt|de|sd|nd|ak|vt|wy|street|ave|blvd|city|town|miami|new york|los angeles|chicago|houston|phoenix|philadelphia|san antonio|san diego|dallas|san jose|austin|jacksonville|fort|charlotte)\b/i.test(val)
+
               if (looksLikeLocation) {
                 handleCitySearch(val)
               } else {
+                // For name searches: try to get location silently, then use Google Places "near me"
                 setSearch(val)
-                fetchBusinesses(val) // pass val directly — avoids stale state
+                setNearbyLoading(true)
+                setShowNearby(true)
+                const doSearch = (lat?: number, lng?: number) => {
+                  const url = lat && lng
+                    ? `/api/places/nearby?lat=${lat}&lng=${lng}&radius=8000&keyword=${encodeURIComponent(val)}`
+                    : `/api/places/nearby?address=${encodeURIComponent(val)}&radius=8000`
+                  fetch(url).then(r => r.json()).then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                      setNearbyPlaces(data.slice(0, 20))
+                      setLocationStatus('granted')
+                    } else {
+                      // Fall back to DB search
+                      setShowNearby(false)
+                      fetchBusinesses(val)
+                    }
+                    setNearbyLoading(false)
+                  }).catch(() => { setShowNearby(false); fetchBusinesses(val); setNearbyLoading(false) })
+                }
+
+                if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                    pos => doSearch(pos.coords.latitude, pos.coords.longitude),
+                    () => doSearch(), // no location — search by name only via Places text search
+                    { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
+                  )
+                } else {
+                  doSearch()
+                }
               }
             }} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
               <input
