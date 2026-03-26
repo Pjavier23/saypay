@@ -20,8 +20,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       geoUrl.searchParams.set('key', apiKey)
       const geoRes = await fetch(geoUrl.toString())
       const geoData = await geoRes.json()
-      if (geoData.status !== 'OK' || !geoData.results?.[0]) {
-        return res.status(400).json({ error: 'Could not find that location. Try a city name or zip code.' })
+      if (geoData.status === 'REQUEST_DENIED' || !geoData.results?.[0]) {
+        // Billing not enabled or not found — return empty, UI shows DB businesses
+        return res.status(200).json([])
       }
       const loc = geoData.results[0].geometry.location
       latLng = `${loc.lat},${loc.lng}`
@@ -38,9 +39,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await fetch(url.toString())
     const data = await response.json()
 
+    if (data.status === 'REQUEST_DENIED' || data.status === 'OVER_QUERY_LIMIT') {
+      // Billing not enabled or quota exceeded — return empty so UI falls back to DB businesses
+      console.error('Google Places API denied:', data.status, data.error_message)
+      return res.status(200).json([])
+    }
+
     if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
       console.error('Google Places API error:', data.status, data.error_message)
-      return res.status(500).json({ error: data.error_message || 'Google Places API error', status: data.status })
+      return res.status(200).json([])
     }
 
     const places = (data.results || []).map((place: any) => ({
