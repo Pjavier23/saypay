@@ -122,85 +122,62 @@ export default function Explore() {
               Find a place. Write your truth. Pay $0.99 to publish.
             </p>
 
-            {/* Location finder — Use GPS or type city */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              {/* GPS button */}
-              <button
-                type="button"
-                onClick={handleNearMe}
-                disabled={locationStatus === 'loading'}
-                style={{
-                  width: '100%',
-                  background: locationStatus === 'granted'
-                    ? 'rgba(29,209,221,0.15)'
-                    : 'linear-gradient(135deg, rgba(29,209,221,0.2), rgba(29,209,221,0.05))',
-                  color: locationStatus === 'granted' ? '#1dd1dd' : '#fff',
-                  border: '1px solid rgba(29,209,221,0.35)',
-                  padding: '0.9rem 1.5rem', borderRadius: '0.75rem',
-                  fontWeight: '800', cursor: locationStatus === 'loading' ? 'wait' : 'pointer',
-                  fontSize: '1rem', marginBottom: '0.75rem', letterSpacing: '0.01em',
-                }}
-              >
-                {locationStatus === 'loading' ? '📍 Detecting your location...' :
-                 locationStatus === 'granted' ? '📍 Location found ✓' :
-                 locationStatus === 'denied' ? '📍 Location blocked — allow it in browser settings' :
-                 '📍 Use My Location — Find Restaurants Near Me'}
-              </button>
-
-              {locationStatus === 'denied' && (
-                <div style={{ background: 'rgba(255,136,110,0.1)', border: '1px solid rgba(255,136,110,0.3)', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '0.75rem', fontSize: '0.85rem', color: '#ff886e' }}>
-                  <strong>Location blocked.</strong> To enable:<br />
-                  <span style={{ color: '#aaa' }}>
-                    📱 <strong>iPhone/Safari:</strong> Settings → Safari → Location → Allow<br />
-                    🤖 <strong>Android/Chrome:</strong> Tap the 🔒 lock icon in address bar → Permissions → Location → Allow<br />
-                    Or just type your city below 👇
-                  </span>
-                </div>
-              )}
-
-              {/* City/zip always visible */}
-              <form onSubmit={(e) => {
-                e.preventDefault()
-                const input = (e.currentTarget.elements.namedItem('cityInput') as HTMLInputElement).value.trim()
-                handleCitySearch(input)
-              }} style={{ display: 'flex', gap: '0.5rem' }}>
-                <input
-                  name="cityInput"
-                  placeholder="Or type a city / zip code (e.g. Miami, FL)"
-                  style={{
-                    flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '0.75rem', padding: '0.8rem 1.1rem', color: '#fff', fontSize: '0.95rem', outline: 'none',
-                  }}
-                />
-                <button type="submit" style={{
-                  background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
-                  border: 'none', borderRadius: '0.75rem', padding: '0.8rem 1.5rem',
-                  fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap',
-                }}>Search →</button>
-              </form>
-            </div>
-
-            {/* Name search */}
-            <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            {/* Single unified search bar */}
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const val = (e.currentTarget.elements.namedItem('mainSearch') as HTMLInputElement).value.trim()
+              if (!val) { fetchBusinesses(); return }
+              // Detect if it looks like a location (has numbers, comma, or common location words)
+              const looksLikeLocation = /\d{5}|,|\b(fl|tx|ca|ny|dc|ga|nc|nj|az|il|pa|oh|mi|wa|co|tn|md|va|ma|mn|or|mo|wi|ct|nv|in|la|ky|al|sc|ok|ut|ia|ms|ar|ks|ne|id|nm|wv|hi|nh|me|ri|mt|de|sd|nd|ak|vt|wy|street|ave|blvd|city|town|miami|new york|los angeles|chicago|houston|phoenix|philadelphia|san antonio|san diego|dallas|san jose|austin|jacksonville|fort|charlotte)\b/i.test(val)
+              if (looksLikeLocation) {
+                handleCitySearch(val)
+              } else {
+                setSearch(val)
+                fetchBusinesses()
+              }
+            }} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
               <input
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Search by restaurant name..."
+                name="mainSearch"
+                defaultValue={search}
+                placeholder="🔍 Search restaurants, or enter a city / zip code..."
                 style={{
-                  flex: 1,
-                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '0.75rem', padding: '0.8rem 1.1rem',
-                  color: '#fff', fontSize: '0.95rem', outline: 'none',
+                  flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '0.75rem', padding: '0.9rem 1.25rem', color: '#fff', fontSize: '1rem', outline: 'none',
                 }}
               />
               <button type="submit" style={{
-                background: 'rgba(255,255,255,0.08)', color: '#fff',
-                padding: '0.8rem 1.25rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.12)',
-                fontWeight: '700', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap',
-              }}>
-                Search
-              </button>
+                background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
+                border: 'none', borderRadius: '0.75rem', padding: '0.9rem 1.5rem',
+                fontWeight: '800', cursor: 'pointer', fontSize: '1rem', whiteSpace: 'nowrap',
+              }}>Search</button>
             </form>
+
+            {/* GPS button */}
+            <button
+              type="button"
+              onClick={handleNearMe}
+              disabled={locationStatus === 'loading'}
+              style={{
+                width: '100%', marginBottom: '1rem',
+                background: locationStatus === 'granted' ? 'rgba(29,209,221,0.15)' : 'rgba(255,255,255,0.05)',
+                color: locationStatus === 'granted' ? '#1dd1dd' : '#888',
+                border: locationStatus === 'granted' ? '1px solid rgba(29,209,221,0.35)' : '1px solid rgba(255,255,255,0.1)',
+                padding: '0.65rem 1.5rem', borderRadius: '0.75rem',
+                fontWeight: '600', cursor: locationStatus === 'loading' ? 'wait' : 'pointer', fontSize: '0.9rem',
+              }}
+            >
+              {locationStatus === 'loading' ? '📍 Detecting...' :
+               locationStatus === 'granted' ? '📍 Showing results near you ✓' :
+               locationStatus === 'denied' ? '📍 Location blocked — enable in browser settings' :
+               '📍 Or use my current location'}
+            </button>
+
+            {locationStatus === 'denied' && (
+              <div style={{ background: 'rgba(255,136,110,0.08)', border: '1px solid rgba(255,136,110,0.25)', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', fontSize: '0.82rem', color: '#ff886e' }}>
+                📱 <strong>iPhone:</strong> Settings → Safari → Location → Allow &nbsp;|&nbsp;
+                🤖 <strong>Android:</strong> Tap 🔒 in address bar → Location → Allow
+              </div>
+            )}
 
             {/* Category filter */}
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
