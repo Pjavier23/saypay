@@ -3,11 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { lat, lng, radius = '2000', type = 'restaurant' } = req.query
-
-  if (!lat || !lng) {
-    return res.status(400).json({ error: 'lat and lng are required' })
-  }
+  const { lat, lng, address, radius = '2000', type = 'restaurant' } = req.query
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY
   if (!apiKey) {
@@ -15,8 +11,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    let latLng = `${lat},${lng}`
+
+    // If address provided instead of lat/lng, geocode it first
+    if (address && (!lat || !lng)) {
+      const geoUrl = new URL('https://maps.googleapis.com/maps/api/geocode/json')
+      geoUrl.searchParams.set('address', address as string)
+      geoUrl.searchParams.set('key', apiKey)
+      const geoRes = await fetch(geoUrl.toString())
+      const geoData = await geoRes.json()
+      if (geoData.status !== 'OK' || !geoData.results?.[0]) {
+        return res.status(400).json({ error: 'Could not find that location. Try a city name or zip code.' })
+      }
+      const loc = geoData.results[0].geometry.location
+      latLng = `${loc.lat},${loc.lng}`
+    } else if (!lat || !lng) {
+      return res.status(400).json({ error: 'lat/lng or address is required' })
+    }
+
     const url = new URL('https://maps.googleapis.com/maps/api/place/nearbysearch/json')
-    url.searchParams.set('location', `${lat},${lng}`)
+    url.searchParams.set('location', latLng)
     url.searchParams.set('radius', radius as string)
     url.searchParams.set('type', type as string)
     url.searchParams.set('key', apiKey)
