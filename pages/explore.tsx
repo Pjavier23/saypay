@@ -64,7 +64,7 @@ export default function Explore() {
         // Permission denied or unavailable — show city input
         setLocationStatus('denied')
       },
-      { timeout: 15000, enableHighAccuracy: false, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     )
   }
 

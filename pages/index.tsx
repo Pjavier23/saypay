@@ -64,7 +64,8 @@ export default function Home() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         pos => fetchNearby(pos.coords.latitude, pos.coords.longitude),
-        () => {}
+        () => {},
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       )
     }
   }, [])
@@ -130,7 +131,7 @@ export default function Home() {
         setNearbyLoading(false)
         // Don't show error — the city input fallback is already visible
       },
-      { timeout: 8000 }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     )
   }
 
