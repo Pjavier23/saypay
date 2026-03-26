@@ -3,50 +3,43 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { lat, lng, address, radius = '2000', type = 'restaurant' } = req.query
+  const { lat, lng, address, radius = '3000', type = 'restaurant' } = req.query
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY
-  if (!apiKey) {
-    return res.status(500).json({ error: 'Google Places API key not configured' })
-  }
+  if (!apiKey) return res.status(200).json([])
 
   try {
-    let latLng = `${lat},${lng}`
+    let searchUrl: string
 
-    // If address provided instead of lat/lng, geocode it first
     if (address && (!lat || !lng)) {
-      const geoUrl = new URL('https://maps.googleapis.com/maps/api/geocode/json')
-      geoUrl.searchParams.set('address', address as string)
-      geoUrl.searchParams.set('key', apiKey)
-      const geoRes = await fetch(geoUrl.toString())
-      const geoData = await geoRes.json()
-      if (geoData.status === 'REQUEST_DENIED' || !geoData.results?.[0]) {
-        // Billing not enabled or not found — return empty, UI shows DB businesses
-        return res.status(200).json([])
-      }
-      const loc = geoData.results[0].geometry.location
-      latLng = `${loc.lat},${loc.lng}`
-    } else if (!lat || !lng) {
+      // Use Text Search to find restaurants in a city directly (no geocoding needed)
+      const url = new URL('https://maps.googleapis.com/maps/api/place/textsearch/json')
+      url.searchParams.set('query', `restaurants in ${address}`)
+      url.searchParams.set('type', 'restaurant')
+      url.searchParams.set('key', apiKey)
+      searchUrl = url.toString()
+    } else if (lat && lng) {
+      // Use Nearby Search for lat/lng
+      const url = new URL('https://maps.googleapis.com/maps/api/place/nearbysearch/json')
+      url.searchParams.set('location', `${lat},${lng}`)
+      url.searchParams.set('radius', radius as string)
+      url.searchParams.set('type', type as string)
+      url.searchParams.set('key', apiKey)
+      searchUrl = url.toString()
+    } else {
       return res.status(400).json({ error: 'lat/lng or address is required' })
     }
 
-    const url = new URL('https://maps.googleapis.com/maps/api/place/nearbysearch/json')
-    url.searchParams.set('location', latLng)
-    url.searchParams.set('radius', radius as string)
-    url.searchParams.set('type', type as string)
-    url.searchParams.set('key', apiKey)
-
-    const response = await fetch(url.toString())
+    const response = await fetch(searchUrl)
     const data = await response.json()
 
     if (data.status === 'REQUEST_DENIED' || data.status === 'OVER_QUERY_LIMIT') {
-      // Billing not enabled or quota exceeded — return empty so UI falls back to DB businesses
       console.error('Google Places API denied:', data.status, data.error_message)
       return res.status(200).json([])
     }
 
     if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
-      console.error('Google Places API error:', data.status, data.error_message)
+      console.error('Google Places API error:', data.status)
       return res.status(200).json([])
     }
 
@@ -54,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       id: place.place_id,
       name: place.name,
       category: place.types?.[0]?.replace(/_/g, ' ') || 'Restaurant',
-      location: place.vicinity,
+      location: place.vicinity || place.formatted_address || '',
       avg_rating: place.rating || 0,
       total_reviews: place.user_ratings_total || 0,
       emoji: getCategoryEmoji(place.types),
@@ -72,23 +65,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json(places)
   } catch (err: any) {
     console.error('Places API error:', err)
-    return res.status(500).json({ error: 'Failed to fetch nearby places' })
+    return res.status(200).json([])
   }
 }
 
 function getCategoryEmoji(types: string[] = []): string {
   const typeMap: Record<string, string> = {
-    restaurant: '🍽️',
-    food: '🍽️',
-    cafe: '☕',
-    bar: '🍺',
-    bakery: '🥐',
-    meal_takeaway: '🥡',
-    meal_delivery: '🛵',
-    pizza: '🍕',
-    sushi: '🍣',
-    hamburger: '🍔',
-    ice_cream: '🍦',
+    restaurant: '🍽️', food: '🍽️', cafe: '☕', bar: '🍺',
+    bakery: '🥐', meal_takeaway: '🥡', meal_delivery: '🛵',
+    night_club: '🎵', lodging: '🏨',
   }
   for (const type of types) {
     if (typeMap[type]) return typeMap[type]

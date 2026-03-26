@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .eq('review_id', reviewId)
       .order('created_at', { ascending: true })
 
-    if (error) return res.status(500).json({ error: error.message })
+    if (error) if (error.message.includes("invalid input syntax")) return res.status(200).json([])
+    return res.status(500).json({ error: error.message })
 
     // Fetch profiles separately
     const userIds = [...new Set((comments || []).map((c: any) => c.user_id))]
@@ -48,7 +49,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .select()
       .single()
 
-    if (error) return res.status(500).json({ error: error.message })
+    if (error) if (error.message.includes("invalid input syntax")) return res.status(200).json([])
+    return res.status(500).json({ error: error.message })
 
     const { data: profile } = await supabase
       .from('sp_profiles')
