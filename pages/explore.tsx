@@ -39,11 +39,23 @@ export default function Explore() {
     fetchBusinesses()
   }
 
-  const handleNearMe = () => {
+  const handleNearMe = async () => {
     if (!navigator.geolocation) {
       setLocationStatus('denied')
       return
     }
+
+    // Check permission state first if API available
+    if (navigator.permissions) {
+      try {
+        const perm = await navigator.permissions.query({ name: 'geolocation' })
+        if (perm.state === 'denied') {
+          setLocationStatus('denied')
+          return
+        }
+      } catch(e) {}
+    }
+
     setLocationStatus('loading')
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
@@ -61,8 +73,9 @@ export default function Explore() {
         setNearbyLoading(false)
       },
       (err) => {
-        // Permission denied or unavailable — show city input
         setLocationStatus('denied')
+        // err.code: 1=PERMISSION_DENIED, 2=POSITION_UNAVAILABLE, 3=TIMEOUT
+        console.error('Geolocation error code:', err.code, err.message)
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     )
@@ -130,8 +143,20 @@ export default function Explore() {
               >
                 {locationStatus === 'loading' ? '📍 Detecting your location...' :
                  locationStatus === 'granted' ? '📍 Location found ✓' :
+                 locationStatus === 'denied' ? '📍 Location blocked — allow it in browser settings' :
                  '📍 Use My Location — Find Restaurants Near Me'}
               </button>
+
+              {locationStatus === 'denied' && (
+                <div style={{ background: 'rgba(255,136,110,0.1)', border: '1px solid rgba(255,136,110,0.3)', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '0.75rem', fontSize: '0.85rem', color: '#ff886e' }}>
+                  <strong>Location blocked.</strong> To enable:<br />
+                  <span style={{ color: '#aaa' }}>
+                    📱 <strong>iPhone/Safari:</strong> Settings → Safari → Location → Allow<br />
+                    🤖 <strong>Android/Chrome:</strong> Tap the 🔒 lock icon in address bar → Permissions → Location → Allow<br />
+                    Or just type your city below 👇
+                  </span>
+                </div>
+              )}
 
               {/* City/zip always visible */}
               <form onSubmit={(e) => {
