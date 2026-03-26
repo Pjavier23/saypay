@@ -41,7 +41,7 @@ export default function Explore() {
 
   const handleNearMe = () => {
     if (!navigator.geolocation) {
-      setLocationStatus('error')
+      setLocationStatus('denied')
       return
     }
     setLocationStatus('loading')
@@ -51,21 +51,36 @@ export default function Explore() {
         setNearbyLoading(true)
         setShowNearby(true)
         const { latitude, longitude } = pos.coords
-        const res = await fetch(`/api/places/nearby?lat=${latitude}&lng=${longitude}&radius=2000`)
-        if (res.ok) {
-          const data = await res.json()
-          setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
-        } else {
-          setNearbyPlaces([])
-        }
+        try {
+          const res = await fetch(`/api/places/nearby?lat=${latitude}&lng=${longitude}&radius=3000`)
+          if (res.ok) {
+            const data = await res.json()
+            setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
+          }
+        } catch(e) {}
         setNearbyLoading(false)
       },
       (err) => {
-        console.error('Geolocation error:', err)
+        // Permission denied or unavailable — show city input
         setLocationStatus('denied')
       },
-      { timeout: 10000 }
+      { timeout: 15000, enableHighAccuracy: false, maximumAge: 60000 }
     )
+  }
+
+  const handleCitySearch = async (city: string) => {
+    if (!city.trim()) return
+    setNearbyLoading(true)
+    setShowNearby(true)
+    try {
+      const res = await fetch(`/api/places/nearby?address=${encodeURIComponent(city)}&radius=3000`)
+      if (res.ok) {
+        const data = await res.json()
+        setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
+        setLocationStatus('granted')
+      }
+    } catch(e) {}
+    setNearbyLoading(false)
   }
 
   const allResults = showNearby && nearbyPlaces.length > 0
@@ -94,76 +109,72 @@ export default function Explore() {
               Find a place. Write your truth. Pay $0.99 to publish.
             </p>
 
-            {/* Search + Near Me row */}
-            <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+            {/* Location finder — Use GPS or type city */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              {/* GPS button */}
+              <button
+                type="button"
+                onClick={handleNearMe}
+                disabled={locationStatus === 'loading'}
+                style={{
+                  width: '100%',
+                  background: locationStatus === 'granted'
+                    ? 'rgba(29,209,221,0.15)'
+                    : 'linear-gradient(135deg, rgba(29,209,221,0.2), rgba(29,209,221,0.05))',
+                  color: locationStatus === 'granted' ? '#1dd1dd' : '#fff',
+                  border: '1px solid rgba(29,209,221,0.35)',
+                  padding: '0.9rem 1.5rem', borderRadius: '0.75rem',
+                  fontWeight: '800', cursor: locationStatus === 'loading' ? 'wait' : 'pointer',
+                  fontSize: '1rem', marginBottom: '0.75rem', letterSpacing: '0.01em',
+                }}
+              >
+                {locationStatus === 'loading' ? '📍 Detecting your location...' :
+                 locationStatus === 'granted' ? '📍 Location found ✓' :
+                 '📍 Use My Location — Find Restaurants Near Me'}
+              </button>
+
+              {/* City/zip always visible */}
+              <form onSubmit={(e) => {
+                e.preventDefault()
+                const input = (e.currentTarget.elements.namedItem('cityInput') as HTMLInputElement).value.trim()
+                handleCitySearch(input)
+              }} style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  name="cityInput"
+                  placeholder="Or type a city / zip code (e.g. Miami, FL)"
+                  style={{
+                    flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '0.75rem', padding: '0.8rem 1.1rem', color: '#fff', fontSize: '0.95rem', outline: 'none',
+                  }}
+                />
+                <button type="submit" style={{
+                  background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
+                  border: 'none', borderRadius: '0.75rem', padding: '0.8rem 1.5rem',
+                  fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap',
+                }}>Search →</button>
+              </form>
+            </div>
+
+            {/* Name search */}
+            <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                placeholder="Search restaurants, cafés, bars..."
+                placeholder="Search by restaurant name..."
                 style={{
-                  flex: '1 1 200px', minWidth: '180px',
+                  flex: 1,
                   background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
                   borderRadius: '0.75rem', padding: '0.8rem 1.1rem',
                   color: '#fff', fontSize: '0.95rem', outline: 'none',
                 }}
               />
               <button type="submit" style={{
-                background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
-                padding: '0.8rem 1.5rem', borderRadius: '0.75rem', border: 'none',
-                fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap',
+                background: 'rgba(255,255,255,0.08)', color: '#fff',
+                padding: '0.8rem 1.25rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.12)',
+                fontWeight: '700', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap',
               }}>
                 Search
               </button>
-              <button
-                type="button"
-                onClick={handleNearMe}
-                disabled={locationStatus === 'loading' || locationStatus === 'granted'}
-                style={{
-                  background: showNearby && locationStatus === 'granted'
-                    ? 'rgba(29,209,221,0.15)'
-                    : 'rgba(255,255,255,0.06)',
-                  color: showNearby && locationStatus === 'granted' ? '#1dd1dd' : '#ccc',
-                  border: showNearby && locationStatus === 'granted'
-                    ? '1px solid rgba(29,209,221,0.3)'
-                    : '1px solid rgba(255,255,255,0.12)',
-                  padding: '0.8rem 1.25rem', borderRadius: '0.75rem',
-                  fontWeight: '700', cursor: locationStatus === 'loading' ? 'wait' : 'pointer',
-                  fontSize: '0.9rem', whiteSpace: 'nowrap',
-                }}
-              >
-                {locationStatus === 'loading' ? '📍 Detecting...' :
-                 locationStatus === 'granted' ? '📍 Near Me ✓' : '📍 Near Me'}
-              </button>
-            </form>
-
-            {/* City search - always visible */}
-            <form onSubmit={async (e) => {
-              e.preventDefault()
-              const input = (e.currentTarget.elements.namedItem('cityInput') as HTMLInputElement).value.trim()
-              if (!input) return
-              setNearbyLoading(true)
-              setShowNearby(true)
-              const res = await fetch(`/api/places/nearby?address=${encodeURIComponent(input)}&radius=2000`)
-              if (res.ok) {
-                const data = await res.json()
-                setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
-                setLocationStatus('granted')
-              }
-              setNearbyLoading(false)
-            }} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-              <input
-                name="cityInput"
-                placeholder="Search by city or zip (e.g. Miami, FL)"
-                style={{
-                  flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '0.6rem', padding: '0.6rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none'
-                }}
-              />
-              <button type="submit" style={{
-                background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
-                border: 'none', borderRadius: '0.6rem', padding: '0.6rem 1.25rem',
-                fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap'
-              }}>Find →</button>
             </form>
 
             {/* Category filter */}
