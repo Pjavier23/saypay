@@ -104,3 +104,51 @@ button:hover:not(:disabled) {
 button:active:not(:disabled) {
   transform: scale(0.97);
 }
+
+/* Review card entrance animation */
+@keyframes reviewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.review-card-animate {
+  animation: reviewFadeIn 0.4s ease both;
+}
+
+/* Activity ticker animation */
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.activity-ticker {
+  animation: tickerScroll 18s linear infinite;
+}
+
+/* Reaction button pulse on click */
+@keyframes reactPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.react-pulse {
+  animation: reactPulse 0.3s ease;
+}
+
+/* Intersection observer fade-in for review cards */
+.review-card-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.review-card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

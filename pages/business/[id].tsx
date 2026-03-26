@@ -8,6 +8,37 @@ import { ReviewCardSkeleton } from '../../components/LoadingSkeleton'
 import { useAuth } from '../_app'
 import { supabase } from '../../lib/supabase'
 
+function FollowBusinessButton({ businessId, businessName }: { businessId: string; businessName: string }) {
+  const [following, setFollowing] = useState(false)
+  useEffect(() => {
+    setFollowing(localStorage.getItem(`follow_biz_${businessId}`) === '1')
+  }, [businessId])
+  function toggle() {
+    if (following) {
+      localStorage.removeItem(`follow_biz_${businessId}`)
+      setFollowing(false)
+    } else {
+      localStorage.setItem(`follow_biz_${businessId}`, '1')
+      setFollowing(true)
+    }
+  }
+  return (
+    <button
+      onClick={toggle}
+      style={{
+        background: following ? 'rgba(255,0,110,0.12)' : 'rgba(255,255,255,0.06)',
+        border: following ? '1px solid rgba(255,0,110,0.3)' : '1px solid rgba(255,255,255,0.12)',
+        color: following ? '#ff006e' : '#aaa',
+        padding: '0.5rem 1.1rem', borderRadius: '9999px',
+        cursor: 'pointer', fontWeight: '700', fontSize: '0.85rem',
+        transition: 'all 0.15s',
+      }}
+    >
+      {following ? '🔔 Following' : '🔔 Follow'}
+    </button>
+  )
+}
+
 const TIP_AMOUNTS = [
   { label: '$1', cents: 100 },
   { label: '$2', cents: 200 },
@@ -302,7 +333,7 @@ export default function BusinessPage() {
                     {'★'.repeat(Math.round(avgRating))}{'☆'.repeat(5 - Math.round(avgRating))}
                   </span>
                   <span style={{ fontWeight: '800', fontSize: '1.05rem' }}>{avgRating > 0 ? avgRating.toFixed(1) : '—'}</span>
-                  <span style={{ color: '#555', fontSize: '0.85rem' }}>({business.total_reviews} verified)</span>
+                  <span style={{ color: '#555', fontSize: '0.85rem' }}>{business.total_reviews > 0 ? `${business.total_reviews} people reviewed this` : 'No reviews yet'}</span>
                 </div>
               </div>
               <button
@@ -316,6 +347,7 @@ export default function BusinessPage() {
               >
                 ✍️ Write Review — $0.99
               </button>
+              <FollowBusinessButton businessId={business.id} businessName={business.name} />
             </div>
           </div>
 

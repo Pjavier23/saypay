@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .select('*, sp_profiles(username, display_name, avatar_url, is_elite)')
       .eq('business_id', id)
       .eq('status', 'published')
+      .order('helpful_count', { ascending: false })
       .order('created_at', { ascending: false })
 
     if (revError) return res.status(500).json({ error: revError.message })

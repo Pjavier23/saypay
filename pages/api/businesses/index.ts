@@ -11,6 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .from('sp_businesses')
       .select('*')
       .order('is_boosted', { ascending: false })
+      .order('total_reviews', { ascending: false })
       .order('avg_rating', { ascending: false })
 
     if (search) {

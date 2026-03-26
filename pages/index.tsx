@@ -8,6 +8,39 @@ import ReviewCard from '../components/ReviewCard'
 import BusinessCard from '../components/BusinessCard'
 import { BusinessCardSkeleton, ReviewCardSkeleton } from '../components/LoadingSkeleton'
 
+function ActivityFeed({ items }: { items: any[] }) {
+  const [idx, setIdx] = useState(0)
+  useEffect(() => {
+    if (items.length === 0) return
+    const t = setInterval(() => setIdx(i => (i + 1) % items.length), 4000)
+    return () => clearInterval(t)
+  }, [items.length])
+  if (items.length === 0) return null
+  const item = items[idx]
+  const name = item?.sp_profiles?.display_name || item?.sp_profiles?.username || 'Someone'
+  const biz = item?.sp_businesses
+  const stars = '★'.repeat(item?.rating || 5)
+  return (
+    <div style={{
+      background: 'rgba(255,0,110,0.07)', border: '1px solid rgba(255,0,110,0.18)',
+      borderRadius: '9999px', padding: '0.5rem 1.25rem',
+      display: 'flex', alignItems: 'center', gap: '0.5rem',
+      maxWidth: '520px', margin: '1.5rem auto 0', overflow: 'hidden',
+    }}>
+      <span style={{ fontSize: '0.8rem', color: '#888', whiteSpace: 'nowrap', flexShrink: 0 }}>🔴 Live</span>
+      <span key={idx} style={{
+        fontSize: '0.82rem', color: '#ccc', whiteSpace: 'nowrap',
+        animation: 'reviewFadeIn 0.5s ease',
+      }}>
+        <strong style={{ color: '#ff886e' }}>{name}</strong>
+        {' just reviewed '}
+        {biz && <><strong style={{ color: '#fff' }}>{biz.emoji} {biz.name}</strong>{' '}</>}
+        <span style={{ color: '#ffdd00' }}>{stars}</span>
+      </span>
+    </div>
+  )
+}
+
 export default function Home() {
   const { user } = useAuth()
   const [trending, setTrending] = useState<any[]>([])
@@ -15,11 +48,13 @@ export default function Home() {
   const [nearbyLoading, setNearbyLoading] = useState(false)
   const [stats, setStats] = useState({ reviews: 0, businesses: 0 })
   const [trendingLoading, setTrendingLoading] = useState(true)
+  const [activityFeed, setActivityFeed] = useState<any[]>([])
   const [locationAsked, setLocationAsked] = useState(false)
 
   useEffect(() => {
     fetchTrending()
     fetchStats()
+    fetchActivityFeed()
     // Silently try geolocation on load
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -29,13 +64,25 @@ export default function Home() {
     }
   }, [])
 
+  async function fetchActivityFeed() {
+    const { data } = await supabase
+      .from('sp_reviews')
+      .select('*, sp_profiles(username, display_name), sp_businesses(name, emoji)')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(5)
+    setActivityFeed(data || [])
+  }
+
   async function fetchTrending() {
     setTrendingLoading(true)
+    // Paid/published reviews bubble to top, then by helpful_count, then by date
     const { data } = await supabase
       .from('sp_reviews')
       .select('*, sp_profiles(username, display_name, is_elite), sp_businesses(name, emoji, category)')
       .eq('status', 'published')
       .order('helpful_count', { ascending: false })
+      .order('created_at', { ascending: false })
       .limit(4)
     setTrending(data || [])
     setTrendingLoading(false)
@@ -120,6 +167,9 @@ export default function Home() {
               </button>
             </Link>
           </div>
+
+          {/* Activity Feed */}
+          <ActivityFeed items={activityFeed} />
 
           {/* Stats */}
           <div style={{ display: 'flex', gap: '2.5rem', justifyContent: 'center', marginTop: '3.5rem', flexWrap: 'wrap' }}>
