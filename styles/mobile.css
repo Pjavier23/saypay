@@ -1,0 +1,113 @@
+/* ── SayPay Mobile Stylesheet ─────────────────────────────────────────────── */
+
+/* Viewport safety */
+html, body {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Nav mobile collapse */
+@media (max-width: 640px) {
+  .nav-links-desktop {
+    display: none !important;
+  }
+  .nav-mobile-cta {
+    display: flex !important;
+  }
+  .nav-inner {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+/* Explore: category pills horizontal scroll on mobile */
+@media (max-width: 640px) {
+  .category-pills {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .category-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .explore-search-row {
+    flex-direction: column !important;
+  }
+  .explore-search-row input,
+  .explore-search-row button {
+    width: 100% !important;
+  }
+}
+
+/* Cards — prevent overflow */
+@media (max-width: 640px) {
+  .business-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .review-form-inner {
+    padding: 1.25rem !important;
+  }
+}
+
+/* Hero buttons stack on mobile */
+@media (max-width: 480px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .hero-buttons a,
+  .hero-buttons button {
+    width: 100%;
+  }
+}
+
+/* Activity ticker — clamp width */
+@media (max-width: 640px) {
+  .activity-ticker-wrap {
+    max-width: calc(100vw - 2rem) !important;
+  }
+}
+
+/* Footer links stack on mobile */
+@media (max-width: 480px) {
+  .footer-links {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: center;
+  }
+}
+
+/* Star rating touch targets */
+.star-btn {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Signup / Login forms */
+@media (max-width: 480px) {
+  .auth-form-wrap {
+    padding: 1.25rem !important;
+  }
+  .auth-outer {
+    padding: 1rem !important;
+  }
+}
+
+/* Dashboard header */
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+/* Generic: anything with padding 2rem should shrink on mobile */
+@media (max-width: 640px) {
+  .section-pad {
+    padding-left: clamp(1rem, 4vw, 2rem) !important;
+    padding-right: clamp(1rem, 4vw, 2rem) !important;
+  }
+}

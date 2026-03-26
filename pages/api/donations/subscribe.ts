@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { stripe } from '../../../lib/stripe'
+import { stripe, isStripeConfigured } from '../../../lib/stripe'
 
-// Monthly donation plans (in cents)
 const DONATION_PLANS: Record<string, { amount: number; label: string }> = {
   supporter: { amount: 500, label: '$5/mo Supporter' },
   champion: { amount: 1000, label: '$10/mo Champion' },
@@ -10,6 +9,10 @@ const DONATION_PLANS: Record<string, { amount: number; label: string }> = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
+  if (!isStripeConfigured()) {
+    return res.status(503).json({ error: 'Payment processing is not configured yet.' })
+  }
 
   const { business_id, business_name, user_id, plan, custom_amount_cents } = req.body
 
@@ -32,32 +35,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 
-  // Create a recurring price dynamically
-  const price = await stripe.prices.create({
-    currency: 'usd',
-    unit_amount: amount_cents,
-    recurring: { interval: 'month' },
-    product_data: {
-      name: `Monthly Support: ${business_name || 'Local Business'}`,
-    },
-  })
+  try {
+    const price = await stripe.prices.create({
+      currency: 'usd',
+      unit_amount: amount_cents,
+      recurring: { interval: 'month' },
+      product_data: { name: `Monthly Support: ${business_name || 'Local Business'}` },
+    })
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [{
-      price: price.id,
-      quantity: 1,
-    }],
-    mode: 'subscription',
-    success_url: `${appUrl}/business/${business_id}?donation=success`,
-    cancel_url: `${appUrl}/business/${business_id}?donation=canceled`,
-    metadata: {
-      business_id,
-      user_id,
-      type: 'monthly_donation',
-      plan: planLabel,
-    },
-  })
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [{ price: price.id, quantity: 1 }],
+      mode: 'subscription',
+      success_url: `${appUrl}/business/${business_id}?donation=success`,
+      cancel_url: `${appUrl}/business/${business_id}?donation=canceled`,
+      metadata: { business_id, user_id, type: 'monthly_donation', plan: planLabel },
+    })
 
-  return res.status(200).json({ url: session.url })
+    return res.status(200).json({ url: session.url })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Unexpected error'
+    console.error('donations/subscribe error:', msg)
+    return res.status(500).json({ error: msg })
+  }
 }

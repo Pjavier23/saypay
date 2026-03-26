@@ -1,23 +1,23 @@
+import Logo from './Logo'
 import Link from 'next/link'
 
 export default function Footer() {
   return (
     <footer style={{
       borderTop: '1px solid rgba(255,255,255,0.07)',
-      padding: '2.5rem 1.5rem',
+      padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 1.5rem)',
       textAlign: 'center',
       color: '#444',
       fontSize: '0.875rem',
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '1.5rem' }}>
-          <span style={{
-            fontSize: '1.25rem', fontWeight: '900',
-            background: 'linear-gradient(135deg, #ff006e, #1dd1dd)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>SayPay</span>
+        <div style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'center' }}>
+          <Logo size="sm" />
         </div>
-        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+        <div
+          className="footer-links"
+          style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.25rem' }}
+        >
           <Link href="/explore" style={{ color: '#555', textDecoration: 'none' }}>Explore</Link>
           <Link href="/leaderboards" style={{ color: '#555', textDecoration: 'none' }}>Leaderboard</Link>
           <Link href="/campaigns" style={{ color: '#555', textDecoration: 'none' }}>For Businesses</Link>

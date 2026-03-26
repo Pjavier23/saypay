@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { stripe } from '../../../lib/stripe'
+import { stripe, isStripeConfigured } from '../../../lib/stripe'
 import { createServiceClient } from '../../../lib/supabase'
 import Stripe from 'stripe'
 
@@ -7,7 +7,7 @@ export const config = { api: { bodyParser: false } }
 
 async function buffer(req: NextApiRequest): Promise<Buffer> {
   const chunks: Buffer[] = []
-  for await (const chunk of req as any) {
+  for await (const chunk of req as unknown as AsyncIterable<Buffer | string>) {
     chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
   }
   return Buffer.concat(chunks)
@@ -16,16 +16,21 @@ async function buffer(req: NextApiRequest): Promise<Buffer> {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end()
 
+  if (!isStripeConfigured()) {
+    return res.status(503).json({ error: 'Stripe not configured' })
+  }
+
   const sig = req.headers['stripe-signature'] as string
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
   const buf = await buffer(req)
 
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(buf, sig, webhookSecret)
-  } catch (err: any) {
-    console.error('Webhook signature error:', err.message)
-    return res.status(400).send(`Webhook Error: ${err.message}`)
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Unknown error'
+    console.error('Webhook signature error:', msg)
+    return res.status(400).send(`Webhook Error: ${msg}`)
   }
 
   const supabase = createServiceClient()
@@ -34,54 +39,95 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = event.data.object as Stripe.Checkout.Session
     const { review_id, business_id, user_id, tip_id, type } = session.metadata || {}
 
-    // Handle review payment
-    if (type !== 'tip' && type !== 'monthly_donation' && review_id) {
-      const { error } = await supabase
-        .from('sp_reviews')
-        .update({ status: 'published' })
-        .eq('id', review_id)
+    // ── Paid upvote ──
+    if (type === 'upvote' && review_id) {
+      try {
+        const { data: review } = await supabase
+          .from('sp_reviews')
+          .select('helpful_count, paid_boost_count')
+          .eq('id', review_id)
+          .single()
 
-      if (error) {
-        console.error('Failed to publish review:', error)
-        return res.status(500).json({ error: error.message })
+        if (review) {
+          await supabase
+            .from('sp_reviews')
+            .update({
+              helpful_count: (review.helpful_count || 0) + 5,
+              paid_boost_count: (review.paid_boost_count || 0) + 1,
+            })
+            .eq('id', review_id)
+        }
+
+        await supabase.from('sp_reactions').insert({
+          review_id,
+          user_id: user_id || '',
+          type: 'paid_upvote',
+        })
+      } catch (err) {
+        console.error('Paid upvote webhook error:', err)
       }
-
-      // Update business avg_rating and total_reviews
-      const { data: reviews } = await supabase
-        .from('sp_reviews')
-        .select('rating')
-        .eq('business_id', business_id)
-        .eq('status', 'published')
-
-      if (reviews && reviews.length > 0) {
-        const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-        await supabase
-          .from('sp_businesses')
-          .update({ avg_rating: Math.round(avg * 10) / 10, total_reviews: reviews.length })
-          .eq('id', business_id)
-      }
-
-      // Increment user's review count
-      const { data: profile } = await supabase
-        .from('sp_profiles')
-        .select('total_reviews')
-        .eq('id', user_id)
-        .single()
-
-      if (profile) {
-        await supabase
-          .from('sp_profiles')
-          .update({ total_reviews: (profile.total_reviews || 0) + 1 })
-          .eq('id', user_id)
-      }
+      return res.status(200).json({ received: true })
     }
 
-    // Handle tip payment
+    // ── Tip payment ──
     if (type === 'tip' && tip_id) {
-      await supabase
-        .from('sp_tips')
-        .update({ status: 'completed' })
-        .eq('id', tip_id)
+      await supabase.from('sp_tips').update({ status: 'completed' }).eq('id', tip_id)
+      return res.status(200).json({ received: true })
+    }
+
+    // ── Monthly donation — handled below via subscription events ──
+    if (type === 'monthly_donation') {
+      return res.status(200).json({ received: true })
+    }
+
+    // ── Review payment ──
+    if (review_id) {
+      try {
+        const { error } = await supabase
+          .from('sp_reviews')
+          .update({ status: 'published' })
+          .eq('id', review_id)
+
+        if (error) {
+          console.error('Failed to publish review:', error)
+          return res.status(500).json({ error: error.message })
+        }
+
+        // Update business avg_rating and total_reviews
+        if (business_id) {
+          const { data: reviews } = await supabase
+            .from('sp_reviews')
+            .select('rating')
+            .eq('business_id', business_id)
+            .eq('status', 'published')
+
+          if (reviews && reviews.length > 0) {
+            const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+            await supabase
+              .from('sp_businesses')
+              .update({ avg_rating: Math.round(avg * 10) / 10, total_reviews: reviews.length })
+              .eq('id', business_id)
+          }
+        }
+
+        // Increment user review count
+        if (user_id) {
+          const { data: profile } = await supabase
+            .from('sp_profiles')
+            .select('total_reviews')
+            .eq('id', user_id)
+            .single()
+
+          if (profile) {
+            await supabase
+              .from('sp_profiles')
+              .update({ total_reviews: (profile.total_reviews || 0) + 1 })
+              .eq('id', user_id)
+          }
+        }
+      } catch (err) {
+        console.error('Review webhook error:', err)
+      }
     }
   }
 

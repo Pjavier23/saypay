@@ -1,12 +1,14 @@
 import type { AppProps } from 'next/app'
 import { createContext, useContext, useEffect, useState } from 'react'
+import Head from 'next/head'
 import '../styles/globals.css'
+import '../styles/mobile.css'
 import { supabase } from '../lib/supabase'
 import type { User } from '@supabase/supabase-js'
 
 interface AuthContextType {
   user: User | null
-  profile: any | null
+  profile: Record<string, unknown> | null
   loading: boolean
   signOut: () => Promise<void>
 }
@@ -22,7 +24,7 @@ export const useAuth = () => useContext(AuthContext)
 
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<any | null>(null)
+  const [profile, setProfile] = useState<Record<string, unknown> | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -42,13 +44,18 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [])
 
   async function fetchProfile(userId: string) {
-    const { data } = await supabase
-      .from('sp_profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
-    setProfile(data)
-    setLoading(false)
+    try {
+      const { data } = await supabase
+        .from('sp_profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+      setProfile(data)
+    } catch {
+      // ignore — profile may not exist yet right after signup
+    } finally {
+      setLoading(false)
+    }
   }
 
   const signOut = async () => {
@@ -59,6 +66,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, signOut }}>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Verified restaurant reviews. Your opinion is worth $0.99." />
+      </Head>
       <Component {...pageProps} />
     </AuthContext.Provider>
   )
