@@ -136,41 +136,35 @@ export default function Explore() {
               </button>
             </form>
 
-            {locationStatus === 'denied' && (
-              <div style={{ marginBottom: '0.75rem' }}>
-                <p style={{ color: '#ff886e', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
-                  📍 Location blocked — enter your city or zip to find nearby places:
-                </p>
-                <form onSubmit={async (e) => {
-                  e.preventDefault()
-                  const input = (e.currentTarget.elements.namedItem('cityInput') as HTMLInputElement).value.trim()
-                  if (!input) return
-                  setNearbyLoading(true)
-                  setShowNearby(true)
-                  const res = await fetch(`/api/places/nearby?address=${encodeURIComponent(input)}&radius=2000`)
-                  if (res.ok) {
-                    const data = await res.json()
-                    setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
-                    setLocationStatus('granted')
-                  }
-                  setNearbyLoading(false)
-                }} style={{ display: 'flex', gap: '0.5rem' }}>
-                  <input
-                    name="cityInput"
-                    placeholder="e.g. Miami, FL or 33101"
-                    style={{
-                      flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,136,110,0.4)',
-                      borderRadius: '0.6rem', padding: '0.6rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none'
-                    }}
-                  />
-                  <button type="submit" style={{
-                    background: 'linear-gradient(135deg, #ff006e, #ff886e)', color: '#fff',
-                    border: 'none', borderRadius: '0.6rem', padding: '0.6rem 1.25rem',
-                    fontWeight: '700', cursor: 'pointer', fontSize: '0.9rem'
-                  }}>Search</button>
-                </form>
-              </div>
-            )}
+            {/* City search - always visible */}
+            <form onSubmit={async (e) => {
+              e.preventDefault()
+              const input = (e.currentTarget.elements.namedItem('cityInput') as HTMLInputElement).value.trim()
+              if (!input) return
+              setNearbyLoading(true)
+              setShowNearby(true)
+              const res = await fetch(`/api/places/nearby?address=${encodeURIComponent(input)}&radius=2000`)
+              if (res.ok) {
+                const data = await res.json()
+                setNearbyPlaces(Array.isArray(data) ? data.slice(0, 12) : [])
+                setLocationStatus('granted')
+              }
+              setNearbyLoading(false)
+            }} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+              <input
+                name="cityInput"
+                placeholder="Search by city or zip (e.g. Miami, FL)"
+                style={{
+                  flex: 1, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+                  borderRadius: '0.6rem', padding: '0.6rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none'
+                }}
+              />
+              <button type="submit" style={{
+                background: 'linear-gradient(135deg, #ff006e, #ffdd00)', color: '#000',
+                border: 'none', borderRadius: '0.6rem', padding: '0.6rem 1.25rem',
+                fontWeight: '800', cursor: 'pointer', fontSize: '0.9rem', whiteSpace: 'nowrap'
+              }}>Find →</button>
+            </form>
 
             {/* Category filter */}
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>

@@ -31,7 +31,20 @@ export default function Signup() {
       options: { data: { display_name: displayName || username } },
     })
 
-    if (signupError) { setError(signupError.message); setLoading(false); return }
+    if (signupError) {
+      const msg = signupError.message
+      if (msg.includes('already registered') || msg.includes('already been registered')) {
+        setError('That email is already registered. Try logging in instead.')
+      } else if (msg.includes('rate limit') || msg.includes('too many')) {
+        setError('Too many signups. Please wait a few minutes and try again.')
+      } else if (msg.includes('password')) {
+        setError('Password must be at least 6 characters.')
+      } else {
+        setError(msg)
+      }
+      setLoading(false)
+      return
+    }
 
     if (data.user) {
       // Small delay to let Supabase session propagate, then create profile via service role
