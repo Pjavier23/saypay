@@ -119,11 +119,18 @@ export default function Home() {
   }
 
   function handleDetectLocation() {
-    if (!navigator.geolocation) return
+    if (!navigator.geolocation) {
+      setNearbyLoading(false)
+      return
+    }
     setNearbyLoading(true)
     navigator.geolocation.getCurrentPosition(
       pos => fetchNearby(pos.coords.latitude, pos.coords.longitude),
-      () => setNearbyLoading(false)
+      () => {
+        setNearbyLoading(false)
+        // Don't show error — the city input fallback is already visible
+      },
+      { timeout: 8000 }
     )
   }
 
@@ -143,11 +150,11 @@ export default function Home() {
             🔥 Reviews you can actually trust
           </div>
           <h1 style={{ fontSize: 'clamp(2rem, 6vw, 4.25rem)', fontWeight: 900, lineHeight: '1.1', marginBottom: '1.25rem' }}>
-            Your Opinion Is Worth{' '}
-            <span style={{ background: 'linear-gradient(135deg,#ff006e,#ffdd00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>$0.99</span>
+            Real Reviews from{' '}
+            <span style={{ background: 'linear-gradient(135deg,#ff006e,#ffdd00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Real People</span>
           </h1>
           <p style={{ color: '#888', fontSize: 'clamp(0.95rem,2.5vw,1.1rem)', lineHeight: '1.7', maxWidth: '560px', margin: '0 auto 2.5rem' }}>
-            When you pay, the world listens differently. No fake reviews. No bots. Just real people putting money behind what they actually think.
+            Skin in the game changes everything. When reviewers back their words with a small commitment, you get honest opinions — not noise.
           </p>
           <div className="hero-buttons" style={{ display: 'flex', gap: '0.875rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href={user ? '/explore' : '/signup'}>
@@ -208,10 +215,32 @@ export default function Home() {
           ) : (
             <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(255,255,255,0.02)', borderRadius: '1.25rem', border: '1px solid rgba(255,255,255,0.07)', color: '#555' }}>
               <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📍</div>
-              <p style={{ marginBottom: '1rem' }}>Allow location access to see restaurants near you</p>
-              <button onClick={handleDetectLocation} style={{ background: 'rgba(29,209,221,0.1)', color: '#1dd1dd', border: '1px solid rgba(29,209,221,0.25)', padding: '0.65rem 1.5rem', borderRadius: '9999px', cursor: 'pointer', fontWeight: 700, fontSize: '0.875rem' }}>
-                Detect my location
-              </button>
+              <p style={{ marginBottom: '1rem' }}>Find restaurants near you</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }}>
+                <button onClick={handleDetectLocation} style={{ background: 'rgba(29,209,221,0.1)', color: '#1dd1dd', border: '1px solid rgba(29,209,221,0.25)', padding: '0.65rem 1.5rem', borderRadius: '9999px', cursor: 'pointer', fontWeight: 700, fontSize: '0.875rem' }}>
+                  📍 Use my location
+                </button>
+                <p style={{ color: '#444', fontSize: '0.8rem', margin: '0' }}>— or —</p>
+                <form onSubmit={async (e) => {
+                  e.preventDefault()
+                  const val = (e.currentTarget.elements.namedItem('homeCity') as HTMLInputElement).value.trim()
+                  if (!val) return
+                  setNearbyLoading(true)
+                  const res = await fetch(`/api/places/nearby?address=${encodeURIComponent(val)}&radius=2000`)
+                  if (res.ok) {
+                    const data = await res.json()
+                    setNearby(Array.isArray(data) ? data.slice(0, 8) : [])
+                  }
+                  setNearbyLoading(false)
+                }} style={{ display: 'flex', gap: '0.5rem', width: '100%', maxWidth: '360px' }}>
+                  <input
+                    name="homeCity"
+                    placeholder="Enter city or zip code..."
+                    style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '0.6rem', padding: '0.6rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
+                  />
+                  <button type="submit" style={{ background: 'linear-gradient(135deg,#ff006e,#ffdd00)', color: '#000', border: 'none', borderRadius: '0.6rem', padding: '0.6rem 1.1rem', fontWeight: 800, cursor: 'pointer', fontSize: '0.9rem' }}>Go</button>
+                </form>
+              </div>
             </div>
           )}
         </div>
@@ -226,7 +255,7 @@ export default function Home() {
             {[
               { emoji: '🍽️', step: '01', title: 'Find a place', desc: 'Browse restaurants, cafés, and businesses near you or discover new ones.' },
               { emoji: '✍️', step: '02', title: 'Write your truth', desc: 'Share your genuine experience. Add photos. No sugar-coating required.' },
-              { emoji: '💳', step: '03', title: 'Pay $0.99 to publish', desc: 'One tap. Your verified review goes live and joins the feed.' },
+              { emoji: '💳', step: '03', title: 'Verify with a small commitment', desc: 'One tap. Your verified review goes live and joins the feed.' },
             ].map(({ emoji, step, title, desc }) => (
               <div key={step} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.25rem', padding: '1.75rem', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: '0.75rem', right: '1rem', fontSize: '2.5rem', fontWeight: 900, color: 'rgba(255,255,255,0.04)', fontFamily: 'monospace' }}>{step}</div>
@@ -257,7 +286,7 @@ export default function Home() {
           ) : trending.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '3.5rem', color: '#555', background: 'rgba(255,255,255,0.02)', borderRadius: '1.25rem', border: '1px solid rgba(255,255,255,0.06)' }}>
               <div style={{ fontSize: '2.5rem', marginBottom: '0.875rem' }}>✍️</div>
-              <p>No reviews yet. Be the first to pay for your opinion.</p>
+              <p>No reviews yet. Be the first to leave a verified review.</p>
               <Link href={user ? '/explore' : '/signup'}>
                 <button style={{ marginTop: '1rem', background: 'linear-gradient(135deg,#ff006e,#ffdd00)', color: '#000', padding: '0.75rem 1.75rem', borderRadius: '9999px', border: 'none', fontWeight: 800, cursor: 'pointer' }}>
                   Write the First Review
@@ -285,7 +314,7 @@ export default function Home() {
             Ready to make your voice count?
           </h2>
           <p style={{ color: '#888', fontSize: '1rem', marginBottom: '2rem', lineHeight: '1.7' }}>
-            Join reviewers who put their money where their mouth is. $0.99 turns your opinion into something real.
+            Join a community where reviews actually mean something. Back your words and be heard.
           </p>
           <Link href={user ? '/explore' : '/signup'}>
             <button style={{ background: 'linear-gradient(135deg,#ff006e,#ffdd00)', color: '#000', padding: '1rem 3rem', borderRadius: '9999px', border: 'none', fontWeight: 900, cursor: 'pointer', fontSize: '1rem', boxShadow: '0 0 40px rgba(255,0,110,0.3)' }}>

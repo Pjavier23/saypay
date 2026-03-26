@@ -248,7 +248,7 @@ export default function Explore() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
                 {Array.from({ length: 6 }).map((_, i) => <BusinessCardSkeleton key={i} />)}
               </div>
-            ) : businesses.length === 0 ? (
+            ) : allResults.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#555' }}>
                 <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🏪</div>
                 <p style={{ marginBottom: '0.5rem' }}>No businesses found.</p>
@@ -256,7 +256,7 @@ export default function Explore() {
               </div>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
-                {businesses.map(biz => (
+                {allResults.map(biz => (
                   <BusinessCard key={biz.id} business={biz} />
                 ))}
               </div>
