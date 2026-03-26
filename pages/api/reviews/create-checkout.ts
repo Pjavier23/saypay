@@ -5,7 +5,7 @@ import { createServiceClient } from '../../../lib/supabase'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { business_id, user_id, rating, content } = req.body
+  const { business_id, user_id, rating, content, photos } = req.body
 
   if (!business_id || !user_id || !rating || !content) {
     return res.status(400).json({ error: 'Missing required fields' })
@@ -16,10 +16,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const supabase = createServiceClient()
 
-  // Save draft review
+  // Save draft review (photos may be undefined if migration not run yet)
+  const insertData: any = { business_id, user_id, rating, content, status: 'pending' }
+  if (photos && Array.isArray(photos) && photos.length > 0) {
+    insertData.photos = photos
+  }
+
   const { data: review, error: reviewError } = await supabase
     .from('sp_reviews')
-    .insert({ business_id, user_id, rating, content, status: 'pending' })
+    .insert(insertData)
     .select()
     .single()
 
